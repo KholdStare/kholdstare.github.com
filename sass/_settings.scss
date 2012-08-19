@@ -1,4 +1,5 @@
 @import "foundation/common/ratios";
+@import url(http://fonts.googleapis.com/css?family=Fredoka+One|Open+Sans:300);
 
 // Settings file containing Foundation defaults
 
@@ -11,6 +12,7 @@
 
 // Colors Settings
 
+$backgroundColor: #121212;
 // $mainColor: #2ba6cb;
 // $secondaryColor: #e9e9e9;
 // $alertColor: #c60f13;
@@ -25,9 +27,11 @@
 // Typography Settings
 
 // $headerFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-// $headerFontWeight: bold;
+$headerFontFamily: "Fredoka One", Helvetica, "Arial Black", sans-serif;
+$headerFontWeight: normal;
 // $headerFontColor: #222;
 // $bodyFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$bodyFontFamily: "Open Sans", Tahoma, Geneva, sans-serif;
 // $bodyFontWeight: normal;
 // $bodyFontColor: #222;
 
@@ -55,7 +59,7 @@
 
 // Modular Scale
 // $ratio: $golden;
-// $baseFontSize: 14px;
+$baseFontSize: 15px;
 // $importantModNum: 44px;
 
 // Tooltip Settings
