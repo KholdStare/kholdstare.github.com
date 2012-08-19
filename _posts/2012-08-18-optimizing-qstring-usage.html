@@ -17,7 +17,7 @@ title: "Optimizing QString usage"
     </p>
     
 {% highlight cpp %}
-parseNode(QXmlStreamReader& xml) {
+void parseNode(QXmlStreamReader& xml) {
     // assert we are parsing a node
     Q_ASSERT(xml.isStartElement() && xml.name() == "node");
      
