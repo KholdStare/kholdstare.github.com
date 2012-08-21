@@ -37,17 +37,34 @@
 // Control which components you get if customizing
 
 @import "foundation/components/modules/buttons";
-@import "foundation/components/modules/tabs";
+//@import "foundation/components/modules/tabs";
 @import "foundation/components/modules/ui";
-@import "foundation/components/modules/navbar";
+// @import "foundation/components/modules/navbar";
 // @import "foundation/components/modules/orbit";
 // @import "foundation/components/modules/reveal";
 // @import "foundation/components/modules/offcanvas";
+
+/* ===================================
+    Mixins
+/* =================================== */
+
+@mixin header-shadow {
+    @include text-shadow(rgba(0,0,0,0.1) 0 1px 1px);
+}
+
+@mixin small-border-radius {
+    @include border-radius(4px, 4px);
+}
+    
+/* ===================================
+    Customizations
+/* =================================== */
 
 // Changing body background color
 body {
   background: $backgroundColor;
 }
+
 
 // Lift the headings
 h1, h2, h3, h4, h5, h6 {
@@ -55,19 +72,66 @@ h1, h2, h3, h4, h5, h6 {
     text-shadow: 0px 1px 0px darken($backgroundColor, 10%);
 }
 
+h1 {
+    color: $secondaryColor;
+}
+
 // Changing Panel colors
 .panel {
-    color: lighten($txtColor, 10%);
+    color: lighten($txtColor, 15%);
     background: $panelBackgroundColor;
     border: solid 1px $borderColor;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.8);
+    @include small-border-radius;
+    @include single-box-shadow(rgba(0, 0, 0, 0.8), 0px, 1px, 4px, 0px);
+}
+
+// Adding a style for "holes" in panels
+.hole {
+    @include single-box-shadow(rgba(0, 0, 0, 0.8), 0px, 1px, 4px, 0px, inset);
+    border: solid 1px $borderColor;
+    @include small-border-radius;
+    background: $backgroundColor;
+}
+
+// Header panel
+header.panel {
+    h1 {
+        float: left;
+        margin-right: 0.5em;
+    }
+
+    padding: 0px;
+    @include border-radius(0px, 0px);
+    border: 0px;
+    border-bottom: solid 1px $borderColor;
+
+}
+
+nav ul {
+    background: $panelBackgroundColor;
+    display: block;
+    list-style-type: none;
+    list-style-position: inside;
+
+    li {
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+        padding: 0.5em 0.5em;
+        float: left;
+        display: block;
+        position: relative;
+
+        a { color: $txtColor; }
+        &.active {
+            @extend .hole;
+        }
+    }
 }
 
 // Horizontal rule color
 hr {
     border: solid 1px $borderColor;
-    box-shadow: 0px -1px 0px 0px $backgroundColor;
+    @include single-box-shadow($backgroundColor, 0px, -1px, 0px, 0px);
 }
 
 // Tab colors
@@ -95,6 +159,7 @@ code {
     letter-spacing: 0.03em;
 }
 
+
 .highlight  {
     margin-top: 1.5em;
     margin-bottom: 1.5em;
@@ -102,36 +167,32 @@ code {
     line-height: 1.25em;
 
     // styling the border
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.8) inset;
-    border: solid 1px $borderColor;
-    border-radius: 4px 4px 4px 4px;
+    @extend .hole;
 }
 
 // Based on Vim wombat theme in pygments. Modified from:
 // https://github.com/uraimo/pygments-vimstyles/
 .highlight  {
-    background: $backgroundColor;
     color: $txtColor;
 
     .hll { background-color: #ffffcc }
+    .k, .nt { color: $mainColor } /* Keyword, Name.Tag */
     .c { color: #99968b; font-style: italic} /* Comment */
     .cp { color: #e5786d} /* Comment.Preproc */
-    .k { color: #8ac6f2} /* Keyword */
-    .kt { color: #cae682} /* Keyword.Type */
-
-    .gh, .gu { font-weight: bold} /* Generic.Heading, Generic.Subheading */
-    .go { color: #808080; background-color: #303030 } /* Generic.Output */
     .m { color: #e5786d} /* Literal.Number */
-    .s { color: #95e454; font-style: italic} /* Literal.String */
-    .na { color: #cae682} /* Name.Attribute */
     .no { color: #e5786d} /* Name.Constant */
-    .ni { color: #e7f6da} /* Name.Entity */
+    //.mf, .mh, .mi, .mo { color: #e5786d} [> Literal.Number <]
+    .il { color: #e5786d} /* Literal.Number.Integer.Long */
+    .na { color: #cae682} /* Name.Attribute */
+    .kt { color: $secondaryColor } /* Keyword.Type */
     .nf { color: #cae682} /* Name.Function */
-    .nt { color: #8ac6f2} /* Name.Tag */
     .nv { color: #cae682} /* Name.Variable */
-    .mf, .mh, .mi, .mo { color: #e5786d} /* Literal.Number */
     .vc { color: #cae682} /* Name.Variable.Class */
     .vg { color: #cae682} /* Name.Variable.Global */
     .vi { color: #cae682} /* Name.Variable.Instance */
-    .il { color: #e5786d} /* Literal.Number.Integer.Long */
+
+    .gh, .gu { font-weight: bold} /* Generic.Heading, Generic.Subheading */
+    .go { color: #808080; background-color: #303030 } /* Generic.Output */
+    .s { color: #95e454; font-style: italic} /* Literal.String */
+    .ni { color: #e7f6da} /* Name.Entity */
 }
