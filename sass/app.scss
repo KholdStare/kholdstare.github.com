@@ -91,6 +91,19 @@ h1 {
     border: solid 1px $borderColor;
     @include small-border-radius;
     background: $backgroundColor;
+    color: $txtColor;
+}
+
+// Style for blockquotes
+.panel blockquote {
+    @extend .hole;
+    
+    //margin-left: 1.5em;
+    //margin-top: 1.5em;
+    //margin-bottom: 1.5em;
+    margin: 1.5em;
+    font-style: italic;
+    padding: 1em;
 }
 
 // Header panel
@@ -104,9 +117,9 @@ header.panel {
     @include border-radius(0px, 0px);
     border: 0px;
     border-bottom: solid 1px $borderColor;
-
 }
 
+// Navigation bar
 nav ul {
     background: $panelBackgroundColor;
     display: block;
@@ -134,7 +147,7 @@ hr {
     @include single-box-shadow($backgroundColor, 0px, -1px, 0px, 0px);
 }
 
-// Tab colors
+// Tab colors TODO: do I need tabs?
 dl.tabs {
     border-bottom: solid 1px $panelBackgroundColor;
 

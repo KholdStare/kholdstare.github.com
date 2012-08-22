@@ -2,8 +2,10 @@
 layout: default
 ---
 
-<section class="row">
-  <article class="eight columns">
+<h2>{{page.title}}</h2>
+
+<div class="panel">
+    {{ page.description | markdownify }}
+
     {{ content }}
-  </article>
-</section>
+</div>

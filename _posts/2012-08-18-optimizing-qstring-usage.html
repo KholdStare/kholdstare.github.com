@@ -1,20 +1,18 @@
 ---
-layout: default
+layout: post
 title: "Optimizing QString usage"
+description: >
+  Qt is a great framework- elegant, easy to use, cross platform etc.
+  However just like any framework there are certain things you have to watch out for.
+  What I have discovered is, if you are not careful, you can experience a considerable slowdown in time intensive operations if you are using a lot QStrings.
+  In this article I will demonstrate the problems, and also the solutions!
 ---
 
-<h2>Optimizing QString usage</h2>
+<h3>String literals and QStrings</h3>
 
-<div class="panel">
-    <p>
-    Qt is a great framework- elegant, easy to use, cross platform etc. However just like any framework there are certain things you have to watch out for. What I have discovered is, if you are not careful, you can experience a considerable slowdown in time intensive operations if you are using a lot QStrings. In this article I will demonstrate the problems, and also the solutions!
-    </p>
-    
-    <h3>String literals and QStrings</h3>
-    
-    <p>
-    There are a lot of methods and functions in Qt that take QStrings as arguments, and I'm sure you have too. But some cases you need to pass a hardcoded string every time- a string literal- for example when comparing strings. In this short example we parse some xml, and compare the tag name to a string:
-    </p>
+<p>
+There are a lot of methods and functions in Qt that take QStrings as arguments, and I'm sure you have too. But some cases you need to pass a hardcoded string every time- a string literal- for example when comparing strings. In this short example we parse some xml, and compare the tag name to a string:
+</p>
     
 {% highlight cpp %}
 void parseNode(QXmlStreamReader& xml) {
@@ -30,35 +28,33 @@ void parseNode(QXmlStreamReader& xml) {
     }
 }
 {% endhighlight %}
-    
-    <p>
-    This looks like very innocent code, but if this is part of parsing code that will be called thousands of times when parsing large XML files, QString temporaries rear their head. Where do they come from, you ask? Let's look at that if statement:
-    </p>
+
+<p>
+This looks like very innocent code, but if this is part of parsing code that will be called thousands of times when parsing large XML files, QString temporaries rear their head. Where do they come from, you ask? Let's look at that if statement:
+</p>
     
 {% highlight cpp %}
 if (xml.name() == "subNode")
 {% endhighlight %}
     
-    <p>
-    To understand what's happening, let's break it down into the calls made.
-    </p>
+<p>
+To understand what's happening, let's break it down into the calls made.
+</p>
     
-    <!-- TODO: fix code stuff-->
-    <ul>
-        <li>xml.name() actually returns QStringRef</li>
-        <li>QStringRef has bool operator== ( const QString  s1, const QStringRef  s2 ), so we need a QString to compare to</li>
-        <li>QString has an implicit constructor QString ( const char * str )</li>
-    </ul>
-    
-    <p>
-    Putting all that together we actually get:
-    </p>
+<ul>
+    <li><code>xml.name()</code> actually returns <code>QStringRef</code></li>
+    <li><code>QStringRef</code> has <code>bool operator== ( const QString&amp;  s1, const QStringRef&amp; s2 )</code>, so we need a <code>QString</code> to compare to</li>
+    <li><code>QString</code> has an implicit constructor <code>QString ( const char * str )</code> </li>
+</ul>
+
+<p>
+Putting all that together we actually get:
+</p>
     
 {% highlight cpp %}
 if (operator== ( QString("subNode"), xml.name() ))
 {% endhighlight %}
     
-    <p>
-    We are creating a temporary QString at each one of those if statements! This QString is then immediately destroyed after the comparison. What a waste of resources! 
-    </p>
-</div>
+<p>
+We are creating a temporary <code>QString</code> at each one of those if statements! This <code>QString</code> is then immediately destroyed after the comparison. What a waste of resources! 
+</p>
