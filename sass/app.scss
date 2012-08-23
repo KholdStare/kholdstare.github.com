@@ -86,6 +86,7 @@ h1 {
 }
 
 // Adding a style for "holes" in panels
+// Dark background, rounded corners, and inside shadow
 .hole {
     @include single-box-shadow(rgba(0, 0, 0, 0.8), 0px, 1px, 4px, 0px, inset);
     border: solid 1px $borderColor;
@@ -179,6 +180,9 @@ code {
     padding: 1em;
     line-height: 1.25em;
 
+    // Automatically create scrollbar, if code overflows
+    overflow-x: auto;
+
     // styling the border
     @extend .hole;
 }
@@ -209,3 +213,32 @@ code {
     .s { color: #95e454; font-style: italic} /* Literal.String */
     .ni { color: #e7f6da} /* Name.Entity */
 }
+
+$mobilePadding: 5px;
+
+// Reduce padding for mobile devices
+// Also put navbar below title
+@media (max-width:27em) {
+    .columns {
+        padding-left: $mobilePadding;
+        padding-right: $mobilePadding;
+    }
+
+    .panel {
+        padding-left: $mobilePadding;
+        padding-right: $mobilePadding;
+    }
+
+    .highlight {
+        padding-left: $mobilePadding;
+        padding-right: $mobilePadding;
+    }
+
+    // Make title clear its row
+    header.panel {
+        h1 {
+            float: none;
+        }
+    }
+}
+
