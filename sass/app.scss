@@ -1,3 +1,7 @@
+// ===================================
+//{{{    Imports
+// =================================== 
+
 // You custom settings file to override Foundation defaults
 @import "settings";
 
@@ -36,7 +40,7 @@
 
 // Control which components you get if customizing
 
-@import "foundation/components/modules/buttons";
+//@import "foundation/components/modules/buttons";
 //@import "foundation/components/modules/tabs";
 @import "foundation/components/modules/ui";
 // @import "foundation/components/modules/navbar";
@@ -44,9 +48,11 @@
 // @import "foundation/components/modules/reveal";
 // @import "foundation/components/modules/offcanvas";
 
-/* ===================================
-    Mixins
-/* =================================== */
+//}}}
+
+// ===================================
+//{{{    Mixins
+// =================================== 
 
 @mixin header-shadow {
     @include text-shadow(rgba(0,0,0,0.1) 0 1px 1px);
@@ -55,26 +61,64 @@
 @mixin small-border-radius {
     @include border-radius(4px, 4px);
 }
+
+//}}}
     
-/* ===================================
-    Customizations
-/* =================================== */
+// ===================================
+//{{{    Customizations
+// =================================== 
 
 // Changing body background color
 body {
   background: $backgroundColor;
 }
 
-
 // Lift the headings
 h1, h2, h3, h4, h5, h6 {
-    color: $headerFontColor;
+    color: $mainColor;
     text-shadow: 0px 1px 0px darken($backgroundColor, 10%);
+}
+
+.unstyled li {
+    list-style: none;
+}
+
+.social a {
+    font-size: ms(2);
 }
 
 h1 {
     color: $secondaryColor;
 }
+
+// Horizontal rule color
+hr {
+    border: solid 1px $borderColor;
+    @include single-box-shadow($backgroundColor, 0px, -1px, 0px, 0px);
+}
+
+// Tab colors TODO: do I need tabs?
+//dl.tabs {
+    //border-bottom: solid 1px $panelBackgroundColor;
+
+    //dt { color: lighten($backgroundColor, 30%); }
+
+    //dd { a { color: darken($txtColor, 30%); }
+        //&.active {
+            //a { color: darken($txtColor, 10%);
+                //background: $panelBackgroundColor;
+                //border-left: 0px;
+                //border-right: 0px;
+            //}
+        //}
+    //}
+//}
+
+//}}}
+
+// ===================================
+//{{{    Panels and holes
+// =================================== 
 
 // Changing Panel colors
 .panel {
@@ -106,6 +150,12 @@ h1 {
     font-style: italic;
     padding: 1em;
 }
+
+//}}}
+
+// ===================================
+//{{{    Header and nav
+// =================================== 
 
 // Header panel
 header.panel {
@@ -142,30 +192,11 @@ nav ul {
     }
 }
 
-// Horizontal rule color
-hr {
-    border: solid 1px $borderColor;
-    @include single-box-shadow($backgroundColor, 0px, -1px, 0px, 0px);
-}
+//}}}
 
-// Tab colors TODO: do I need tabs?
-dl.tabs {
-    border-bottom: solid 1px $panelBackgroundColor;
-
-    dt { color: lighten($backgroundColor, 30%); }
-
-    dd { a { color: darken($txtColor, 30%); }
-        &.active {
-            a { color: darken($txtColor, 10%);
-                background: $panelBackgroundColor;
-                border-left: 0px;
-                border-right: 0px;
-            }
-        }
-    }
-}
-
-// Code style
+// ===================================
+//{{{    Code Style
+// =================================== 
 code {
     font-weight: normal;
     font-family: $codeFontFamily;
@@ -181,7 +212,7 @@ code {
     line-height: 1.25em;
 
     // Automatically create scrollbar, if code overflows
-    overflow-x: auto;
+    overflow: auto;
 
     // styling the border
     @extend .hole;
@@ -214,6 +245,12 @@ code {
     .ni { color: #e7f6da} /* Name.Entity */
 }
 
+//}}}
+
+// ===================================
+//{{{    Mobile @media
+// =================================== 
+
 $mobilePadding: 5px;
 
 // Reduce padding for mobile devices
@@ -242,3 +279,48 @@ $mobilePadding: 5px;
     }
 }
 
+//}}}
+
+// ===================================
+//{{{    Icon Fonts
+// =================================== 
+@font-face {
+	font-family: 'icomoon';
+	src: url('/fonts/icomoon.eot?#') format('eot'),
+		url('/fonts/icomoon.svg#icomoon') format('svg'),
+		url('/fonts/icomoon.woff') format('woff'),
+		url('/fonts/icomoon.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+	font-family: 'icomoon';
+	font-style: normal;
+	speak: none;
+}
+.icon-quote:before {
+	content: "\71";
+}
+.icon-feed:before {
+	content: "\72";
+}
+.icon-creative-commons:before {
+	content: "\63";
+}
+.icon-vimeo:before {
+	content: "\76";
+}
+.icon-github:before {
+	content: "\67";
+}
+.icon-google-plus:before {
+	content: "\70";
+}
+.icon-flickr:before {
+	content: "\66";
+}
+
+//}}}
+
+// vim60:fdm=marker:

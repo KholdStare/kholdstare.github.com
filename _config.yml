@@ -1,6 +1,6 @@
 pygments: true
 
-title : Blog Title
+title : KholdCode
 tagline: Site Tagline
 author :
   name : Alexander Kondratskiy
@@ -11,3 +11,4 @@ production_url : http://kholdstare.github.com
 
 exclude:
   - sass
+  - icomoonFonts
