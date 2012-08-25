@@ -79,14 +79,6 @@ h1, h2, h3, h4, h5, h6 {
     text-shadow: 0px 1px 0px darken($backgroundColor, 10%);
 }
 
-.unstyled li {
-    list-style: none;
-}
-
-.social a {
-    font-size: ms(2);
-}
-
 h1 {
     color: $secondaryColor;
 }
@@ -295,6 +287,8 @@ $mobilePadding: 5px;
 }
 
 [class^="icon-"]:before, [class*=" icon-"]:before {
+    position: relative;
+    left: $offscreenDistance;
 	font-family: 'icomoon';
 	font-style: normal;
 	speak: none;
@@ -319,6 +313,35 @@ $mobilePadding: 5px;
 }
 .icon-flickr:before {
 	content: "\66";
+}
+
+//}}}
+
+// ===================================
+//{{{    Sidebar Stuff
+// =================================== 
+
+.unstyled li {
+    list-style: none;
+}
+
+.social {
+    height: 7em;
+    a {
+        //color: $txtColor;
+        text-shadow: 0px 1px 0px darken($backgroundColor, 10%);
+        font-size: ms(4);
+        position: relative;
+        left: -$offscreenDistance;
+    }
+
+    li {
+        width: 25%;
+        height: 100%;
+        text-align: center;
+        display: block;
+        float:left;
+    }
 }
 
 //}}}
