@@ -68,6 +68,12 @@
 //{{{    Customizations
 // =================================== 
 
+// put anything strictly for the screen reader off the screen
+.screen-reader-text {
+    position: absolute;
+    left: -9999px;
+}
+
 // Changing body background color
 body {
   background: $backgroundColor;
@@ -75,7 +81,7 @@ body {
 
 // Lift the headings
 h1, h2, h3, h4, h5, h6 {
-    color: $mainColor;
+    color: $secondaryColor;
     text-shadow: 0px 1px 0px darken($backgroundColor, 10%);
 }
 
@@ -87,6 +93,10 @@ h1 {
 hr {
     border: solid 1px $borderColor;
     @include single-box-shadow($backgroundColor, 0px, -1px, 0px, 0px);
+}
+
+li hr {
+    margin: 0.5em;
 }
 
 // Tab colors TODO: do I need tabs?
@@ -105,6 +115,10 @@ hr {
         //}
     //}
 //}
+
+article.panel {
+    margin-bottom: 3em;
+}
 
 //}}}
 
@@ -217,7 +231,7 @@ code {
 
     .hll { background-color: #ffffcc }
     .k, .nt { color: $mainColor } /* Keyword, Name.Tag */
-    .c { color: #99968b; font-style: italic} /* Comment */
+    .c, .cm, .c1, .cs { color: #99968b; font-style: italic} /* Comment */
     .cp { color: #e5786d} /* Comment.Preproc */
     .m { color: #e5786d} /* Literal.Number */
     .no { color: #e5786d} /* Name.Constant */
@@ -233,7 +247,7 @@ code {
 
     .gh, .gu { font-weight: bold} /* Generic.Heading, Generic.Subheading */
     .go { color: #808080; background-color: #303030 } /* Generic.Output */
-    .s { color: #95e454; font-style: italic} /* Literal.String */
+    .s { color: $tertiaryColor; font-style: italic} /* Literal.String */
     .ni { color: #e7f6da} /* Name.Entity */
 }
 
@@ -288,7 +302,6 @@ $mobilePadding: 5px;
 
 [class^="icon-"]:before, [class*=" icon-"]:before {
     position: relative;
-    left: $offscreenDistance;
 	font-family: 'icomoon';
 	font-style: normal;
 	speak: none;
@@ -328,16 +341,17 @@ $mobilePadding: 5px;
 .social {
     height: 7em;
     a {
-        //color: $txtColor;
         text-shadow: 0px 1px 0px darken($backgroundColor, 10%);
         font-size: ms(4);
-        position: relative;
-        left: -$offscreenDistance;
+    }
+
+    ul {
+        padding: 0;
     }
 
     li {
         width: 25%;
-        height: 100%;
+        //height: 100%;
         text-align: center;
         display: block;
         float:left;

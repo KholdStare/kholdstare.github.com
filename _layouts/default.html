@@ -42,16 +42,20 @@
     </header>
 
     <div class="row">
-		<article class="nine columns">
+		<div class="nine columns">
             {{ content }}
-        </article>
+        </div>
 
 		<aside class="three columns unstyled">
 			<h4>Recent Posts</h4>
 
-            <ul>
+            <ul class="panel">
                 {% for post in site.posts limit:5 %}
-                <li><a href="{{post.url}}">{{post.title}}</a></li>
+                <li><a href="{{post.url}}">{{post.title}}</a>
+                {% unless forloop.last %}
+                <hr/>
+                {% endunless %}
+                </li>
                 {% endfor %}
             </ul>
 
@@ -59,19 +63,19 @@
             <ul class="social panel">
                 <li><a href="http://plus.google.com/115499051033408963660/posts">
                     <span aria-hidden="true" class="icon-google-plus"></span>
-                    Google+</a>
+                    <span class="screen-reader-text" >Google+</span></a>
                 </li>
                 <li><a href="http://github.com/{{github}}">
                     <span aria-hidden="true" class="icon-github"></span>
-                    Github</a>
+                    <span class="screen-reader-text" >Github</span></a>
                 </li>
                 <li><a href="http://vimeo.com/user2600050">
                     <span aria-hidden="true" class="icon-vimeo"></span>
-                    Vimeo</a>
+                    <span class="screen-reader-text" >Vimeo</span></a>
                 </li>
                 <li><a href="http://www.flickr.com/photos/51745571@N06/">
                     <span aria-hidden="true" class="icon-flickr"></span>
-                    Flickr</a>
+                    <span class="screen-reader-text" >Flickr</span></a>
                 </li>
             </ul>
 		</aside>

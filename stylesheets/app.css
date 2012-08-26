@@ -1947,22 +1947,28 @@ p.vevent abbr {
 }
 
 /* line 72, ../sass/app.scss */
+.screen-reader-text {
+  position: absolute;
+  left: -9999px;
+}
+
+/* line 78, ../sass/app.scss */
 body {
   background: #1c1c1c;
 }
 
-/* line 77, ../sass/app.scss */
+/* line 83, ../sass/app.scss */
 h1, h2, h3, h4, h5, h6 {
-  color: #2ba6cb;
+  color: #23d89e;
   text-shadow: 0px 1px 0px #030303;
 }
 
-/* line 82, ../sass/app.scss */
+/* line 88, ../sass/app.scss */
 h1 {
   color: #23d89e;
 }
 
-/* line 87, ../sass/app.scss */
+/* line 93, ../sass/app.scss */
 hr {
   border: solid 1px #4f4f4f;
   -webkit-box-shadow: 0px -1px 0px 0px #1c1c1c;
@@ -1970,7 +1976,17 @@ hr {
   box-shadow: 0px -1px 0px 0px #1c1c1c;
 }
 
-/* line 116, ../sass/app.scss */
+/* line 98, ../sass/app.scss */
+li hr {
+  margin: 0.5em;
+}
+
+/* line 119, ../sass/app.scss */
+article.panel {
+  margin-bottom: 3em;
+}
+
+/* line 130, ../sass/app.scss */
 .panel {
   color: #f6f6f6;
   background: #363636;
@@ -1983,7 +1999,7 @@ hr {
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.8);
 }
 
-/* line 126, ../sass/app.scss */
+/* line 140, ../sass/app.scss */
 .hole, .panel blockquote, nav ul li.active, .highlight {
   -webkit-box-shadow: inset 0px 1px 4px 0px rgba(0, 0, 0, 0.8);
   -moz-box-shadow: inset 0px 1px 4px 0px rgba(0, 0, 0, 0.8);
@@ -1996,14 +2012,14 @@ hr {
   color: #d0d0d0;
 }
 
-/* line 135, ../sass/app.scss */
+/* line 149, ../sass/app.scss */
 .panel blockquote {
   margin: 1.5em;
   font-style: italic;
   padding: 1em;
 }
 
-/* line 153, ../sass/app.scss */
+/* line 167, ../sass/app.scss */
 header.panel {
   padding: 0px;
   -webkit-border-radius: 0px 0px;
@@ -2012,20 +2028,20 @@ header.panel {
   border: 0px;
   border-bottom: solid 1px #4f4f4f;
 }
-/* line 154, ../sass/app.scss */
+/* line 168, ../sass/app.scss */
 header.panel h1 {
   float: left;
   margin-right: 0.5em;
 }
 
-/* line 166, ../sass/app.scss */
+/* line 180, ../sass/app.scss */
 nav ul {
   background: #363636;
   display: block;
   list-style-type: none;
   list-style-position: inside;
 }
-/* line 172, ../sass/app.scss */
+/* line 186, ../sass/app.scss */
 nav ul li {
   margin-right: 0.5em;
   margin-bottom: 0.5em;
@@ -2034,12 +2050,12 @@ nav ul li {
   display: block;
   position: relative;
 }
-/* line 180, ../sass/app.scss */
+/* line 194, ../sass/app.scss */
 nav ul li a {
   color: #d0d0d0;
 }
 
-/* line 192, ../sass/app.scss */
+/* line 206, ../sass/app.scss */
 code {
   font-weight: normal;
   font-family: "Consolas", "Courier New", monospace;
@@ -2047,7 +2063,7 @@ code {
   letter-spacing: 0.03em;
 }
 
-/* line 200, ../sass/app.scss */
+/* line 214, ../sass/app.scss */
 .highlight {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
@@ -2056,7 +2072,7 @@ code {
   overflow: auto;
 }
 
-/* line 215, ../sass/app.scss */
+/* line 229, ../sass/app.scss */
 .highlight {
   color: #d0d0d0;
   /* Keyword, Name.Tag */
@@ -2077,102 +2093,102 @@ code {
   /* Literal.String */
   /* Name.Entity */
 }
-/* line 218, ../sass/app.scss */
+/* line 232, ../sass/app.scss */
 .highlight .hll {
   background-color: #ffffcc;
 }
-/* line 219, ../sass/app.scss */
+/* line 233, ../sass/app.scss */
 .highlight .k, .highlight .nt {
   color: #2ba6cb;
 }
-/* line 220, ../sass/app.scss */
-.highlight .c {
+/* line 234, ../sass/app.scss */
+.highlight .c, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #99968b;
   font-style: italic;
 }
-/* line 221, ../sass/app.scss */
+/* line 235, ../sass/app.scss */
 .highlight .cp {
   color: #e5786d;
 }
-/* line 222, ../sass/app.scss */
+/* line 236, ../sass/app.scss */
 .highlight .m {
   color: #e5786d;
 }
-/* line 223, ../sass/app.scss */
+/* line 237, ../sass/app.scss */
 .highlight .no {
   color: #e5786d;
 }
-/* line 225, ../sass/app.scss */
+/* line 239, ../sass/app.scss */
 .highlight .il {
   color: #e5786d;
 }
-/* line 226, ../sass/app.scss */
+/* line 240, ../sass/app.scss */
 .highlight .na {
   color: #cae682;
 }
-/* line 227, ../sass/app.scss */
+/* line 241, ../sass/app.scss */
 .highlight .kt {
   color: #23d89e;
 }
-/* line 228, ../sass/app.scss */
+/* line 242, ../sass/app.scss */
 .highlight .nf {
   color: #cae682;
 }
-/* line 229, ../sass/app.scss */
+/* line 243, ../sass/app.scss */
 .highlight .nv {
   color: #cae682;
 }
-/* line 230, ../sass/app.scss */
+/* line 244, ../sass/app.scss */
 .highlight .vc {
   color: #cae682;
 }
-/* line 231, ../sass/app.scss */
+/* line 245, ../sass/app.scss */
 .highlight .vg {
   color: #cae682;
 }
-/* line 232, ../sass/app.scss */
+/* line 246, ../sass/app.scss */
 .highlight .vi {
   color: #cae682;
 }
-/* line 234, ../sass/app.scss */
+/* line 248, ../sass/app.scss */
 .highlight .gh, .highlight .gu {
   font-weight: bold;
 }
-/* line 235, ../sass/app.scss */
+/* line 249, ../sass/app.scss */
 .highlight .go {
   color: #808080;
   background-color: #303030;
 }
-/* line 236, ../sass/app.scss */
+/* line 250, ../sass/app.scss */
 .highlight .s {
-  color: #95e454;
+  color: #85db58;
   font-style: italic;
 }
-/* line 237, ../sass/app.scss */
+/* line 251, ../sass/app.scss */
 .highlight .ni {
   color: #e7f6da;
 }
 
 @media (max-width: 27em) {
-  /* line 251, ../sass/app.scss */
+  /* line 265, ../sass/app.scss */
   .columns {
     padding-left: 5px;
     padding-right: 5px;
   }
 
-  /* line 256, ../sass/app.scss */
+  /* line 270, ../sass/app.scss */
   .panel {
     padding-left: 5px;
     padding-right: 5px;
   }
 
-  /* line 261, ../sass/app.scss */
+  /* line 275, ../sass/app.scss */
   .highlight {
     padding-left: 5px;
     padding-right: 5px;
   }
 
-  /* line 268, ../sass/app.scss */
+  /* line 282, ../sass/app.scss */
   header.panel h1 {
     float: none;
   }
@@ -2184,70 +2200,70 @@ code {
   font-style: normal;
 }
 
-/* line 289, ../sass/app.scss */
+/* line 303, ../sass/app.scss */
 [class^="icon-"]:before, [class*=" icon-"]:before {
   position: relative;
-  left: 9999px;
   font-family: 'icomoon';
   font-style: normal;
   speak: none;
 }
 
-/* line 296, ../sass/app.scss */
+/* line 309, ../sass/app.scss */
 .icon-quote:before {
   content: "\71";
 }
 
-/* line 299, ../sass/app.scss */
+/* line 312, ../sass/app.scss */
 .icon-feed:before {
   content: "\72";
 }
 
-/* line 302, ../sass/app.scss */
+/* line 315, ../sass/app.scss */
 .icon-creative-commons:before {
   content: "\63";
 }
 
-/* line 305, ../sass/app.scss */
+/* line 318, ../sass/app.scss */
 .icon-vimeo:before {
   content: "\76";
 }
 
-/* line 308, ../sass/app.scss */
+/* line 321, ../sass/app.scss */
 .icon-github:before {
   content: "\67";
 }
 
-/* line 311, ../sass/app.scss */
+/* line 324, ../sass/app.scss */
 .icon-google-plus:before {
   content: "\70";
 }
 
-/* line 314, ../sass/app.scss */
+/* line 327, ../sass/app.scss */
 .icon-flickr:before {
   content: "\66";
 }
 
-/* line 324, ../sass/app.scss */
+/* line 337, ../sass/app.scss */
 .unstyled li {
   list-style: none;
 }
 
-/* line 328, ../sass/app.scss */
+/* line 341, ../sass/app.scss */
 .social {
   height: 7em;
 }
-/* line 330, ../sass/app.scss */
+/* line 343, ../sass/app.scss */
 .social a {
   text-shadow: 0px 1px 0px #030303;
   font-size: 39px;
-  position: relative;
-  left: -9999px;
 }
-/* line 338, ../sass/app.scss */
+/* line 348, ../sass/app.scss */
+.social ul {
+  padding: 0;
+}
+/* line 352, ../sass/app.scss */
 .social li {
   width: 25%;
-  height: 100%;
   text-align: center;
   display: block;
   float: left;
