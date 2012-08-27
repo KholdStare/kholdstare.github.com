@@ -20,6 +20,8 @@ title: "KholdCode"
 
     {{ first_post.content }}
     </section>
+    {% assign tags = first_post.tags %}
+    {% include tag_footer.html %}
 </div>
 </article>
 
@@ -35,6 +37,8 @@ title: "KholdCode"
         {{ post.description | markdownify }}
         <a href="{{post.url}}">Read More...</a>
     </section>
+    {% assign tags = post.tags %}
+    {% include tag_footer.html %}
 </div>
 </article>
 {% endfor %}

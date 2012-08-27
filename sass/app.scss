@@ -133,6 +133,7 @@ article.panel {
     border: solid 1px $borderColor;
     @include small-border-radius;
     @include single-box-shadow(rgba(0, 0, 0, 0.8), 0px, 1px, 4px, 0px);
+    //overflow: hidden;
 }
 
 // Adding a style for "holes" in panels
@@ -165,27 +166,57 @@ article.panel {
     margin-bottom: 3em;
 }
 
+// format list of tags
+.tags {
+    &:before {
+        content: "Tags: ";
+    }
+
+    text-align: right;
+    @include pixel-text-shadow;
+    font-style: italic;
+    font-size: 1em;
+    color: lighten($panelBackgroundColor, 40%);
+
+    li {
+        display: inline;
+        list-style-type: none;
+
+        // add a comma between each list entry
+        &:not(:last-child):after {
+            content: ",";
+        }
+    }
+}
+
 //}}}
 
 // ===================================
-//{{{    Post headers
+//{{{    Post headers and date
 // =================================== 
 
 // Date split into 3 lines, and day, month and year
 // take up same horizontal space
 .date {
     
+    // make box tight around text
     padding: 0;
+
+    // float it
     float: left;
+
+    // position the date box slightly to the left
     margin-right: 2em;
     margin-bottom: 0;
     position: relative;
     left: 1em;
 
+    // style the text
     @include pixel-text-shadow;
     font-size: 1.3em;
     color: lighten($panelBackgroundColor, 30%);
 
+    // center text
     span {
         display: block;
         text-align: center;
