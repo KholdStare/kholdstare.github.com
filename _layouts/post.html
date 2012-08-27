@@ -2,10 +2,20 @@
 layout: default
 ---
 
-<h2><a href="#">{{page.title}}</a></h2>
+<article class="main-post">
+<header>
+{% assign date = page.date %}
+{% include date.html %}
+<h2 class="post-title">
+    <a href="{{page.url}}">{{page.title}}</a>
+</h2>
+</header>
 
 <div class="panel">
-    {{ page.description | markdownify }}
+    <section class="entry">
+        {{ page.description | markdownify }}
 
-    {{ content }}
+        {{ content }}
+    </section>
 </div>
+</article>

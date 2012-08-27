@@ -54,8 +54,8 @@
 //{{{    Mixins
 // =================================== 
 
-@mixin header-shadow {
-    @include text-shadow(rgba(0,0,0,0.1) 0 1px 1px);
+@mixin pixel-text-shadow {
+    @include text-shadow( darken($backgroundColor, 10%) 0px 1px 0px );
 }
 
 @mixin small-border-radius {
@@ -82,7 +82,7 @@ body {
 // Lift the headings
 h1, h2, h3, h4, h5, h6 {
     color: $secondaryColor;
-    text-shadow: 0px 1px 0px darken($backgroundColor, 10%);
+    @include pixel-text-shadow;
 }
 
 h1 {
@@ -149,14 +149,65 @@ article.panel {
 .panel blockquote {
     @extend .hole;
     
-    //margin-left: 1.5em;
-    //margin-top: 1.5em;
-    //margin-bottom: 1.5em;
     margin: 1.5em;
     font-style: italic;
     padding: 1em;
 }
 
+//}}}
+
+// ===================================
+//{{{    Post Layout
+// =================================== 
+
+// make some room below the main post
+.main-post {
+    margin-bottom: 3em;
+}
+
+//}}}
+
+// ===================================
+//{{{    Post headers
+// =================================== 
+
+// Date split into 3 lines, and day, month and year
+// take up same horizontal space
+.date {
+    
+    padding: 0;
+    float: left;
+    margin-right: 2em;
+    position: relative;
+    left: 1em;
+
+    @include pixel-text-shadow;
+    font-size: 1.3em;
+    color: lighten($panelBackgroundColor, 30%);
+
+    span {
+        display: block;
+        text-align: center;
+    }
+
+    // Make the day text larger
+    .day {
+        font-size: 1.9em;
+        font-weight: bold;
+        line-height: 0.9em;
+        position: relative;
+        top: 0.1em;
+    }
+
+    // Month text is small-caps
+    .month {
+        font-size: 1.2em;
+        line-height: 0.9em;
+        font-variant: small-caps;
+        position: relative;
+        top: 0.1em;
+    }
+}
 //}}}
 
 // ===================================
@@ -254,40 +305,6 @@ code {
 //}}}
 
 // ===================================
-//{{{    Mobile @media
-// =================================== 
-
-$mobilePadding: 5px;
-
-// Reduce padding for mobile devices
-// Also put navbar below title
-@media (max-width:27em) {
-    .columns {
-        padding-left: $mobilePadding;
-        padding-right: $mobilePadding;
-    }
-
-    .panel {
-        padding-left: $mobilePadding;
-        padding-right: $mobilePadding;
-    }
-
-    .highlight {
-        padding-left: $mobilePadding;
-        padding-right: $mobilePadding;
-    }
-
-    // Make title clear its row
-    header.panel {
-        h1 {
-            float: none;
-        }
-    }
-}
-
-//}}}
-
-// ===================================
 //{{{    Icon Fonts
 // =================================== 
 @font-face {
@@ -339,9 +356,10 @@ $mobilePadding: 5px;
 }
 
 .social {
-    height: 7em;
+    overflow: hidden;
+
     a {
-        text-shadow: 0px 1px 0px darken($backgroundColor, 10%);
+        @include pixel-text-shadow;
         font-size: ms(4);
     }
 
@@ -351,10 +369,49 @@ $mobilePadding: 5px;
 
     li {
         width: 25%;
-        //height: 100%;
         text-align: center;
         display: block;
         float:left;
+    }
+}
+
+//}}}
+
+// ===================================
+//{{{    Mobile @media
+// =================================== 
+
+$mobilePadding: 5px;
+
+// Reduce padding for mobile devices
+// Also put navbar below title
+@media (max-width:27em) {
+    .columns {
+        padding-left: $mobilePadding;
+        padding-right: $mobilePadding;
+    }
+
+    .panel {
+        padding-left: $mobilePadding;
+        padding-right: $mobilePadding;
+    }
+
+    .highlight {
+        padding-left: $mobilePadding;
+        padding-right: $mobilePadding;
+    }
+
+    // Make title clear its row
+    header.panel {
+        h1 {
+            float: none;
+        }
+    }
+
+    // squash the date panel
+    .date {
+        left: $mobilePadding;
+        margin-right: 2*$mobilePadding;
     }
 }
 

@@ -1,0 +1,4 @@
+{% assign words = date | date_to_string | split: ' ' %}
+<p class="date panel"><span class="day">{{ words[0] }}</span>
+<span class="month">{{ words[1] }}</span>
+<span class="year">{{ words[2] }}</span></p>
