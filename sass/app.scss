@@ -200,7 +200,7 @@ article.panel {
 .date {
     
     // make box tight around text
-    padding: 0;
+    padding: 0 $mobilePadding 0 $mobilePadding;
 
     // float it
     float: left;
@@ -237,14 +237,14 @@ article.panel {
         line-height: 0.9em;
         font-variant: small-caps;
         position: relative;
-        top: 0.1em;
+        top: 0.2em;
     }
 }
 
 //}}}
 
 // ===================================
-//{{{    Header and nav
+//{{{    Nav bar
 // =================================== 
 
 // Header panel
@@ -275,7 +275,9 @@ nav ul {
         display: block;
         position: relative;
 
-        a { color: $txtColor; }
+        a {
+            color: lighten($txtColor, 15%);
+        }
         &.active {
             @extend .hole;
         }
@@ -414,8 +416,6 @@ code {
 //{{{    Mobile @media
 // =================================== 
 
-$mobilePadding: 5px;
-
 // Reduce padding for mobile devices
 // Also put navbar below title
 @media (max-width:27em) {
@@ -439,6 +439,11 @@ $mobilePadding: 5px;
         h1 {
             float: none;
         }
+    }
+
+    // Smaller post-title
+    h2.post-title {
+        font-size: ms(3);
     }
 
     // squash the date panel

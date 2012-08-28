@@ -2048,7 +2048,7 @@ article.panel {
 
 /* line 200, ../sass/app.scss */
 .date {
-  padding: 0;
+  padding: 0 5px 0 5px;
   float: left;
   margin-right: 2em;
   margin-bottom: 0;
@@ -2077,7 +2077,7 @@ article.panel {
   line-height: 0.9em;
   font-variant: small-caps;
   position: relative;
-  top: 0.1em;
+  top: 0.2em;
 }
 
 /* line 251, ../sass/app.scss */
@@ -2113,10 +2113,10 @@ nav ul li {
 }
 /* line 278, ../sass/app.scss */
 nav ul li a {
-  color: #d0d0d0;
+  color: #f6f6f6;
 }
 
-/* line 290, ../sass/app.scss */
+/* line 292, ../sass/app.scss */
 code {
   font-weight: normal;
   font-family: "Consolas", "Courier New", monospace;
@@ -2124,7 +2124,7 @@ code {
   letter-spacing: 0.03em;
 }
 
-/* line 298, ../sass/app.scss */
+/* line 300, ../sass/app.scss */
 .highlight {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
@@ -2133,7 +2133,7 @@ code {
   overflow: auto;
 }
 
-/* line 313, ../sass/app.scss */
+/* line 315, ../sass/app.scss */
 .highlight {
   color: #d0d0d0;
   /* Keyword, Name.Tag */
@@ -2154,78 +2154,78 @@ code {
   /* Literal.String */
   /* Name.Entity */
 }
-/* line 316, ../sass/app.scss */
+/* line 318, ../sass/app.scss */
 .highlight .hll {
   background-color: #ffffcc;
 }
-/* line 317, ../sass/app.scss */
+/* line 319, ../sass/app.scss */
 .highlight .k, .highlight .nt {
   color: #2ba6cb;
 }
-/* line 318, ../sass/app.scss */
+/* line 320, ../sass/app.scss */
 .highlight .c, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #99968b;
   font-style: italic;
 }
-/* line 319, ../sass/app.scss */
+/* line 321, ../sass/app.scss */
 .highlight .cp {
   color: #e5786d;
 }
-/* line 320, ../sass/app.scss */
+/* line 322, ../sass/app.scss */
 .highlight .m {
   color: #e5786d;
 }
-/* line 321, ../sass/app.scss */
+/* line 323, ../sass/app.scss */
 .highlight .no {
   color: #e5786d;
 }
-/* line 323, ../sass/app.scss */
+/* line 325, ../sass/app.scss */
 .highlight .il {
   color: #e5786d;
 }
-/* line 324, ../sass/app.scss */
+/* line 326, ../sass/app.scss */
 .highlight .na {
   color: #cae682;
 }
-/* line 325, ../sass/app.scss */
+/* line 327, ../sass/app.scss */
 .highlight .kt {
   color: #23d89e;
 }
-/* line 326, ../sass/app.scss */
+/* line 328, ../sass/app.scss */
 .highlight .nf {
   color: #cae682;
 }
-/* line 327, ../sass/app.scss */
+/* line 329, ../sass/app.scss */
 .highlight .nv {
   color: #cae682;
 }
-/* line 328, ../sass/app.scss */
+/* line 330, ../sass/app.scss */
 .highlight .vc {
   color: #cae682;
 }
-/* line 329, ../sass/app.scss */
+/* line 331, ../sass/app.scss */
 .highlight .vg {
   color: #cae682;
 }
-/* line 330, ../sass/app.scss */
+/* line 332, ../sass/app.scss */
 .highlight .vi {
   color: #cae682;
 }
-/* line 332, ../sass/app.scss */
+/* line 334, ../sass/app.scss */
 .highlight .gh, .highlight .gu {
   font-weight: bold;
 }
-/* line 333, ../sass/app.scss */
+/* line 335, ../sass/app.scss */
 .highlight .go {
   color: #808080;
   background-color: #303030;
 }
-/* line 334, ../sass/app.scss */
+/* line 336, ../sass/app.scss */
 .highlight .s {
   color: #85db58;
   font-style: italic;
 }
-/* line 335, ../sass/app.scss */
+/* line 337, ../sass/app.scss */
 .highlight .ni {
   color: #e7f6da;
 }
@@ -2237,7 +2237,7 @@ code {
   font-style: normal;
 }
 
-/* line 353, ../sass/app.scss */
+/* line 355, ../sass/app.scss */
 [class^="icon-"]:before, [class*=" icon-"]:before {
   position: relative;
   font-family: 'icomoon';
@@ -2245,60 +2245,60 @@ code {
   speak: none;
 }
 
-/* line 359, ../sass/app.scss */
+/* line 361, ../sass/app.scss */
 .icon-quote:before {
   content: "\71";
 }
 
-/* line 362, ../sass/app.scss */
+/* line 364, ../sass/app.scss */
 .icon-feed:before {
   content: "\72";
 }
 
-/* line 365, ../sass/app.scss */
+/* line 367, ../sass/app.scss */
 .icon-creative-commons:before {
   content: "\63";
 }
 
-/* line 368, ../sass/app.scss */
+/* line 370, ../sass/app.scss */
 .icon-vimeo:before {
   content: "\76";
 }
 
-/* line 371, ../sass/app.scss */
+/* line 373, ../sass/app.scss */
 .icon-github:before {
   content: "\67";
 }
 
-/* line 374, ../sass/app.scss */
+/* line 376, ../sass/app.scss */
 .icon-google-plus:before {
   content: "\70";
 }
 
-/* line 377, ../sass/app.scss */
+/* line 379, ../sass/app.scss */
 .icon-flickr:before {
   content: "\66";
 }
 
-/* line 387, ../sass/app.scss */
+/* line 389, ../sass/app.scss */
 .unstyled li {
   list-style: none;
 }
 
-/* line 391, ../sass/app.scss */
+/* line 393, ../sass/app.scss */
 .social {
   overflow: hidden;
 }
-/* line 394, ../sass/app.scss */
+/* line 396, ../sass/app.scss */
 .social a {
   text-shadow: #030303 0px 1px 0px;
   font-size: 39px;
 }
-/* line 399, ../sass/app.scss */
+/* line 401, ../sass/app.scss */
 .social ul {
   padding: 0;
 }
-/* line 403, ../sass/app.scss */
+/* line 405, ../sass/app.scss */
 .social li {
   width: 25%;
   text-align: center;
@@ -2331,6 +2331,11 @@ code {
   }
 
   /* line 445, ../sass/app.scss */
+  h2.post-title {
+    font-size: 27px;
+  }
+
+  /* line 450, ../sass/app.scss */
   .date {
     left: 5px;
     margin-right: 10px;
