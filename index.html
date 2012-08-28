@@ -20,6 +20,7 @@ title: "KholdCode"
 
     {{ first_post.content }}
     </section>
+(<a href="{{first_post.url}}#disqus_thread" data-disqus-identifier="{{ first_post.id }}"></a>)
     {% assign tags = first_post.tags %}
     {% include tag_footer.html %}
 </div>
@@ -35,11 +36,22 @@ title: "KholdCode"
 <div class="panel">
     <section class="entry">
         {{ post.description | markdownify }}
-        <a href="{{post.url}}">Read More...</a>
     </section>
+<a href="{{post.url}}" >Read More...</a>
+(<a href="{{post.url}}#disqus_thread" data-disqus-identifier="{{ post.id }}"></a>)
     {% assign tags = post.tags %}
     {% include tag_footer.html %}
 </div>
 </article>
 {% endfor %}
 
+        <script type="text/javascript">
+        var disqus_shortname = 'kholdcode';
+
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        </script>
