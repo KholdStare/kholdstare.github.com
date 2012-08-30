@@ -297,14 +297,16 @@ code {
 }
 
 
-.highlight  {
+//.highlight  {
+pre  {
     margin-top: 1.5em;
     margin-bottom: 1.5em;
     padding: 1em;
     line-height: 1.25em;
 
     // Automatically create scrollbar, if code overflows
-    overflow: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
 
     // styling the border
     @extend .hole;
