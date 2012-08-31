@@ -16,6 +16,9 @@ nav_locations:
   - url: "/about.html"
     name: About
     icon: info
+  - url: "#"
+    name: Subscribe
+    icon: feed
 
 exclude:
   - sass
