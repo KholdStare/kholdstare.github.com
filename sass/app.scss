@@ -251,7 +251,7 @@ article.panel {
 header.panel {
     h1 {
         float: left;
-        margin-right: 0.5em;
+        margin: $baseFontSize 0.5em 0 0;
     }
 
     padding: 0px;
@@ -262,12 +262,15 @@ header.panel {
 
 // Navigation bar
 nav ul {
+    margin: 1em 0 1em 0;
     background: $panelBackgroundColor;
     display: block;
-    list-style-type: none;
-    list-style-position: inside;
+    float: left;
 
     li {
+        display: inline;
+        list-style-type: none;
+
         margin-right: 0.5em;
         margin-bottom: 0.5em;
         padding: 0.5em 0.5em;
@@ -434,7 +437,7 @@ pre  {
 
 // Reduce padding for mobile devices
 // Also put navbar below title
-@media (max-width:27em) {
+@media (max-width:35em) {
     .columns {
         padding-left: $mobilePadding;
         padding-right: $mobilePadding;
@@ -450,11 +453,16 @@ pre  {
         padding-right: $mobilePadding;
     }
 
+    nav ul {
+        margin: 1em 0 $mobilePadding 0;
+    }
+
     // Make title clear its row
     header.panel {
         h1 {
             float: none;
         }
+
     }
 
     // Smaller post-title
