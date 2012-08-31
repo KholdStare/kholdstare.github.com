@@ -9,6 +9,14 @@ author :
 
 production_url : http://kholdstare.github.com
 
+nav_locations:
+  - url: "/index.html"
+    name: Home
+    icon: home
+  - url: "/about.html"
+    name: About
+    icon: info
+
 exclude:
   - sass
   - icomoonFonts

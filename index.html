@@ -18,7 +18,6 @@ title: "KholdCode"
     <section class="entry">
     {{ first_post.description | markdownify }}
 
-    <object width="100%" height="100%" type="image/svg+xml" src="/diagrams/test.svg" ></object>
     {{ first_post.content }}
     </section>
 (<a href="{{first_post.url}}#disqus_thread" data-disqus-identifier="{{ first_post.id }}"></a>)
@@ -46,13 +45,13 @@ title: "KholdCode"
 </article>
 {% endfor %}
 
-        <script type="text/javascript">
-        var disqus_shortname = 'kholdcode';
+<script type="text/javascript">
+    var disqus_shortname = 'kholdcode';
 
-        (function () {
-            var s = document.createElement('script'); s.async = true;
-            s.type = 'text/javascript';
-            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-        }());
-        </script>
+    (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+     }());
+</script>

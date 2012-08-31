@@ -1,0 +1,8 @@
+<li {% if page.url == nav_loc.url %}class="active"{% endif %} >
+    <a href="{{nav_loc.url}}">
+        {% if nav_loc.icon %}
+        <span aria-hidden="true" class="icon-{{ nav_loc.icon }}"></span>
+        {% endif %}
+        {{ nav_loc.name }}
+    </a>
+</li>

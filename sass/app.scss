@@ -297,7 +297,6 @@ code {
 }
 
 
-//.highlight  {
 pre  {
     margin-top: 1.5em;
     margin-bottom: 1.5em;
@@ -380,6 +379,21 @@ pre  {
 }
 .icon-flickr:before {
 	content: "\66";
+}
+.icon-home:before {
+	content: "\68";
+}
+.icon-info:before {
+	content: "\21";
+}
+.icon-file-css:before {
+	content: "\74";
+}
+.icon-camera:before {
+	content: "\73";
+}
+.icon-equalizer:before {
+	content: "\6d";
 }
 
 //}}}

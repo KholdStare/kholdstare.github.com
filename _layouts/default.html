@@ -32,8 +32,10 @@
         <h1>KholdCode</h1>
         <nav>
         <ul>
-            <li class="active" ><a href="/">Posts</a> </li>
-            <li><a href="#" >About</a> </li>
+            {% comment %} loop through locations defined in config.yml {% endcomment %}
+            {% for nav_loc in site.nav_locations %}
+                {% include nav_list_item.html %}
+            {% endfor %}
             <li><a href="#" >Subscribe</a> </li>
         </ul>
         </nav>
