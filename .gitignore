@@ -2,3 +2,4 @@ _site/
 *.swp
 *.swo
 .sass-cache
+code_playground/
