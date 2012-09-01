@@ -2,10 +2,8 @@
 layout: post
 title: "Optimizing QString usage"
 description: >
-  Qt is a great framework- elegant, easy to use, cross platform etc.
-  However just like any framework there are certain things you have to watch out for.
-  What I have discovered is, if you are not careful, you can experience a considerable slowdown in time intensive operations if you are using a lot QStrings.
-  In this article I will demonstrate the problems, and also the solutions!
+  Qt is a great framework- elegant, easy to use, cross platform etc.  However just like any framework there are certain things you have to watch out for.  What I have discovered is, if you are not careful, you can experience a considerable slowdown in time intensive operations if you are using a lot QStrings. In this article I will demonstrate the problems, and also the solutions!
+published: false
 category: technical
 tags:
   - c++
@@ -47,18 +45,59 @@ To understand what's happening, let's break it down into the calls made.
     
 <ul>
     <li><code>xml.name()</code> actually returns <code>QStringRef</code></li>
-    <li><code>QStringRef</code> has <code>bool operator== ( const QString&amp;  s1, const QStringRef&amp; s2 )</code>, so we need a <code>QString</code> to compare to</li>
+    <li><code>QStringRef</code> has <code>bool operator==</code> that compares
+    itself to <code>QString</code>, so we need to make one to compare to</li>
     <li><code>QString</code> has an implicit constructor <code>QString ( const char * str )</code> </li>
 </ul>
 
 <p>
 Putting all that together we actually get:
 </p>
-    
+
 {% highlight cpp %}
 if (operator== ( QString("subNode"), xml.name() ))
 {% endhighlight %}
-    
+
 <p>
-We are creating a temporary <code>QString</code> at each one of those if statements! This <code>QString</code> is then immediately destroyed after the comparison. What a waste of resources! 
+We are creating a temporary <code>QString</code> at each one of those if
+statements! Looking at the Qt <a href="http://qt-project.org/doc/qt-4.8/qstring.html#QString-8">documentation for the <code>QString</code>
+constructor</a>, it converts the <code>const char*</code> to unicode.
+This <code>QString</code> is then immediately destroyed after the comparison.
+What a waste of resources!
 </p>
+
+<p>
+    At this point you may think to abandon QStrings, and use something like<a
+        href="http://www.grinninglizard.com/tinyxml/">TinyXml</a>, but how can we
+    deal with our problem in Qt? After all, this isn't just an XML parsing problem, this relates to QString usage in general.
+</p>
+
+<h3>QString constants</h3>
+
+<p>The solution to the problem (or hack if you will), is to define
+<code>QString</code> constants for keywords that are used frequently in string
+comparisons. This means the <code>QString</code> will be created once, and we won't be
+dealing with temporary copies and destructions. Here's a simple example:
+</p>
+
+{% highlight cpp %}
+// initialize a string constant to be reused.
+// could be local to a function, global to a translation unit,
+// or in some commonly referenced file of constants
+static const subNodeText = QString("subNode");
+
+if (xml.name() == subNodeText) {
+    // yell when we see a subNode
+    qDebug() << "found subNode!"
+}
+{% endhighlight %}
+
+<p>
+    Of course this would be ridiculous if the constant is used once, but adds up
+    very quickly if it used tens of thousands of times or more. 
+</p>
+
+<h3>Benchmarks</h3>
+
+This post would be completely pointless without benchmarks of course, so let's
+create a really dumb test:

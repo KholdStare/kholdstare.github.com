@@ -24,3 +24,4 @@ exclude:
   - sass
   - icomoonFonts
   - diagrams_src
+  - javascripts/foundation/join.bash
