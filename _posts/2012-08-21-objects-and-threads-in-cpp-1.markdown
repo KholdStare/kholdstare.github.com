@@ -102,6 +102,9 @@ One of the first things we learn as programmers, is the notion of control flow t
 
 Knowing this, you can think of a thread in a multi-threaded program as one of many control flows through it. All threads share the same program code, heap memory, but have individual stacks and program counters (to keep track of where they are in their control flow). Let's take a look at threads as control flows:
 
+{% assign diagram = "threads-as-control-flow" %}
+{% include diagram.html %}
+
 One of the most important things to see in the diagram, is that all code is accessible to any thread. Two threads could be executing the same function at the same time.
 
 In addition, even though the diagram shows the two control flows side-by-side, you cannot make any assumptions on where the two threads are relative to each other. This is the concern of multi-threaded programming and thread synchronization, which is beyond the scope of this article.
