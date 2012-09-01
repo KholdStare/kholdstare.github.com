@@ -51,6 +51,9 @@ Person* heapPerson = new Person("Jack");
 
 What happens, is we allocate memory (either on the stack or on the heap), for the object's members. So in this case, <code>m_name</code>, <code>m_socialInsuranceNumber</code> and <code>m_age</code>. And nothing else- that is all we need to know about that particular instance of the class. Specifically, we do not care about the method implementations- those are already in memory as part of the executable.
 
+{% assign diagram = "objects-in-memory" %}
+{% include diagram.html %}
+
 Well, you might ask, if the methods are seperate from the object, how does this work:
 
 {% highlight cpp %}
