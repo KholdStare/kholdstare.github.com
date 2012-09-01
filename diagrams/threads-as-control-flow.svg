@@ -73,7 +73,7 @@
     <tspan x="600" y="198.722" xml:space="preserve">}</tspan>
   </text>
   <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="800" y="70.5">
-    <tspan x="800" y="70.5" xml:space="preserve">void threadA (void*) {</tspan>
+    <tspan x="800" y="70.5" xml:space="preserve">void threadB (void*) {</tspan>
     <tspan x="800" y="84.6111" xml:space="preserve"></tspan>
     <tspan x="800" y="98.7222" xml:space="preserve">    func2();</tspan>
     <tspan x="800" y="112.833" xml:space="preserve"></tspan>
