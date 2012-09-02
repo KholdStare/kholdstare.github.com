@@ -28,8 +28,7 @@ public:
 
     int getAge() { return m_age; }
 
-    void haveBirthdayParty()
-    {
+    void haveBirthdayParty() {
         ++m_age;
     }
 
@@ -49,9 +48,13 @@ Person stackPerson("John");
 Person* heapPerson = new Person("Jack");
 {% endhighlight %}
 
-What happens, is we allocate memory (either on the stack or on the heap), for the object's members. So in this case, <code>m_name</code>, <code>m_socialInsuranceNumber</code> and <code>m_age</code>. And nothing else- that is all we need to know about that particular instance of the class. Specifically, we do not care about the method implementations- those are already in memory as part of the executable.
+What happens, is we allocate memory (either on the stack or on the heap), for the object's members.
+So in this case, <code>m_name</code>, <code>m_socialInsuranceNumber</code> and <code>m_age</code>.
+And nothing else- that is all we need to know about that particular instance of the class.
+Specifically, we do not care about the method implementations- those are already in memory as part of the executable.
 
 {% assign diagram = "objects-in-memory" %}
+{% assign caption = "A program running in memory." %}
 {% include diagram.html %}
 
 Well, you might ask, if the methods are seperate from the object, how does this work:
@@ -103,6 +106,7 @@ One of the first things we learn as programmers, is the notion of control flow t
 Knowing this, you can think of a thread in a multi-threaded program as one of many control flows through it. All threads share the same program code, heap memory, but have individual stacks and program counters (to keep track of where they are in their control flow). Let's take a look at threads as control flows:
 
 {% assign diagram = "threads-as-control-flow" %}
+{% assign caption = "Two threads executing functions concurrently." %}
 {% include diagram.html %}
 
 One of the most important things to see in the diagram, is that all code is accessible to any thread. Two threads could be executing the same function at the same time.
@@ -117,4 +121,4 @@ As we saw in the last section, a method is just another function, and thus many 
 
 > A thread is control flow. A single object's method, being a glorified function, can be called by any thread at any time. An object does not belong to any single thread.
 
-Join me in part 2 to see how these notions translate to working with Qt! 
+Join me in <a href="/technical/2012/08/31/objects-and-threads-in-cpp-2.html">part 2</a> to see how these notions translate to working with Qt! 

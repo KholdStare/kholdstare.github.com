@@ -146,6 +146,12 @@ article.panel {
     color: $txtColor;
 }
 
+.main-post {
+    ul, ol {
+        li { list-style-position: outside; position: relative; left: 1.3em; }
+    }
+}
+
 // Style for blockquotes
 .panel blockquote {
     @extend .hole;
@@ -182,6 +188,7 @@ article.panel {
     color: lighten($panelBackgroundColor, 40%);
 
     li {
+        position: static !important;
         display: inline;
         list-style-type: none;
 
@@ -241,6 +248,25 @@ article.panel {
         font-variant: small-caps;
         position: relative;
         top: 0.2em;
+    }
+}
+
+//}}}
+
+// ===================================
+//{{{    Figures
+// =================================== 
+
+figure {
+    @extend .hole;
+    margin: 1em 0;
+
+    figcaption {
+        line-height: 1.6em;
+        color: white;
+        background-color: $borderColor;
+        padding: 1em;
+        font-style: italic;
     }
 }
 
@@ -425,7 +451,7 @@ pre  {
     }
 
     li {
-        width: 25%;
+        width: 33%;
         text-align: center;
         display: block;
         float:left;

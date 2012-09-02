@@ -3,29 +3,29 @@ layout: default
 title: "KholdCode"
 ---
 
-{% assign first_post = site.posts.first %}
+<!--{% assign first_post = site.posts.first %}-->
 
-<article class="main-post">
-<header>
-{% assign date = first_post.date %}
-{% include date.html %}
-<h2 class="post-title">
-    <a href="{{first_post.url}}">{{first_post.title}}</a>
-</h2>
-</header>
+<!--<article class="main-post">-->
+<!--<header>-->
+<!--{% assign date = first_post.date %}-->
+<!--{% include date.html %}-->
+<!--<h2 class="post-title">-->
+    <!--<a href="{{first_post.url}}">{{first_post.title}}</a>-->
+<!--</h2>-->
+<!--</header>-->
 
-<div class="panel">
-    <section class="entry">
-    {{ first_post.description | markdownify }}
-    {{ first_post.content }}
-    </section>
-(<a href="{{first_post.url}}#disqus_thread" data-disqus-identifier="{{ first_post.id }}"></a>)
-    {% assign tags = first_post.tags %}
-    {% include tag_footer.html %}
-</div>
-</article>
+<!--<div class="panel">-->
+    <!--<section class="entry">-->
+    <!--{{ first_post.description | markdownify }}-->
+    <!--{{ first_post.content }}-->
+    <!--</section>-->
+<!--(<a href="{{first_post.url}}#disqus_thread" data-disqus-identifier="{{ first_post.id }}"></a>)-->
+    <!--{% assign tags = first_post.tags %}-->
+    <!--{% include tag_footer.html %}-->
+<!--</div>-->
+<!--</article>-->
 
-{% for post in site.posts offset:1 %}
+{% for post in site.posts %}
 <article>
 <header>
 {% assign date = post.date %}
