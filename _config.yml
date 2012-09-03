@@ -16,7 +16,7 @@ nav_locations:
   - url: "/about.html"
     name: About
     icon: info
-  - url: "#"
+  - url: "http://feeds.feedburner.com/Kholdcode"
     name: Subscribe
     icon: feed
 
