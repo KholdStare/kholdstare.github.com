@@ -12,11 +12,11 @@ tags:
 ---
 
 Now that we know objects methods can be accessed by any thread at any time,
-we'll consider the situation fro mthe point of view of Qt.
+we'll consider the situation from the point of view of Qt.
 
 ### What are QObjects?
 
-Qt is a great framework, and its the heart are
+Qt is a great framework, and at its heart are
 <a href="http://qt-project.org/doc/qt-4.8/object.html"><code>QObjects</code></a>.
 Through Qt's <a href="http://qt-project.org/doc/qt-4.8/moc.html#moc">moc compiler</a>
 extra functionality is seemlessly added to C++ objects.
