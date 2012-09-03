@@ -11,7 +11,7 @@ tags:
   - threading
 ---
 
-Now that we know objects meothds can be accessed by any thread at any time,
+Now that we know objects methods can be accessed by any thread at any time,
 we'll consider the situation fro mthe point of view of Qt.
 
 ### What are QObjects?
