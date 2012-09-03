@@ -34,6 +34,8 @@ means that Qt must have some kind of an event loop. An event loop will continual
 monitor a queue of events to be handled, and dispatch them accordingly.
 Indeed, every <code>QThread</code> has a built-in <a href="http://qt-project.org/doc/qt-5.0/qthread.html#exec">event loop</a> that can be entered.
 
+One way to see this directly is by inheriting from <code>QThread</code>:
+
 {% highlight cpp %}
 class MyThread : public QThread {
     
@@ -51,6 +53,8 @@ protected:
     }
 };
 {% endhighlight %}
+
+The above is a good example for demonstration, but is rarely done in production. We will see a better way to run custom code on QThreads in the next section.
 
 In particular the GUI thread (the main thread), also has an event loop which is
 launched with by calling <a href="http://qt-project.org/doc/qt-4.8/qcoreapplication.html#exec"><code>QApplication::exec()</code></a>, which only returns after the user has quit the program.
@@ -95,6 +99,29 @@ So there are two ways for a function to be called on a QObject:
 {% assign diagram = "event-loops" %}
 {% assign caption = "Two threads with an object assigned to each thread's event loop. Each event loop handles events by invoking corresponding functions on the object. Notice how another object's methods can still be called from another thread directly. (calling userFunction)" %}
 {% include diagram.html %}
+
+To complete this article, let's look at running our code on other threads.
+As promised before we will not inherit from <code>QThread</code> for the job.
+If we can't customize a thread, and <code>QObjects</code> are bound to the thread that created them, how can we achieve this? Qt allows users to _move_ <code>QObjects</code> to other threads, thereby changing the thread affinity to the new thread:
+
+{% highlight cpp %}
+// create a simple thread
+QThread* newThread = new QThread();
+
+// create your own object 
+CustomQObject* obj = new CustomQObject();
+
+// let the new thread handle its events
+obj->moveToThread(newThread);
+
+// start new thread's event loop
+newThread->start();
+
+// continue to do other stuff on this thread
+{% endhighlight %}
+
+This is much simpler and easier to follow than subclassing a QThread each time you want to create a worker thread.
+Thanks to <a href="https://github.com/Jurily">Jurily</a> for suggesting this in a <a href="http://www.reddit.com/r/programming/comments/z9daf/objects_and_threads_in_c_and_qt/c62n6sn">reddit comment</a>.
 
 I hope you enjoyed this simplified rundown of <code>QObjects</code> and threads! More in-depth documentation can be found on the <a href="http://qt-project.org/doc/qt-4.8/threads-qobject.html">Qt-project website</a>.
 
