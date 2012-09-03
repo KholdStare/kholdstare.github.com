@@ -5,7 +5,7 @@ description: >
   When I first started working on a team using Qt (in a C++ environment),
   I would hear co-workers talk about "objects being on threads",
   and then immediately talk about how several threads are accessing the same object.
-  It would confuse the hell out of me, with the two ideas completely opposed to each other.
+  These two seemingly opposite ideas confused me at first. Let's untagle the mystery!
 category: technical
 tags:
   - c++
@@ -13,7 +13,7 @@ tags:
   - threading
 ---
 
-Fortunately I eventually saw through the confusion, and will attempt to present this information here, starting from the very basics, and working my way up. I will first talk about what are objects and threads in the "vanilla C++" sense, and then work it into the context of Qt <code>QObjects</code> and <code>QThreads</code>. Many things mentioned here might seem very obvious to many, but, in my experience a lot of developers get by without a firm grasp on these concepts. I was one of them :D.
+We'll start from the very basics, and work our way up. I will first talk about what are objects and threads in the "vanilla C++" sense, and then work it into the context of Qt <code>QObjects</code> and <code>QThreads</code>. Many things mentioned here might seem very obvious to many, but, in my experience a lot of developers get by without a firm grasp on these concepts. I was one of them :D.
 
 ### What are objects?
 
@@ -77,7 +77,7 @@ It actually looks like this in memory:
 </p>
 
 {% highlight cpp %}
-void Person::haveBirthdayParty(Person* this)
+void Person::haveBirthdayParty(Person* const this)
 {
     ++this->m_age;
 }
