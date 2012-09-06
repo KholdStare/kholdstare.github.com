@@ -40,7 +40,7 @@
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="390" y="150" width="310" height="60"/>
   </g>
   <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="400" y="170.5">
-    <tspan x="400" y="170.5" xml:space="preserve">int Person::getAge() {</tspan>
+    <tspan x="400" y="170.5" xml:space="preserve">int Person::age() const {</tspan>
     <tspan x="400" y="184.611" xml:space="preserve">    return m_age;</tspan>
     <tspan x="400" y="198.722" xml:space="preserve">}</tspan>
   </text>

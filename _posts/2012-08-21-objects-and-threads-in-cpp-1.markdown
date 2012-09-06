@@ -26,7 +26,7 @@ public:
     Person(string const& m_name);
     ~Person();
 
-    int getAge() { return m_age; }
+    int age() const { return m_age; }
 
     void haveBirthdayParty() {
         ++m_age;

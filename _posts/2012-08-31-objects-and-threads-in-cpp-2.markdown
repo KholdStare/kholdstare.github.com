@@ -11,7 +11,7 @@ tags:
   - threading
 ---
 
-Now that we know objects methods can be accessed by any thread at any time,
+Now that we know object methods can be accessed by any thread at any time,
 we'll consider the situation from the point of view of Qt.
 
 ### What are QObjects?
@@ -57,7 +57,7 @@ protected:
 The above is a good example for demonstration, but is rarely done in production. We will see a better way to run custom code on QThreads in the next section.
 
 In particular the GUI thread (the main thread), also has an event loop which is
-launched with by calling <a href="http://qt-project.org/doc/qt-4.8/qcoreapplication.html#exec"><code>QApplication::exec()</code></a>, which only returns after the user has quit the program.
+launched by calling <a href="http://qt-project.org/doc/qt-4.8/qcoreapplication.html#exec"><code>QApplication::exec()</code></a>, which only returns after the user has quit the program.
 
 {% highlight cpp %}
 int main(int argc, char **argv)
