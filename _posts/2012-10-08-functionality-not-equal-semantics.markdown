@@ -79,13 +79,14 @@ errors, and as a consequence, _disabling assertions would now break these
 applications_- the check has to be there to preserve functionality. 
 
 After doing some profiling on the algorithms used, more than 50% of the time was
-spent checking (legitimate) assertions. Granted, speed/efficiency was not a
-requirement, but that is a lot of wasted cycles simply due to the misuse of a
+spent checking (legitimate) assertions. Without being able to remove their
+usage, the code is stuck with the assertions. Granted, speed/efficiency was not
+a requirement, but that is a lot of wasted cycles simply due to the misuse of a
 macro.
 
 ### Conclusion
 
 Handling assertions and regular errors are fundamentally different, even if
 functionally they are the same from the perspective of the source code. This
-suggests that the usage/semantics of construct is not only tied to its
+suggests that the usage/semantics of a construct is not only tied to its
 functionality, but also to its documentation and project coding style.
