@@ -14,8 +14,11 @@ title: "KholdCode"
     <section class="entry">
         {{ post.description | markdownify }}
     </section>
-<a href="{{post.url}}" >Read More...</a>
-(<a href="{{post.url}}#disqus_thread" data-disqus-identifier="{{ post.id }}"></a>)
+    <a href="{{post.url}}" >Read More...</a>
+    {% unless post.testing %}
+    (<a href="{{post.url}}#disqus_thread" data-disqus-identifier="{{ post.id }}"></a>)
+    {% endunless %}
+
     {% assign tags = post.tags %}
     {% include tag_footer.html %}
 </div>

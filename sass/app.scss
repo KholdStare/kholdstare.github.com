@@ -149,6 +149,8 @@ article.panel {
 .main-post {
     ul, ol {
         li { list-style-position: outside; position: relative; left: 1.3em; }
+        // offset nested lists
+        ul { margin-left: 2em; }
     }
 }
 
