@@ -16,6 +16,7 @@ published: true
 tags:
   - c++
   - c++11
+  - advanced
 ---
 
 ### Overview
@@ -25,6 +26,10 @@ quickly overview _rvalues_, present a way to measure copies/moves, and finally
 observe a "problem" with <code>std::async</code>. In the second part of the
 article we will cover perfect forwarding, and overview the problem in that
 context. Finally a generic solution will be presented.
+
+This article is geared towards library writers and those who write generic
+template code in C++11. Most of the code from both parts of the article can be
+found in <a href="https://gist.github.com/4313633">this gist</a>.
 
 ### Lvalues and Rvalues
 
@@ -110,8 +115,9 @@ public:
 {% endhighlight %}
 
 Given this quick overview, it should be apparent that moves help save
-unnecessary copies- essential if you want to write an efficient library. For a
-more focused overview, you could also look at a <a
+unnecessary copies- essential if you want to write an efficient library. This is
+the _"value of rvalues"_. For a more focused overview, you could also look at a
+<a
 href="http://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html">larger
 article by Alex Allain</a> about move semantics.
 
@@ -221,7 +227,7 @@ assert( checker.copies() == 0 );
 assert( checker.moves() == 0 );
 
 // print the contents on another thread
-std::future<void> moveTask =
+std::future<void> task =
     std::async(
         std::launch::async,
         printContents<move_checker>,
@@ -229,7 +235,7 @@ std::future<void> moveTask =
     );
 
 // wait for the task to complete
-moveTask.wait()
+task.wait();
 
 // two moves are performed
 assert( checker.copies() == 0 );
@@ -256,7 +262,7 @@ assert( checker.copies() == 0 );
 assert( checker.moves() == 0 );
 
 // (hopefully) pass by reference
-std::future<void> copyTask =
+std::future<void> task =
     std::async(
         std::launch::async,
         printContents<move_checker>,
@@ -264,7 +270,7 @@ std::future<void> copyTask =
     );
 
 // wait for the task to complete
-copyTask.wait()
+task.wait();
 
 // a copy occured!
 assert( checker.copies() == 1 );
@@ -287,108 +293,48 @@ preemptively copies an lvalue argument in the event that the lvalue goes out of
 scope, and is destroyed before the thread completes its function. The breakdown
 of the numbers above is thus:
 
-* A local copy is created in the <code>std::asyc</code> function
+* A local _copy_ is created in the <code>std::async</code> function
 * The copy is then _moved_ into the new thread.
 
-* running a function on another thread
-* TODO
-
-### Perfect Forwarding
-
-When writing a library, or very generic functions, all bases should be covered,
-and you may want to consider the case when a temporary object is passed in. In
-C++03, one had only two choices: does one take an object by reference, or by
-value: 
+This is the safe route and minimizes unintended errors for the average user of
+the async api. However, if you're library writer, you may want to _choose_ not
+to make an expensive copy, and in that case you can always pass a pointer.
 
 {% highlight cpp %}
-void takeByReference(std::string& param);
-void takeByValue(std::string param);
+move_checker checker;
 
-// Will not compile, because we cannot bind an
-// lvalue reference to a temporary
-takeByReference("hello world");
+assert( checker.copies() == 0 );
+assert( checker.moves() == 0 );
 
-std::string someString("some string");
-takeByValue(someString); // causes a copy
+// (hopefully) pass by reference
+std::future<void> task =
+    std::async(
+        std::launch::async,
+        [](move_checker* pChecker)
+        {
+            printContents(*pChecker),
+        },
+        &checker // pointer
+    );
+
+// wait for the task to complete
+task.wait();
+
+// no copies or moves!
+assert( checker.copies() == 0 );
+assert( checker.moves() == 0 );
 {% endhighlight %}
 
-Either case has its advantages and disadvantages, and with C++11, one can use
-_perfect forwarding_ to construct function templates that handle both cases
-optimally.
+I had to add a lambda in there since <code>printContents</code> didn't take its
+parameters by pointer. Note, this would not work for rvalues, as creating
+pointers to rvalue references will result in undefined behaviour- you'd be
+creating pointers to temporaries! To summarize the local solution:
 
-Let's create a function that prints out the contents of any iterable-
-specifically any object that has <code>begin()</code> and <code>end()</code>
-methods. First consider a solution that takes just _lvalue references_:
+> To avoid an extra copy when forwarding arguments that you know will outlive
+> the thread through <code>std::async</code>, you can pass them using a pointer.
 
-{% highlight cpp %}
-template <typename InputIterable>
-void printContents(InputIterable& iterable)
-{
-    for (auto e : iterable)
-    {
-        std::cout << e << std::endl;
-    }
-}
+### Continued in Part2
 
-// works with lvalues!
-std::vector<int> lvalue {4, 8, 15, 16, 23, 42};
-printContents(lvalue);
-
-// does not compile for temporaries
-{% endhighlight %}
-
-
-<a href="http://en.cppreference.com/w/cpp/utility/forward"><code>std::forward</code></a>
-
-* function template, deduction
-* This <a
-  href="http://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Scott-Meyers-Universal-References-in-Cpp11">talk
-  about universal references</a> by Scott Meyers at C++ and Beyond 2012
-* TODO
-
-### Problem
-
-Eventually I reached a function that was doing more copies than I anticipated,
-and narrowed it down to a call to <code>std::async</code> (or
-<code>std::thread</code> for that matter). I was trying to do perfect forwarding
-to a lambda that would be run on a separate thread so I constructed a minimal
-test case using the <code>move_checker</code>:
-
-{% highlight cpp %}
-template <typename T>
-// checker here will be move_checker defined above
-std::string accessValueAsync(T&& checker) 
-{
-    std::future<std::string> fut =
-        std::async(std::launch::async,
-            [](T&& checker) mutable
-            {
-                return checker->payload[0];
-            },
-            std::forward<T>(checker));
-
-    return fut.get();
-}
-{% endhighlight %}
-
-* simple piece of code to measure number of copies.
-<a href="http://stackoverflow.com/questions/13813838/perfect-forwarding-to-async-lambda">stack oveflow question</a>
-* TODO
-
-### Solution
-
-* Want to get rid of the extra copy, in case of an lvalue reference passed in.
-  It is less safe than the default behaviour of async, but ensures optimal
-  performance in the case where we know that the lvalue will outlive the thread.
-* show <code>async_forwarder</code>
-* TODO
-
-### Conclusion
-
-When trying to optimize performance for a particular problem, the standard
-solution is not always the best, requiring one to "open the hood" and muck about
-with the internals. In the case where an lvalue is guaranteed or expected to
-outlive a thread's lifetime, copying the object into the thread is unnecessary,
-and can be passed using a pointer. A unified interface in the form of an
-<code>async_forwarder</code> is provided to handle perfect forwarding to these
-async functions.
+Now that we have come upon the problem and seen a simple local solution,  we'll
+consider it in a more generic context of perfect forwarding in <a
+href="technical/2012/12/16/perfect-forwarding-to-async-2.markdown">part 2</a>.
