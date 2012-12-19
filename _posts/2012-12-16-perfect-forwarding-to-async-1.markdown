@@ -337,4 +337,4 @@ creating pointers to temporaries! To summarize the local solution:
 
 Now that we have come upon the problem and seen a simple local solution,  we'll
 consider it in a more generic context of perfect forwarding in <a
-href="technical/2012/12/16/perfect-forwarding-to-async-2.markdown">part 2</a>.
+href="/technical/2012/12/16/perfect-forwarding-to-async-2.html">part 2</a>.
