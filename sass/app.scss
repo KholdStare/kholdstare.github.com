@@ -134,6 +134,7 @@ article.panel {
     @include small-border-radius;
     @include single-box-shadow(rgba(0, 0, 0, 0.8), 0px, 1px, 4px, 0px);
     //overflow: hidden;
+    overflow-x: hidden;
 }
 
 // Adding a style for "holes" in panels
@@ -164,6 +165,9 @@ article.panel {
 
     // handling blockquotes from markdown
     p { margin: 0; }
+
+    // TODO: add a light-colored stripe to left of quote
+    /*@include single-box-shadow($borderColor, -3.5em, 0px, 0px, 0px);*/
 }
 
 //}}}
