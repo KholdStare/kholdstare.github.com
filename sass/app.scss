@@ -134,7 +134,7 @@ article.panel {
     @include small-border-radius;
     @include single-box-shadow(rgba(0, 0, 0, 0.8), 0px, 1px, 4px, 0px);
     //overflow: hidden;
-    overflow-x: hidden;
+    //overflow-x: hidden;
 }
 
 // Adding a style for "holes" in panels
