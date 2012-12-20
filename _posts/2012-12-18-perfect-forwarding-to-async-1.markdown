@@ -306,7 +306,7 @@ move_checker checker;
 assert( checker.copies() == 0 );
 assert( checker.moves() == 0 );
 
-// (hopefully) pass by reference
+// pass by pointer
 std::future<void> task =
     std::async(
         std::launch::async,
@@ -333,8 +333,8 @@ creating pointers to temporaries! To summarize the local solution:
 > To avoid an extra copy when forwarding arguments that you know will outlive
 > the thread through <code>std::async</code>, you can pass them using a pointer.
 
-### Continued in Part2
+### Continued in <a href="/technical/2012/12/19/perfect-forwarding-to-async-2.html">Part 2</a>
 
 Now that we have come upon the problem and seen a simple local solution,  we'll
 consider it in a more generic context of perfect forwarding in <a
-href="/technical/2012/12/19/perfect-forwarding-to-async-2.html">part 2</a>.
+href="/technical/2012/12/19/perfect-forwarding-to-async-2.html">Part 2 of the article</a>.
