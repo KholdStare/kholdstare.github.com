@@ -220,13 +220,13 @@ We need a unified solution, so we write our function template once.
 ### Solution
 
 The solution I came up with is a thin wrapper, that I can use to forward
-arguments through a <code>std::async</code> call, that handles much like a
-"smart pointer", only in some cases it wraps a reference, in other it holds a
+arguments through a <code>std::async</code> call, that is a wrapper for the
+underlying type, only in some cases it wraps a reference, in other it holds a
 full blown value. Let's call this structure <code>async_forwarder</code>
 
 {% highlight cpp %}
 /**
- * If T  move it inside forwarder.
+ * If T   move it inside forwarder.
  * If T&, just wrap it like std::ref
  */
 template <typename T> struct async_forwarder;
@@ -240,10 +240,11 @@ template <typename InputIterable, typename Func>
 std::future<void> connect(InputIterable&& input, Func func)
 {
     return std::async(std::launch::async,
-            [func](async_forwarder<InputIterable> input) mutable
+            // the forwarder will automatically convert
+            // to the apropriate type.
+            [func](InputIterable&& input) mutable
             {
-                // have to "dereference" our wrapper.
-                for (auto&& e : *input) {
+                for (auto&& e : input) {
                     func(e);
                 }
             },
@@ -253,10 +254,12 @@ std::future<void> connect(InputIterable&& input, Func func)
 {% endhighlight %}
 
 Voila! So knowing that we always want to return an lvalue reference when we
-dereference the wrapper, let's specialize <code>async_forwarder</code> for
+convert from the wrapper, let's specialize <code>async_forwarder</code> for
 _lvalue references_:
 
 {% highlight cpp %}
+// This particular specialization
+// is essentially std::ref
 template <typename T>
 class async_forwarder<T&>
 {
@@ -276,13 +279,10 @@ public:
     async_forwarder(async_forwarder&& other)
         : val_(other.val_) { }
 
-    // "Unwrapping" operators that return back
-    // an lvalue reference
-    T&       operator * ()       { return val_; }
-    T const& operator * () const { return val_; }
-
-    T*       operator -> ()       { return &val_; }
-    T const* operator -> () const { return &val_; }
+    // User-defined conversion that automatically
+    // converts to the appropriate type
+    operator T&       ()       { return val_; }
+    operator T const& () const { return val_; }
 };
 {% endhighlight %}
 
@@ -311,21 +311,19 @@ public:
     async_forwarder(async_forwarder&& other)
         : val_(std::move(other.val_)) { }
 
-    // "Unwrapping" operators
-    T&       operator * ()       { return val_; }
-    T const& operator * () const { return val_; }
-
-    T*       operator -> ()       { return &val_; }
-    T const* operator -> () const { return &val_; }
+    // Move the value out.
+    // Note: can only occur once!
+    operator T&& ()       { return std::move(val_); }
+    operator T&& () const { return std::move(val_); }
 };
 {% endhighlight %}
 
 In effect, async_forwarder allows us to forward optimally through a
 <code>std::async</code> call while retaining a single interface:
 
-* _Lvalues_ are passed as pointers
-* _Rvalues_ are moved inside as before
-* The value can be accessed by dereferencing.
+* _Lvalues_ are stored as wrapped references
+* _Rvalues_ are moved inside
+* The value is automatically converted back 
 
 ### Further Work
 
