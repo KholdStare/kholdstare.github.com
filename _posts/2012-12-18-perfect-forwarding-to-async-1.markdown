@@ -298,7 +298,10 @@ of the numbers above is thus:
 
 This is the safe route and minimizes unintended errors for the average user of
 the async api. However, if you're library writer, you may want to _choose_ not
-to make an expensive copy, and in that case you can always pass a pointer.
+to make an expensive copy, and in that case you can either pass a pointer, or
+wrap the reference with <a
+href="http://en.cppreference.com/w/cpp/utility/functional/ref"><code>std::ref</code></a>
+(as suggested in a <a href="#comment-743609769">comment by tshino below</a>).
 
 {% highlight cpp %}
 move_checker checker;
@@ -306,15 +309,12 @@ move_checker checker;
 assert( checker.copies() == 0 );
 assert( checker.moves() == 0 );
 
-// pass by pointer
+// pass using std::ref wrapper
 std::future<void> task =
     std::async(
         std::launch::async,
-        [](move_checker* pChecker)
-        {
-            printContents(*pChecker),
-        },
-        &checker // pointer
+        printContents<move_checker>,
+        std::ref(checker)
     );
 
 // wait for the task to complete
@@ -325,13 +325,12 @@ assert( checker.copies() == 0 );
 assert( checker.moves() == 0 );
 {% endhighlight %}
 
-I had to add a lambda in there since <code>printContents</code> didn't take its
-parameters by pointer. Note, this would not work for rvalues, as creating
-pointers to rvalue references will result in undefined behaviour- you'd be
-creating pointers to temporaries! To summarize the local solution:
+Note, this would not work for rvalues, as <code>std::ref</code> cannot hold an
+rvalue reference.  To summarize the local solution:
 
-> To avoid an extra copy when forwarding arguments that you know will outlive
-> the thread through <code>std::async</code>, you can pass them using a pointer.
+> To avoid an extra copy when passing lvalue references as arguments that you
+> know will outlive the thread through <code>std::async</code>, you can wrap
+> them with <code>std::ref</code>.
 
 ### Continued in <a href="/technical/2012/12/19/perfect-forwarding-to-async-2.html">Part 2</a>
 

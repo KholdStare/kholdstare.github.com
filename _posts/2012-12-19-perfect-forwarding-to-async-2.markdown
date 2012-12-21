@@ -210,12 +210,10 @@ happens to an lvalue that gets passed in:
 * Then, <code>std::async</code> make a copy internally, creating a temporary _rvalue_. 
 * Finally, <code>std::async</code> forwards this temporary _rvalue_ to the lambda, and the compilation fails because it cannot be bound to an _lvalue reference_ as we expect. 
 
-So what can we do? If you still remember part one, we have to pass the value by
-pointer to bypass the extra copy by <code>std::async</code>. However, this would
-mean that we have to access the value in two different ways in the lambda:
-
-* As a pointer when <code>input</code> is an lvalue ( have to dereference )
-* As a value when <code>input</code> is an rvalue ( can use directly )
+So what can we do? If you still remember part one, we have to wrap the value
+using <code>std::ref</code> to bypass the extra copy by <code>std::async</code>.
+However, <code>std::ref</code> cannot be constructed from an lvalue, and thus cannot be used
+to do perfect forwarding.
 
 We need a unified solution, so we write our function template once.
 
@@ -223,13 +221,13 @@ We need a unified solution, so we write our function template once.
 
 The solution I came up with is a thin wrapper, that I can use to forward
 arguments through a <code>std::async</code> call, that handles much like a
-"smart pointer", only in some cases it holds a pointer, in other it holds a full
-blown value. Let's call this structure <code>async_forwarder</code>
+"smart pointer", only in some cases it wraps a reference, in other it holds a
+full blown value. Let's call this structure <code>async_forwarder</code>
 
 {% highlight cpp %}
 /**
  * If T  move it inside forwarder.
- * If T& store a pointer to T.
+ * If T&, just wrap it like std::ref
  */
 template <typename T> struct async_forwarder;
 {% endhighlight %}
@@ -262,14 +260,14 @@ _lvalue references_:
 template <typename T>
 class async_forwarder<T&>
 {
-    T* val_;
+    T& val_;
 
 public:
     /**
-     * Store a pointer when passed an lvalue reference,
+     * Wrap the reference when passed an lvalue reference,
      * to fool std::async
      */
-    async_forwarder(T& t) : val_(&t) { }
+    async_forwarder(T& t) : val_(t) { }
 
     // ensure no copies are made
     async_forwarder(async_forwarder const& other) = delete;
@@ -280,17 +278,17 @@ public:
 
     // "Unwrapping" operators that return back
     // an lvalue reference
-    T&       operator * ()       { return *val_; }
-    T const& operator * () const { return *val_; }
+    T&       operator * ()       { return val_; }
+    T const& operator * () const { return val_; }
 
-    T*       operator -> ()       { return val_; }
-    T const* operator -> () const { return val_; }
+    T*       operator -> ()       { return &val_; }
+    T const* operator -> () const { return &val_; }
 };
 {% endhighlight %}
 
-This gets rid of the extra copy incurred by <code>std::async</code> by turning
-the lvalue reference into a pointer! To wrap things up, let's specialize for
-rvalues, to complete the solution:
+This gets rid of the extra copy incurred by <code>std::async</code> by wrapping
+the reference just like <code>std::ref</code>! To wrap things up, let's
+specialize for rvalues, to complete the solution:
 
 {% highlight cpp %}
 template <typename T>
@@ -331,15 +329,7 @@ In effect, async_forwarder allows us to forward optimally through a
 
 ### Further Work
 
-The above solution works great when the objects being forwarded are large, such
-as vectors with many elements. There is one disadvantage to the
-<code>async_forwarder</code> above, and that is if the user passes a pointer in.
-If the pointer is an lvalue, <code>async_forwarder</code> will essentially
-become a pointer to a pointer. Not very efficient.  Of course this can be
-remedied by specializing the <code>async_forwarder</code> template for pointer
-types.
-
-There might also be some savings possible if <code>async_forwarder</code> is
+There might be some savings possible if <code>async_forwarder</code> is
 declared <code>constexpr</code>, but I am not well versed in that feature of
 C++11, so perhaps others can suggest its effectiveness.
 
@@ -349,6 +339,6 @@ When trying to optimize performance for a particular problem, the standard
 solution is not always the best, requiring one to "open the hood" and muck about
 with the internals. In the case where an lvalue is guaranteed or expected to
 outlive a thread's lifetime, copying the object into the thread is unnecessary,
-and can be passed using a pointer. A unified interface in the form of an
-<code>async_forwarder</code> is provided to handle perfect forwarding to these
-<code>async</code> functions.
+and can be wrapped using <code>std::ref</code>. A unified interface in the form
+of an <code>async_forwarder</code> is provided to handle perfect forwarding to
+these <code>async</code> functions.
