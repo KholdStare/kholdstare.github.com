@@ -212,7 +212,7 @@ happens to an lvalue that gets passed in:
 
 So what can we do? If you still remember part one, we have to wrap the value
 using <code>std::ref</code> to bypass the extra copy by <code>std::async</code>.
-However, <code>std::ref</code> cannot be constructed from an lvalue, and thus cannot be used
+However, <code>std::ref</code> cannot be constructed from an rvalue, and thus cannot be used
 to do perfect forwarding.
 
 We need a unified solution, so we write our function template once.
