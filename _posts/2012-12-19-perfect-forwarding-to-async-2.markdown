@@ -253,9 +253,9 @@ std::future<void> connect(InputIterable&& input, Func func)
 }
 {% endhighlight %}
 
-Voila! So knowing that we always want to return an lvalue reference when we
-convert from the wrapper, let's specialize <code>async_forwarder</code> for
-_lvalue references_:
+Voila! So knowing that we always want to implicitly convert back to what it was
+constructed from, let's specialize <code>async_forwarder</code> for _lvalue
+references_:
 
 {% highlight cpp %}
 // This particular specialization
