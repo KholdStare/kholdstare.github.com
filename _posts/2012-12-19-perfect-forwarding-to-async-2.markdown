@@ -205,7 +205,7 @@ href="http://stackoverflow.com/questions/13813838/perfect-forwarding-to-async-la
 problem</a> that got me started on this journey. Here is a breakdown of what
 happens to an lvalue that gets passed in:
 
-* The type of <code>input</code> gets deduced correctly as an _lvalue reference_ <code>InputIterable&amp</code>, and binds to an lvalue 
+* The type of <code>input</code> gets deduced correctly as an _lvalue reference_ <code>InputIterable&amp;</code>, and binds to an lvalue 
 * We forward input to <code>std::async</code>, passing in an _lvalue reference_. 
 * Then, <code>std::async</code> make a copy internally, creating a temporary _rvalue_. 
 * Finally, <code>std::async</code> forwards this temporary _rvalue_ to the lambda, and the compilation fails because it cannot be bound to an _lvalue reference_ as we expect. 
