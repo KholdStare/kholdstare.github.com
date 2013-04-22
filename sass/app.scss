@@ -74,6 +74,11 @@
     left: -9999px;
 }
 
+// make links in articles bold for better readability
+p a {
+    font-weight: bold;
+}
+
 // Changing body background color
 body {
   background: $backgroundColor;
