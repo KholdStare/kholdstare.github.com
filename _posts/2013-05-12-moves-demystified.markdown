@@ -5,12 +5,12 @@ description: >
   Learning to use move semantics is crucial for good C++11 style. Moves are
   cheaper than copies and allow passing around large objects by value-
   something that was a big no-no in C++03. I've noticed that many (including
-  me), have trouble with some of the concepts initially.  The article aims to
+  me), had trouble with some of the concepts initially.  The article aims to
   crack down on common stumbling points.
 
 category: technical
 testing: true
-published: true
+published: false
 tags:
   - c++11
 ---
@@ -21,7 +21,7 @@ Before
 
 ### Rvalues vs Rvalue references
 
-A common mistake I see when people try use rvalues is returning by _rvalue
+A common mistake I see when people try use rvalues is returning an _rvalue
 reference_ from a function
 
 {% highlight cpp %}
@@ -35,7 +35,7 @@ The trouble is, this is as bad as returning a reference to a local function
 variable. The notion of an _rvalue_ and an _rvalue reference_ are conflated together.
 
 Just as lvalue references refer to lvalues, rvalue references can bind to
-rvalues.  By definition rvalues cannot be used directly as there is no
+rvalues.  By definition rvalues, cannot be used directly as there is no
 identifier that is bound to them- they are "ethereal".  The only way we can
 ever use them is through _rvalue references_ <code>&amp;&amp;</code> - this
 gives us an identifier to refer to, and use _rvalues_.
