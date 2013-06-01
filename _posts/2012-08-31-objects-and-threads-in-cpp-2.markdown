@@ -38,8 +38,6 @@ One way to see this directly is by inheriting from <code>QThread</code>:
 
 {% highlight cpp %}
 class MyThread : public QThread {
-    
-    Q_OBJECT
 
 public:
     MyThread();
