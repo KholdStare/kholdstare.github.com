@@ -15,6 +15,7 @@ layout: nil
  </author>
 
  {% for post in site.posts %}
+ {% unless post.testing %}
  <entry>
    <title>{{ post.title }}</title>
    <link href="{{ site.production_url }}{{ post.url }}"/>
@@ -22,6 +23,7 @@ layout: nil
    <id>{{ site.production_url }}{{ post.id }}</id>
    <summary type="html">{{ post.description | xml_escape }}</summary>
  </entry>
+ {% endunless %}
  {% endfor %}
 
 </feed>
