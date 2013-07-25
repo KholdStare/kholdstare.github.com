@@ -88,6 +88,11 @@
 	<!-- Included JS Files (Uncompressed) -->
     <!--TODO: minify?-->
 	<script src="/javascripts/foundation/jquery.joined.js"></script>
+
+    <!--Load additional scripts if requested-->
+    {% for script in page.scripts %}
+    <script src="{{script}}"></script>
+    {% endfor %}
 	
   <!-- Application Javascript, safe to override -->
   <script src="/javascripts/foundation/app.js"></script>
