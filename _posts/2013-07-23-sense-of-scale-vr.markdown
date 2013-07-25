@@ -38,8 +38,10 @@ intrigued and decided to focus on this aspect for my experimentation.
 > A sense of scale is the ability to tell the size and distance of an object
 > in relation to oneself, given a visual representation.
 
-<canvas id="canvas-sphere" width="200" height="200">
+<figure>
+<canvas id="scene-sphere" width="400" height="200">
 </canvas>
+</figure>
 
 TODO: picture of a circle - what size is it? How far away is it?
 Diagram: circle moves in and out, occupying the same area on-screen
