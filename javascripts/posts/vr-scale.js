@@ -1,5 +1,7 @@
 var vec = function ( x, y, z )
 {
+    y = typeof y !== 'undefined' ? y : x;
+    z = typeof z !== 'undefined' ? z : y;
     return new THREE.Vector3( x, y, z );
 };
 
@@ -21,12 +23,11 @@ var createDefaultContext = function( canvasElem, aspect )
     var orthoCam = new THREE.OrthographicCamera(-10, 10, (-10/viewAspect), (10/viewAspect), 1, 1000);
     orthoCam.up = vec(0, 0, 1);
     orthoCam.position.y = -5;
-    orthoCam.lookAt( vec( 0, 0, 0) );
+    orthoCam.position.z = -10;
+    orthoCam.lookAt( vec( 0, 0, -10) );
     orthoCam.updateProjectionMatrix();
 
     var perspCam = new THREE.PerspectiveCamera(75, viewAspect, 0.1, 1000);
-    perspCam.position.z = 10;
-    perspCam.updateProjectionMatrix();
 
     var context =
         {
@@ -179,29 +180,55 @@ var followSphere = function( eyeOrigin, sphereCenter, radius )
     return result;
 };
 
+var getTick = function ()
+{
+    var startTime = new Date().getTime();
+
+    return function () {
+        return new Date().getTime() - startTime;
+    }
+}();
+
 var initSphereScene = function (context)
 {
     var scene = initLitScene();
+
+    var objects = new THREE.Object3D();
 
     var radius = 2;
     var geometry = new THREE.SphereGeometry(radius, 20, 20);
     var material = new THREE.MeshPhongMaterial({color: 0xaaffaa});
     var sphere = new THREE.Mesh(geometry, material);
-    scene.add(sphere);
+    sphere.position.z = -10;
+    objects.add(sphere);
 
     var sphereEdge = vec(-radius, 0, 0);
-    var eyeOrigin = vec(0, 0, 10);
+    var eyeOrigin = vec(0, 0, 0);
 
-    scene.add( followSphere( eyeOrigin, vec( 0, 0, 0 ), radius ) );
+    var followGraphic =
+        followSphere(
+                eyeOrigin,
+                sphere.position.clone().multiplyScalar(2),
+                2*radius
+            );
+    objects.add(followGraphic);
 
-    var fovGraphic = createFovGraphic( eyeOrigin, vec(0, 0, -30), context.persp.fov );
-    scene.add(fovGraphic);
+    var fovGraphic = createFovGraphic( eyeOrigin, vec(0, 0, -100), context.persp.fov );
+    objects.add(fovGraphic);
+
+    scene.add( objects );
+
+    var animScale = 700;
 
     // TODO: decouple scene from starting render
     var updateFun = function(sc)
     {
-        sphere.rotation.x += 0.1;
-        sphere.rotation.y += 0.1;
+        var t = getTick();
+
+        var sinParam = Math.sin(t/animScale) + 1.3;
+
+        sphere.position.z = -(sinParam * 10);
+        sphere.scale = vec( sinParam );
     };
 
     startRenderLoop(context, scene, updateFun);
