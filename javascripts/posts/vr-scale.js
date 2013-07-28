@@ -13,10 +13,10 @@ var makeLine = function( start, end, type )
                     );
 };
 
-var createDefaultContext = function( canvasElem )
+var createDefaultContext = function( canvasElem, aspect )
 {
     var viewWidth = Math.floor( canvasElem.width / 2 );
-    var viewAspect = viewWidth/canvasElem.height;
+    var viewAspect = aspect / 2;
 
     var orthoCam = new THREE.OrthographicCamera(-10, 10, (-10/viewAspect), (10/viewAspect), 1, 1000);
     orthoCam.up = vec(0, 0, 1);
@@ -30,6 +30,8 @@ var createDefaultContext = function( canvasElem )
 
     var context =
         {
+            canvas: canvasElem,
+            aspect: aspect,
             renderer: new THREE.WebGLRenderer(
                                 {
                                     canvas: canvasElem,
@@ -44,18 +46,18 @@ var createDefaultContext = function( canvasElem )
                 background: new THREE.Color().setRGB( 0.5, 0.5, 0.7 ),
                 left: 0,
                 bottom: 0,
-                width: viewWidth,
-                height: canvasElem.height,
+                width: 0.5,
+                height: 1.0,
                 camera: orthoCam
             },
             persp:
             {
                 fov: 150,
                 background: new THREE.Color().setRGB( 0.7, 0.5, 0.5 ),
-                left: viewWidth,
+                left: 0.5,
                 bottom: 0,
-                width: canvasElem.width - viewWidth,
-                height: canvasElem.height,
+                width: 0.5,
+                height: 1.0,
                 camera: perspCam
             }
         }
@@ -67,16 +69,35 @@ var createDefaultContext = function( canvasElem )
 
 var renderScene = function( context, scene )
 {
+    var canvasElem = context.canvas;
+    var width = $(canvasElem).parent().width();
+    var height = width / context.aspect;
+
+    // make canvas responsive
+    if (width != context.width || height != context.height)
+    {
+        context.width = width;
+        context.height = height;
+        context.renderer.setSize(width, height);
+    }
+
     var views = [context.ortho, context.persp];
     var renderer = context.renderer;
 
     for (var ii = 0; ii < views.length; ii++)
     {
         var view = views[ii];
-        renderer.setViewport( view.left, view.bottom, view.width, view.height );
-        renderer.setScissor( view.left, view.bottom, view.width, view.height );
+        var viewLeft   = Math.floor(context.width  * view.left);
+        var viewBottom = Math.floor(context.height * view.bottom);
+        var viewWidth  = Math.floor(context.width  * view.width);
+        var viewHeight = Math.floor(context.height * view.height);
+        renderer.setViewport( viewLeft, viewBottom, viewWidth, viewHeight );
+        renderer.setScissor( viewLeft, viewBottom, viewWidth, viewHeight );
         renderer.enableScissorTest ( true );
         renderer.setClearColor( view.background );
+
+        view.camera.updateProjectionMatrix();
+
         renderer.render(scene, view.camera);
     }
 };
@@ -186,4 +207,4 @@ var initSphereScene = function (context)
     startRenderLoop(context, scene, updateFun);
 };
 
-initSphereScene( createDefaultContext( $("#scene-sphere").get(0) ) );
+initSphereScene( createDefaultContext( $("#scene-sphere").get(0), 2 ) );
