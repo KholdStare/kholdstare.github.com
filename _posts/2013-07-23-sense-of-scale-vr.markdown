@@ -38,13 +38,15 @@ intrigued and decided to focus on this aspect for my experimentation.
 > A sense of scale is the ability to tell the size and distance of an object
 > in relation to oneself, given a visual representation.
 
-<figure>
-<canvas id="scene-sphere" >
-</canvas>
-</figure>
+As the following animation demonstrates, it's not always easy to tell:
 
-TODO: picture of a circle - what size is it? How far away is it?
-Diagram: circle moves in and out, occupying the same area on-screen
+{% assign canvas-id = "scene-sphere" %}
+{% assign caption = "From the top view (on the left), a sphere changes size and position, while appearing stationary in the perspective view (on the right)" %}
+{% include canvas.html %}
+
+An object viewed in isolation does not tell us much in 2D -- the area it takes up
+in our field of view suggests nothing of its size or distance. It could be up-close and tiny,
+or distant and massive.
 
 Before we dive into (Virtual) Reality, how do we tell scale in traditional 2D
 forms of entertainment? If we lose the stereo vision, what clues can a game
@@ -72,7 +74,9 @@ through _movement_- be it panning the camera in a movie, or running around in a
 First Person Shooter game. No matter how much you run, that mountain doesn't
 seem to budge from its spot, suggesting great distance and size.
 
-TODO: diagram of several objects (same area) and camera panning left-to-right
+{% assign canvas-id = "scene-parallax" %}
+{% assign caption = "Parallax TODO" %}
+{% include canvas.html %}
 
 To recap we have (at least) these tools to help convey scale in a
 two-dimensional medium:
@@ -101,6 +105,8 @@ underrepresentation of scale.
 * __Relative size__ - assumes at same distance
 * __Parallax__ - assumes objects are stationary
 
+TODO: gif with the room with mis-sized objects
+
 Clearly, we need to involve as many cues as possible to give a complete idea of
 scale. We need stereoscopic vision to go the full distance, and we shall why.
 
@@ -115,10 +121,8 @@ brain how far away the object is.
 TODO: diagram of vergence.
 
 As soon as you know the distance to the object and how much area it takes up in
-your field of view, you can immediately tell its size! 
-
-But wait a minute! Wait about the viewer's assumptions? There must be something
-assumed just as before. 
+your field of view, you can immediately tell its size! But wait a minute! Wait
+about the viewer's assumptions? There must be something assumed just as before. 
 
 * __Vergence__ - assumes distance between the eyes
 
