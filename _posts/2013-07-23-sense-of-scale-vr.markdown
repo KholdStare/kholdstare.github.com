@@ -39,7 +39,7 @@ intrigued and decided to focus on this aspect for my experimentation.
 > in relation to oneself, given a visual representation.
 
 <figure>
-<canvas id="scene-sphere" width="400" height="200">
+<canvas id="scene-sphere" >
 </canvas>
 </figure>
 
