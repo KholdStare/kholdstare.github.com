@@ -169,8 +169,19 @@ var initLitScene = function()
     var plane = new THREE.Mesh(geometry, material);
     plane.position = vec(0, -4.7, -10);
     plane.receiveShadow = true;
-
     scene.add(plane);
+
+    // TODO: replace text with texture on plane?
+    //geometry =
+        //new THREE.TextGeometry(
+                //"GROUND",
+                //{
+                    //size: 10,
+                    //height: 2
+                //}
+            //);
+    //var groundText = new THREE.Mesh(geometry, material.clone());
+    //scene.add(groundText);
 
     return scene;
 };
@@ -267,8 +278,7 @@ var initSphereScene = function (context)
 
     var animScale = 700;
 
-    // TODO: decouple scene from starting render
-    var updateFun = function(context, scene)
+    scene.updateFun = function(context, scene)
     {
         var t = getTick();
         var sinParam = Math.sin(t/animScale) + 1.3;
@@ -277,7 +287,7 @@ var initSphereScene = function (context)
         sphere.scale = vec( sinParam );
     };
 
-    startRenderLoop(context, scene, updateFun);
+    return scene;
 };
 
 // Assumes eye is at origin. Makes a line of spheres all appear the same size
@@ -357,8 +367,7 @@ var initParallaxScene = function (context)
 
     var animScale = 700;
 
-    // TODO: decouple scene from starting render
-    var updateFun = function(context, scene)
+    scene.updateFun = function(context, scene)
     {
         var t = getTick();
         var sinParam = Math.sin(t/animScale) * 3;
@@ -375,12 +384,15 @@ var initParallaxScene = function (context)
             );
     };
 
-    startRenderLoop(context, scene, updateFun);
+    return scene;
 };
 
 var withCanvas = function( canvasId, initFunc )
 {
-    initFunc( createDefaultContext( $(canvasId).get(0), 2 ) );
+    var context = createDefaultContext( $(canvasId).get(0), 2 );
+    var scene = initFunc( context );
+
+    startRenderLoop(context, scene, scene.updateFun);
 };
 
 withCanvas( "#scene-sphere", initSphereScene );
