@@ -1,3 +1,5 @@
+var globalShadows = false;
+
 var vec = function ( x, y, z )
 {
     x = typeof x !== 'undefined' ? x : 0;
@@ -16,19 +18,37 @@ var makeLine = function( start, end, type )
                     );
 };
 
+var replaceChildren = function (object, newChildren)
+{
+    var children = object.children;
+    var i = children.length;
+
+    while (i--)
+    {
+        object.remove(children[i]);
+    }
+
+    i = newChildren.length;
+
+    while (i--)
+    {
+        object.add(newChildren[i]);
+    }
+};
+
 var createDefaultContext = function( canvasElem, aspect )
 {
     var viewWidth = Math.floor( canvasElem.width / 2 );
     var viewAspect = aspect / 2;
 
-    var orthoCam = new THREE.OrthographicCamera(-10, 10, (-10/viewAspect), (10/viewAspect), 1, 1000);
-    orthoCam.up = vec(0, 0, 1);
-    orthoCam.position.y = -5;
+    var orthoCam = new THREE.OrthographicCamera(-10, 10, (10/viewAspect), (-10/viewAspect), 1, 50);
+    orthoCam.up = vec(0, 0, -1);
+    orthoCam.position.y = 5;
     orthoCam.position.z = -10;
     orthoCam.lookAt( vec( 0, 0, -10) );
     orthoCam.updateProjectionMatrix();
 
-    var perspCam = new THREE.PerspectiveCamera(75, viewAspect, 0.1, 1000);
+    var perspCam = new THREE.PerspectiveCamera(75, viewAspect, 0.1, 50);
 
     var context =
         {
@@ -38,7 +58,7 @@ var createDefaultContext = function( canvasElem, aspect )
                                 {
                                     canvas: canvasElem,
                                     antialias: true,
-                                    alpha: false
+                                    alpha: false,
                                 }
                             ),
             width: canvasElem.width,
@@ -64,7 +84,23 @@ var createDefaultContext = function( canvasElem, aspect )
             }
         }
 
-    context.renderer.setSize(canvasElem.width, canvasElem.height);
+    var renderer = context.renderer;
+    renderer.setSize(canvasElem.width, canvasElem.height);
+
+    if (globalShadows)
+    {
+        renderer.shadowMapEnabled = true;
+        renderer.shadowMapSoft = false;
+        renderer.shadowCameraNear = 1;
+        renderer.shadowCameraFar = 100;
+        renderer.shadowCameraFov = 50;
+
+        renderer.shadowMapBias = 0.0039;
+        renderer.shadowMapDarkness = 0.5;
+        renderer.shadowMapWidth = 256;
+        renderer.shadowMapHeight = 256;
+        renderer.physicallyBasedShading = true;
+    }
 
     return context;
 };
@@ -119,12 +155,22 @@ var initLitScene = function()
 {
     var scene = new THREE.Scene();
 
-    var light = new THREE.PointLight( 0xffffff, 1, 100 );
+    var light = new THREE.SpotLight( 0xffffff, 1, 100 );
+    // TODO: figure out why doesn't work in other positions
     light.position.set( 30, 40, 10 );
+    light.castShadow = true;
     scene.add( light );
 
     light = new THREE.AmbientLight( 0x404040 );
     scene.add( light );
+
+    var geometry = new THREE.CubeGeometry(20, 1, 20);
+    var material = new THREE.MeshLambertMaterial({color: 0xaaffaa});
+    var plane = new THREE.Mesh(geometry, material);
+    plane.position = vec(0, -4.7, -10);
+    plane.receiveShadow = true;
+
+    scene.add(plane);
 
     return scene;
 };
@@ -200,6 +246,7 @@ var initSphereScene = function (context)
     var geometry = new THREE.SphereGeometry(radius, 20, 20);
     var material = new THREE.MeshPhongMaterial({color: 0xaaffaa});
     var sphere = new THREE.Mesh(geometry, material);
+    sphere.castShadow = true;
     sphere.position.z = -10;
     objects.add(sphere);
 
@@ -224,7 +271,6 @@ var initSphereScene = function (context)
     var updateFun = function(context, scene)
     {
         var t = getTick();
-
         var sinParam = Math.sin(t/animScale) + 1.3;
 
         sphere.position.z = -(sinParam * 10);
@@ -234,7 +280,7 @@ var initSphereScene = function (context)
     startRenderLoop(context, scene, updateFun);
 };
 
-// Assues eye is at origin. Makes a line of spheres all appear the same size
+// Assumes eye is at origin. Makes a line of spheres all appear the same size
 // from that view-point.
 var createLineOfSpheres = function (startPosition, endPosition, num, radius)
 {
@@ -243,6 +289,7 @@ var createLineOfSpheres = function (startPosition, endPosition, num, radius)
     var geometry = new THREE.SphereGeometry(radius, 20, 20);
     var material = new THREE.MeshPhongMaterial({color: 0xaaffaa});
     var protoSphere = new THREE.Mesh(geometry, material);
+    protoSphere.castShadow = true;
 
     // line up several spheres so they appear the same size
     var middleZ = (startPosition.z + endPosition.z) / 2;
@@ -265,6 +312,20 @@ var createLineOfSpheres = function (startPosition, endPosition, num, radius)
     return objects;
 };
 
+var createFollowLinesForSpheres = function (eyeOrigin, sphereObjectArray)
+{
+    var lines = [];
+
+    for (ii = 0; ii < sphereObjectArray.length; ii++)
+    {
+        var sphere = sphereObjectArray[ii];
+
+        lines[ii] = followSphere( eyeOrigin, sphere.position, sphere.radius );
+    }
+
+    return lines;
+};
+
 var initParallaxScene = function (context)
 {
     var scene = initLitScene();
@@ -276,16 +337,21 @@ var initParallaxScene = function (context)
 
     var spheres =
         createLineOfSpheres(
-                vec(-4, 0, -17),
-                vec(4, 0, -11),
+                vec(-6, 0, -18),
+                vec(3.5, 0, -9),
                 3,
                 1
             );
+    spheres.position.y = -1;
     objects.add(spheres);
 
     var eyeOrigin = vec();
     var fovGraphic = createFovGraphic( eyeOrigin, vec(0, 0, -100), context.persp.fov );
     objects.add(fovGraphic);
+
+    var followGraphic = new THREE.Object3D();
+    followGraphic.children = createFollowLinesForSpheres( eyeOrigin, spheres.children );
+    objects.add(followGraphic);
 
     scene.add( objects );
 
@@ -296,9 +362,17 @@ var initParallaxScene = function (context)
     {
         var t = getTick();
         var sinParam = Math.sin(t/animScale) * 3;
+        eyeOrigin.x = sinParam;
 
         context.persp.camera.position.x = sinParam;
         fovGraphic.position.x = sinParam;
+        replaceChildren (
+            followGraphic,
+            createFollowLinesForSpheres (
+                    eyeOrigin,
+                    spheres.children
+                )
+            );
     };
 
     startRenderLoop(context, scene, updateFun);
