@@ -200,11 +200,18 @@ var startRenderLoop = function(context, scene)
 {
     var render = function ()
     {
-        requestAnimationFrame(render);
         scene.updateFun(context);
         renderScene(context, scene);
     };
-    render();
+
+    var fps = 25;
+    setInterval(
+        function ()
+        {
+            if ( ! document.webkitHidden ) requestAnimationFrame( render );
+        },
+        1000 / fps
+    );
 };
 
 // fov graphic for orthographic view
