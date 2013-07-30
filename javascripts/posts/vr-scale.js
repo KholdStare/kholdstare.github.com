@@ -1,4 +1,10 @@
 var globalShadows = false;
+var globalDefaultColor = 0x7494e7;
+var animScale = 700;
+
+if ( ! Date.now ) {   
+    Date.now = function() {  return +new Date(); }; 
+};
 
 var vec = function ( x, y, z )
 {
@@ -43,7 +49,7 @@ var createDefaultContext = function( canvasElem, aspect )
 
     var orthoCam = new THREE.OrthographicCamera(-10, 10, (10/viewAspect), (-10/viewAspect), 1, 50);
     orthoCam.up = vec(0, 0, -1);
-    orthoCam.position.y = 5;
+    orthoCam.position.y = 10;
     orthoCam.position.z = -10;
     orthoCam.lookAt( vec( 0, 0, -10) );
     orthoCam.updateProjectionMatrix();
@@ -155,17 +161,21 @@ var initLitScene = function()
 {
     var scene = new THREE.Scene();
 
-    var light = new THREE.SpotLight( 0xffffff, 1, 100 );
+    var light = new THREE.SpotLight( 0xffffff, 1.5, 100 );
     // TODO: figure out why doesn't work in other positions
     light.position.set( 30, 40, 10 );
     light.castShadow = true;
     scene.add( light );
 
-    light = new THREE.AmbientLight( 0x404040 );
+    light = new THREE.PointLight( 0xffffff, 0.2, 100 );
+    light.position.set( -20, 30, 5 );
+    scene.add( light );
+
+    light = new THREE.AmbientLight( 0x505050 );
     scene.add( light );
 
     var geometry = new THREE.CubeGeometry(20, 1, 20);
-    var material = new THREE.MeshLambertMaterial({color: 0xaaffaa});
+    var material = new THREE.MeshLambertMaterial({color: globalDefaultColor});
     var plane = new THREE.Mesh(geometry, material);
     plane.position = vec(0, -4.7, -10);
     plane.receiveShadow = true;
@@ -186,12 +196,12 @@ var initLitScene = function()
     return scene;
 };
 
-var startRenderLoop = function(context, scene, sceneUpdateFun)
+var startRenderLoop = function(context, scene)
 {
     var render = function ()
     {
         requestAnimationFrame(render);
-        sceneUpdateFun(context, scene);
+        scene.updateFun(context);
         renderScene(context, scene);
     };
     render();
@@ -240,10 +250,10 @@ var followSphere = function( eyeOrigin, sphereCenter, radius )
 
 var getTick = function ()
 {
-    var startTime = new Date().getTime();
+    var startTime = Date.now();
 
     return function () {
-        return new Date().getTime() - startTime;
+        return Date.now() - startTime;
     }
 }();
 
@@ -255,7 +265,7 @@ var initSphereScene = function (context)
 
     var radius = 2;
     var geometry = new THREE.SphereGeometry(radius, 20, 20);
-    var material = new THREE.MeshPhongMaterial({color: 0xaaffaa});
+    var material = new THREE.MeshPhongMaterial({color: globalDefaultColor});
     var sphere = new THREE.Mesh(geometry, material);
     sphere.castShadow = true;
     sphere.position.z = -10;
@@ -275,10 +285,10 @@ var initSphereScene = function (context)
     objects.add(fovGraphic);
 
     scene.add( objects );
+    scene.sphere = sphere; // save for later use
+    scene.followGraphic
 
-    var animScale = 700;
-
-    scene.updateFun = function(context, scene)
+    scene.updateFun = function(context)
     {
         var t = getTick();
         var sinParam = Math.sin(t/animScale) + 1.3;
@@ -297,7 +307,7 @@ var createLineOfSpheres = function (startPosition, endPosition, num, radius)
     var objects = new THREE.Object3D();
 
     var geometry = new THREE.SphereGeometry(radius, 20, 20);
-    var material = new THREE.MeshPhongMaterial({color: 0xaaffaa});
+    var material = new THREE.MeshPhongMaterial({color: globalDefaultColor});
     var protoSphere = new THREE.Mesh(geometry, material);
     protoSphere.castShadow = true;
 
@@ -365,9 +375,7 @@ var initParallaxScene = function (context)
 
     scene.add( objects );
 
-    var animScale = 700;
-
-    scene.updateFun = function(context, scene)
+    scene.updateFun = function(context)
     {
         var t = getTick();
         var sinParam = Math.sin(t/animScale) * 3;
@@ -387,13 +395,67 @@ var initParallaxScene = function (context)
     return scene;
 };
 
+var initConvergenceScene = function (context)
+{
+    var scene = initLitScene();
+
+    var objects = new THREE.Object3D();
+
+    var radius = 2;
+    var geometry = new THREE.SphereGeometry(radius, 20, 20);
+    var material = new THREE.MeshPhongMaterial({color: globalDefaultColor});
+    var sphere = new THREE.Mesh(geometry, material);
+    sphere.castShadow = true;
+    sphere.position.z = -10;
+    objects.add(sphere);
+
+    var eyeOrigin = vec(-3, 0, 0);
+
+    var followGraphic = new THREE.Object3D();
+    followGraphic.add(
+        makeLine(
+            eyeOrigin,
+            sphere.position
+        )
+    );
+    objects.add(followGraphic);
+
+    var fovGraphic = createFovGraphic( eyeOrigin, vec(0, 0, -100), context.persp.fov );
+    objects.add(fovGraphic);
+
+    scene.add( objects );
+    scene.sphere = sphere; // save for later use
+
+    context.persp.camera.position = eyeOrigin;
+
+    scene.updateFun = function(context)
+    {
+        var t = getTick();
+        var sinParam = Math.sin(t/animScale) + 1.3;
+
+        sphere.position.z = -(sinParam * 10);
+        sphere.scale = vec( sinParam );
+
+        replaceChildren (
+            followGraphic,
+            [makeLine(
+                eyeOrigin,
+                sphere.position
+                )]
+            );
+    };
+
+    return scene;
+};
+
 var withCanvas = function( canvasId, initFunc )
 {
     var context = createDefaultContext( $(canvasId).get(0), 2 );
     var scene = initFunc( context );
 
-    startRenderLoop(context, scene, scene.updateFun);
+    startRenderLoop(context, scene);
 };
 
 withCanvas( "#scene-sphere", initSphereScene );
 withCanvas( "#scene-parallax", initParallaxScene );
+withCanvas( "#scene-convergence", initConvergenceScene );

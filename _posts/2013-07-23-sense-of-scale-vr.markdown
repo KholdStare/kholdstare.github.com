@@ -41,12 +41,12 @@ intrigued and decided to focus on this aspect for my experimentation.
 As the following animation demonstrates, it's not always easy to tell:
 
 {% assign canvas-id = "scene-sphere" %}
-{% assign caption = "From the top view (on the left), a sphere changes size and position, while appearing stationary in the perspective view (on the right)" %}
+{% assign caption = "A single scene viewed from the top, and from a perspective camera. From the top view, a sphere changes size and position, but appears stationary in the perspective view" %}
 {% include canvas.html %}
 
-An object viewed in isolation does not tell us much in 2D -- the area it takes up
-in our field of view suggests nothing of its size or distance. It could be up-close and tiny,
-or distant and massive.
+An object viewed in isolation does not tell us much in 2D -- the area it takes
+up in our field of view suggests nothing of its size or distance. It could be
+up-close and tiny, or distant and massive.
 
 Before we dive into (Virtual) Reality, how do we tell scale in traditional 2D
 forms of entertainment? If we lose the stereo vision, what clues can a game
@@ -127,6 +127,10 @@ about the viewer's assumptions? There must be something assumed just as before.
 * __Vergence__ - assumes distance between the eyes
 
 For vergence to be interpreted by the brain properly, 
+
+{% assign canvas-id = "scene-convergence" %}
+{% assign caption = "Convergence TODO" %}
+{% include canvas.html %}
 
 Diagram relative to object
 
