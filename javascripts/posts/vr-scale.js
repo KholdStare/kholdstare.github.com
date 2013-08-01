@@ -1,4 +1,4 @@
-var globalShadows = false;
+var globalShadows = true;
 var globalDefaultColor = 0x7494e7;
 var animScale = 700;
 
@@ -24,6 +24,16 @@ var makeLine = function( start, end, type )
                     );
 };
 
+var rotateYTowards = function( object, position )
+{
+    var dir = position.clone().sub(object.position).normalize();
+
+    var cosAngle = dir.dot(vec(0, 0, -1));
+    var sign = (object.position.x - position.x > 0) ? 1.0 : -1.0;
+
+    object.rotation.y = sign * Math.acos(cosAngle);
+};
+
 var replaceChildren = function (object, newChildren)
 {
     var children = object.children;
@@ -42,10 +52,21 @@ var replaceChildren = function (object, newChildren)
     }
 };
 
-var createDefaultContext = function( canvasElem, aspect )
+var createDefaultContext = function( canvasElem, isBinocular )
 {
-    var viewWidth = Math.floor( canvasElem.width / 2 );
-    var viewAspect = aspect / 2;
+    isBinocular = typeof isBinocular !== 'undefined' ? isBinocular : false;
+    if (isBinocular)
+    {
+        numCameras = 3;
+    }
+    else
+    {
+        numCameras = 2;
+    }
+
+    var viewWidth = Math.floor( canvasElem.width / numCameras );
+    var viewAspect = 1;
+    var aspect = viewAspect * numCameras;
 
     var orthoCam = new THREE.OrthographicCamera(-10, 10, (10/viewAspect), (-10/viewAspect), 1, 50);
     orthoCam.up = vec(0, 0, -1);
@@ -74,7 +95,7 @@ var createDefaultContext = function( canvasElem, aspect )
                 background: new THREE.Color().setRGB( 0.5, 0.5, 0.7 ),
                 left: 0,
                 bottom: 0,
-                width: 0.5,
+                width: 1/numCameras,
                 height: 1.0,
                 camera: orthoCam
             },
@@ -82,13 +103,32 @@ var createDefaultContext = function( canvasElem, aspect )
             {
                 fov: 75,
                 background: new THREE.Color().setRGB( 0.7, 0.5, 0.5 ),
-                left: 0.5,
+                left: 1/numCameras,
                 bottom: 0,
-                width: 0.5,
+                width: 1/numCameras,
                 height: 1.0,
                 camera: perspCam
+            },
+            perspRight:
+            {
+                fov: 75,
+                background: new THREE.Color().setRGB( 0.7, 0.5, 0.5 ),
+                left: 2/numCameras,
+                bottom: 0,
+                width: 1/numCameras,
+                height: 1.0,
+                camera: new THREE.PerspectiveCamera(75, viewAspect, 0.1, 50)
             }
-        }
+        };
+
+    // collect all views
+    context.views = [context.ortho, context.persp];
+    if (isBinocular)
+    {
+        context.views.push(context.perspRight);
+        context.persp.camera.position.x = -2;
+        context.perspRight.camera.position.x = 2;
+    }
 
     var renderer = context.renderer;
     renderer.setSize(canvasElem.width, canvasElem.height);
@@ -125,7 +165,7 @@ var renderScene = function( context, scene )
         context.renderer.setSize(width, height);
     }
 
-    var views = [context.ortho, context.persp];
+    var views = context.views;
     var renderer = context.renderer;
 
     for (var ii = 0; ii < views.length; ii++)
@@ -196,23 +236,44 @@ var initLitScene = function()
     return scene;
 };
 
-var startRenderLoop = function(context, scene)
-{
-    var render = function ()
+var startRenderLoop = 
+    function(timer, context, scene, numFrames)
     {
-        scene.updateFun(context);
-        renderScene(context, scene);
-    };
+        window.clearInterval(timer);
+        numFrames = typeof numFrames !== 'undefined' ? numFrames : 200;
 
-    var fps = 25;
-    setInterval(
-        function ()
+        var render = function ()
         {
-            if ( ! document.webkitHidden ) requestAnimationFrame( render );
-        },
-        1000 / fps
-    );
-};
+            scene.updateFun(context);
+            renderScene(context, scene);
+        };
+
+        var currentFrame = numFrames;
+        var fps = 25;
+        var timeout = 1000 / fps;
+
+        console.log("called on context! with numFrames" + numFrames)
+
+        timer = setInterval(
+            function ()
+            {
+                console.log("rendering frame " + currentFrame);
+                // stop after numFrames
+                if ( currentFrame <= 0 )
+                {
+                    window.clearInterval(timer);
+                }
+
+                if ( !document.webkitHidden )
+                {
+                    requestAnimationFrame( render );
+                }
+                currentFrame--;
+            },
+            timeout
+        );
+        return timer;
+    };
 
 // fov graphic for orthographic view
 // assumes orthographic view pointing down
@@ -416,24 +477,49 @@ var initConvergenceScene = function (context)
     sphere.position.z = -10;
     objects.add(sphere);
 
-    var eyeOrigin = vec(-3, 0, 0);
+    var initGraphicForCamera = function( camera )
+    {
+        var eyeOrigin = camera.position.clone();
 
-    var followGraphic = new THREE.Object3D();
-    followGraphic.add(
-        makeLine(
-            eyeOrigin,
-            sphere.position
-        )
-    );
-    objects.add(followGraphic);
+        var followGraphic = new THREE.Object3D();
+        followGraphic.add(
+            makeLine(
+                eyeOrigin,
+                sphere.position
+            )
+        );
+        objects.add(followGraphic);
 
-    var fovGraphic = createFovGraphic( eyeOrigin, vec(0, 0, -100), context.persp.fov );
-    objects.add(fovGraphic);
+        //var fovGraphic = createFovGraphic( eyeOrigin, vec(0, 0, -100), context.persp.fov );
+        //fovGraphic.position.y = 9;
+        //objects.add(fovGraphic);
+
+        return {
+            line: followGraphic,
+            //fov:  fovGraphic
+        };
+    };
+
+    
+    graphicLeft = initGraphicForCamera( context.persp.camera );
+    graphicRight = initGraphicForCamera( context.perspRight.camera );
 
     scene.add( objects );
     scene.sphere = sphere; // save for later use
 
-    context.persp.camera.position = eyeOrigin;
+    var updateGraphicForCamera = function( camera, graphic )
+    {
+        replaceChildren (
+            graphic.line,
+            [makeLine(
+                camera.position,
+                sphere.position
+                )]
+            );
+
+        //rotateYTowards(graphic.fov, sphere.position);
+        rotateYTowards(camera, sphere.position);
+    };
 
     scene.updateFun = function(context)
     {
@@ -443,26 +529,29 @@ var initConvergenceScene = function (context)
         sphere.position.z = -(sinParam * 10);
         sphere.scale = vec( sinParam );
 
-        replaceChildren (
-            followGraphic,
-            [makeLine(
-                eyeOrigin,
-                sphere.position
-                )]
-            );
+        updateGraphicForCamera( context.persp.camera, graphicLeft );
+        updateGraphicForCamera( context.perspRight.camera, graphicRight );
     };
 
     return scene;
 };
 
-var withCanvas = function( canvasId, initFunc )
+var withCanvas = function( canvasId, initFunc, isBinocular )
 {
-    var context = createDefaultContext( $(canvasId).get(0), 2 );
+    var canvasQuery = $(canvasId);
+    var context = createDefaultContext( canvasQuery.get(0), isBinocular );
     var scene = initFunc( context );
 
-    startRenderLoop(context, scene);
+    var timer;
+    var starter = function()
+    {
+        timer = startRenderLoop(timer, context, scene);
+    };
+
+    canvasQuery.click(starter);
+    starter();
 };
 
 withCanvas( "#scene-sphere", initSphereScene );
 withCanvas( "#scene-parallax", initParallaxScene );
-withCanvas( "#scene-convergence", initConvergenceScene );
+withCanvas( "#scene-convergence", initConvergenceScene, true );
