@@ -4,6 +4,7 @@ title: "KholdCode"
 ---
 
 {% for post in site.posts %}
+{% unless post.notfrontpage %}
 <article>
 <header>
 {% assign date = post.date %}
@@ -23,6 +24,7 @@ title: "KholdCode"
     {% include tag_footer.html %}
 </div>
 </article>
+{% endunless %}
 {% endfor %}
 
 <script type="text/javascript">

@@ -11,6 +11,7 @@ description: >
 category: technical
 testing: true
 published: true
+notfrontpage: true
 scripts:
   - /javascripts/three.min.js
   - /javascripts/posts/vr-scale.js
@@ -25,7 +26,7 @@ For those unfamiliar with the [Oculus Rift](http://www.oculusvr.com/) -- it is a
 Display, currently available in the form of a developer kit. I received mine
 last week, and have been having lots of fun experimenting with it!
 
-Image(s)
+TODO: Image(s)
 
 At this year's GDC, Oculus co-founder Palmer Luckey gave [an overview of what
 we can expect from
@@ -176,8 +177,11 @@ Another way to look at, is that designers of virtual worlds can now alter your
 sense of scale, just by exploiting your brain's assumption about `IPD`. 
 
 {% assign canvas-id = "scene-scaling" %}
-{% assign caption = "(Press to image animate) We are now viewing the previous scene relative to the sphere. Our frame of reference is now fixed on the sphere. What appears to be happening though is the IPD fluctuates wildly. And that's the point -- from the player's point of view the two are equivalent" %}
+{% assign caption = "(Press to image animate) In the top view, we are now viewing the previous scene __relative to the sphere__. Our frame of reference is now fixed on the sphere. What appears to be happening though is the IPD fluctuates wildly. And that's the point -- from the player's point of view the two are equivalent" %}
 {% include canvas.html %}
+
+By merely manipulating the IPD, we can make the whole world shrink or grow,
+without actually scaling the world directly!
 
 ### Experimenting in Tuscany
 
