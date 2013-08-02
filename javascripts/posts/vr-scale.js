@@ -549,7 +549,7 @@ var withCanvas = function( canvasId, initFunc, isBinocular )
     };
 
     canvasQuery.click(starter);
-    starter();
+    renderScene(context, scene);
 };
 
 withCanvas( "#scene-sphere", initSphereScene );
