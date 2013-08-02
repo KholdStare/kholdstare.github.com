@@ -41,7 +41,7 @@ intrigued and decided to focus on this aspect for my experimentation.
 As the following animation demonstrates, it's not always easy to tell:
 
 {% assign canvas-id = "scene-sphere" %}
-{% assign caption = "A single scene viewed from the top, and from a perspective camera. From the top view, a sphere changes size and position, but appears stationary in the perspective view" %}
+{% assign caption = "(Press to image animate) A single scene viewed from the top, and from a perspective camera. From the top view, a sphere changes size and position, but appears stationary in the perspective view. This is because the object always takes up the same area in the field of view (shown by the dotted lines)" %}
 {% include canvas.html %}
 
 An object viewed in isolation does not tell us much in 2D -- the area it takes
@@ -71,11 +71,11 @@ One of the biggest hints however, is parallax.
 Seeing how objects move relative to each other at different depth, hints at
 their size and distance. Without stereo vision, _parallax_ can be achieved
 through _movement_- be it panning the camera in a movie, or running around in a
-First Person Shooter game. No matter how much you run, that mountain doesn't
+First Person Shooter game. No matter how much you run, a mountain doesn't
 seem to budge from its spot, suggesting great distance and size.
 
 {% assign canvas-id = "scene-parallax" %}
-{% assign caption = "Parallax TODO" %}
+{% assign caption = "(Press to image animate) In the orthographic view from the top, the camera pans left-to-right (whose field of view is signified by the solid lines). The dotted lines show the area occupied in the field of vision by each sphere. The panning of the camera causes the spheres to come together, or move away in the perspective view, due to parallax. Parallax thus suggests distance." %}
 {% include canvas.html %}
 
 To recap we have (at least) these tools to help convey scale in a
@@ -115,69 +115,108 @@ scale. We need stereoscopic vision to go the full distance, and we shall why.
 Just as we saw in the 2D case, parallax plays a large role in stereoscopic
 vision -- only this time, the two separate view-points are your eyes! When you
 focus on a particular object, both pupils line up with the focusing point.
-This is called _vergeance_. In effect, the amount your eyes rotate informs the
-brain how far away the object is.
+This is called _vergeance_. 
 
-TODO: diagram of vergence.
+{% assign canvas-id = "scene-convergence" %}
+{% assign caption = "(Press to image animate) From left to right: A view from the top, of two eyes focusing on a resizing sphere. The two stereoscopic views of the left and right eyes respectively. The eyes must rotate inwards to maintain focus as an object gets closer." %}
+{% include canvas.html %}
 
-As soon as you know the distance to the object and how much area it takes up in
-your field of view, you can immediately tell its size! But wait a minute! Wait
-about the viewer's assumptions? There must be something assumed just as before. 
+In effect, the amount your eyes rotate informs the brain how far away the
+object is.  As soon as you know the distance to the object and how much area it
+takes up in your field of view, you can immediately tell its size!
+
+But wait a minute! Wait about the viewer's assumptions? Just as we saw with
+previous scale cues, there must be something assumed just as before. 
 
 * __Vergence__ - assumes distance between the eyes
 
-For vergence to be interpreted by the brain properly, 
+For vergence to be interpreted by the brain properly (giving proper sense of
+scale), the distance between your eyes must remain constant. Thankfully, that
+is one fact you can trust in real life.  It is the one thing that is intrinsic
+to you, and not at the whim of someone else.
 
-{% assign canvas-id = "scene-convergence" %}
-{% assign caption = "Convergence TODO" %}
-{% include canvas.html %}
-
-Diagram relative to object
-
-Diagram relative to eyes
-
+What about Virtual Reality?
 
 ### Interpupilary Distance
 
-The main parameter of stereo vision is of course the distance between your two eyes.
+There is a formal name for the distance between your eyes:
 
 > Interpupilary distance, or `IPD` for short, is the distance between the pupils 
 > of your eyes.
 
-It turns out this distance is extremely important.
-
-
-If we dig deeper there's actually two distances you have to worry about:
+As we saw in the previous section, this distance is very important in
+stereoscopic vision. When dealing with Virtual Reality and the Oculus Rift,
+there are actually two sets of `IPD`s to worry about:
 
 * Real IPD - This is the actual distance between the centers of your pupils in
-  the real world. The main purpose of this is to determine where to position
-  the virtual camera outputs on the screen in front of you, so that it lines up
-  with your eyes. This number is _crucial_ to get right in order to avoid eye
-  strain.
+  the real world. The main purpose of this for VR, is to determine where to
+  position the virtual camera outputs on the screen in front of you, so that it
+  lines up with your eyes. This number is _crucial_ to get right in order to
+  avoid eye strain.
 * Virtual IPD - This is the distance between the cameras (or virtual eyes) in
   the _virtual_ world. We shall see that this distance completely determines
   the sense of scale of objects in relation to you.
 
-Quick recap of Real IPD
+> Real IPD is used to line up the projection of virtual cameras with your eyes
+> **on a screen**.  This ensures correct perspective and vergeance.
 
-> Real IPD is used to line up the projection of virtual cameras with your eyes.
-> This ensures correct perspective and vergeance.
+Accounting for Real IPD and what it means would probably take another article,
+so we won't focus on it here. Let's assume everything in the real world,
+between you and the screen, has been calibrated correctly. We are left with
+Virtual `IPD`.
 
 ### Virtual IPD
 
+This parameter is now back in the hands of the artist. In order to make a
+compelling and immersive experience, there is nothing more important to get
+right in the virtual word, than the `IPD`. Viewers will immediately pick up on 
+this cue. 
+
+Another way to look at, is that designers of virtual worlds can now alter your
+sense of scale, just by exploiting your brain's assumption about `IPD`. 
+
+
 ### Experimenting in Tuscany
 
-Link to code that allows scaling of player with screenshots
+The next day after I got the Rift I decided to experiment with scale, so I
+hacked around the provided "Tuscany Demo" code to shrink/grow the size of the
+player. Just to confirm my intuitions about scale, I tried hacking just the virtual
+`IPD` (independent of real `IPD` which *must* be accurate). Thrilled with the
+results, I also scaled all the other usual suspects that inform player scale:
+
+* Player height
+* Neck model parameters
+* Player speed
+
+You can now feel as small as a mouse running around and under furniture, or a giant
+looking down at a "dollhouse".
+
+{% assign image-url = "https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/TinyTuscany.jpg" %}
+{% assign caption = "Player scale can be increased/decreased by pressing F8/F7 respectively. Here the player is scaled to 4.74 times the normal size, where the objects in the scene appear miniaturized." %}
+{% include image.html %}
+
+As fun as it is viewing a scene at different scales, _moving between scales
+dynamically causes significant eye strain_. The phenomenon is equivalent to the
+third diagram -- the object stays the same size in the field of view but
+grows/moves away or shrink/gets closer at same time. It proves difficult to
+focus on objects as they go through this transformation, as the eyes struggle
+to maintain vergence -- constantly readjusting. 
+
+I have several ideas on how to mitigate the eye strain, but this is new
+territory -- objects don't just grow and shrink in front of your eyes in the
+real world. The brain is simply not used to this phenomenon.
+
+Link to code that allows scaling of player.
 
 {% highlight cpp %}
-// sample
+// sample with the matrix scaling
 {% endhighlight %}
 
 ### Other Articles
 
-There are also lots of great talks and blogs that explore and explain
-the challenges of VR in great depth- created by these forerunners in the
-industry. I'll list a few of them here:
+There are also lots of great talks and blogs that explore and explain the
+challenges of VR in great depth, created by some forerunners in the industry.
+I'll list a few of them here:
 
 * Valve's Michael Abrash talks about latency, judder and other [problems VR faces with current graphics/display technology](http://blogs.valvesoftware.com/abrash/)
 * Tom Forsyth from the Oculus team talks about [challenges with VR sickness](http://www.oculusvr.com/blog/vr-sickness-the-rift-and-how-game-developers-can-help/)
