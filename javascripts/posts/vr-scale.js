@@ -244,7 +244,7 @@ var startRenderLoop =
 
         var render = function ()
         {
-            scene.updateFun(context);
+            scene.updateFun(context, getTick());
             renderScene(context, scene);
         };
 
@@ -252,12 +252,9 @@ var startRenderLoop =
         var fps = 25;
         var timeout = 1000 / fps;
 
-        console.log("called on context! with numFrames" + numFrames)
-
         timer = setInterval(
             function ()
             {
-                console.log("rendering frame " + currentFrame);
                 // stop after numFrames
                 if ( currentFrame <= 0 )
                 {
@@ -356,9 +353,8 @@ var initSphereScene = function (context)
     scene.sphere = sphere; // save for later use
     scene.followGraphic
 
-    scene.updateFun = function(context)
+    scene.updateFun = function(context, t)
     {
-        var t = getTick();
         var sinParam = Math.sin(t/animScale) + 1.3;
 
         sphere.position.z = -(sinParam * 10);
@@ -443,9 +439,8 @@ var initParallaxScene = function (context)
 
     scene.add( objects );
 
-    scene.updateFun = function(context)
+    scene.updateFun = function(context, t)
     {
-        var t = getTick();
         var sinParam = Math.sin(t/animScale) * 3;
         eyeOrigin.x = sinParam;
 
@@ -479,12 +474,10 @@ var initConvergenceScene = function (context)
 
     var initGraphicForCamera = function( camera )
     {
-        var eyeOrigin = camera.position.clone();
-
         var followGraphic = new THREE.Object3D();
         followGraphic.add(
             makeLine(
-                eyeOrigin,
+                camera.position,
                 sphere.position
             )
         );
@@ -501,13 +494,13 @@ var initConvergenceScene = function (context)
     };
 
     
-    graphicLeft = initGraphicForCamera( context.persp.camera );
-    graphicRight = initGraphicForCamera( context.perspRight.camera );
+    scene.graphicLeft = initGraphicForCamera( context.persp.camera );
+    scene.graphicRight = initGraphicForCamera( context.perspRight.camera );
 
     scene.add( objects );
     scene.sphere = sphere; // save for later use
 
-    var updateGraphicForCamera = function( camera, graphic )
+    var updateGraphicForCamera = function( camera, graphic, sphere )
     {
         replaceChildren (
             graphic.line,
@@ -521,16 +514,41 @@ var initConvergenceScene = function (context)
         rotateYTowards(camera, sphere.position);
     };
 
-    scene.updateFun = function(context)
+    scene.sphereUpdate = function(sinParam)
     {
-        var t = getTick();
-        var sinParam = Math.sin(t/animScale) + 1.3;
-
         sphere.position.z = -(sinParam * 10);
         sphere.scale = vec( sinParam );
+    };
 
-        updateGraphicForCamera( context.persp.camera, graphicLeft );
-        updateGraphicForCamera( context.perspRight.camera, graphicRight );
+    scene.updateFun = function(context, t)
+    {
+        var sinParam = Math.sin(t/animScale) + 1.3;
+
+        scene.sphereUpdate(sinParam);
+
+        updateGraphicForCamera( context.persp.camera, scene.graphicLeft, scene.sphere );
+        updateGraphicForCamera( context.perspRight.camera, scene.graphicRight, scene.sphere );
+    };
+
+    return scene;
+};
+
+var initScalingScene = function (context)
+{
+    var scene = initConvergenceScene(context);
+
+    var innerUpdateFun = scene.updateFun;
+
+    scene.sphereUpdate = function(sinParam) { };
+
+    scene.updateFun = function(context, t)
+    {
+        var sinParam = Math.sin(t/animScale) + 1.3;
+
+        context.persp.camera.position.x = -(3 * sinParam);
+        context.perspRight.camera.position.x = (3 * sinParam);
+
+        innerUpdateFun(context, t);
     };
 
     return scene;
@@ -555,3 +573,4 @@ var withCanvas = function( canvasId, initFunc, isBinocular )
 withCanvas( "#scene-sphere", initSphereScene );
 withCanvas( "#scene-parallax", initParallaxScene );
 withCanvas( "#scene-convergence", initConvergenceScene, true );
+withCanvas( "#scene-scaling", initScalingScene, true );

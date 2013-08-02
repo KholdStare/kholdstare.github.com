@@ -175,6 +175,9 @@ this cue.
 Another way to look at, is that designers of virtual worlds can now alter your
 sense of scale, just by exploiting your brain's assumption about `IPD`. 
 
+{% assign canvas-id = "scene-scaling" %}
+{% assign caption = "(Press to image animate) We are now viewing the previous scene relative to the sphere. Our frame of reference is now fixed on the sphere. What appears to be happening though is the IPD fluctuates wildly. And that's the point -- from the player's point of view the two are equivalent" %}
+{% include canvas.html %}
 
 ### Experimenting in Tuscany
 
