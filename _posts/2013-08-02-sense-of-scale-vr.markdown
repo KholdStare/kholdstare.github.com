@@ -44,7 +44,7 @@ As the following animation demonstrates, it can be difficult to tell how big or
 how far away an object is without visual cues:
 
 {% assign canvas-id = "scene-sphere" %}
-{% assign caption = "(Press image to animate) A single scene viewed from the top, and from a perspective camera. From the top view, a sphere changes size and position, but appears stationary in the perspective view. This is because the object always takes up the same area in the field of view (shown by the dotted lines)" %}
+{% assign caption = "A single scene viewed from the top, and from a perspective camera. From the top view, a sphere changes size and position, but appears stationary in the perspective view. This is because the object always takes up the same area in the field of view (shown by the dotted lines)" %}
 {% include canvas.html %}
 
 An object viewed in isolation does not tell us much in 2D -- the area it takes
@@ -78,7 +78,7 @@ First Person Shooter game. No matter how much you run, a mountain doesn't
 seem to budge from its spot, suggesting great distance and size.
 
 {% assign canvas-id = "scene-parallax" %}
-{% assign caption = "(Press image to animate) In the orthographic view from the top, the camera pans left-to-right (whose field of view is signified by the solid lines). The dotted lines show the area occupied in the field of vision by each sphere. The panning of the camera causes the spheres to come together, or move away in the perspective view, due to parallax. Parallax thus suggests distance." %}
+{% assign caption = "In the orthographic view from the top, the camera pans left-to-right (whose field of view is signified by the solid lines). The dotted lines show the area occupied in the field of vision by each sphere. The panning of the camera causes the spheres to come together, or move away in the perspective view, due to parallax. Parallax thus suggests distance." %}
 {% include canvas.html %}
 
 To recap we have, at a minimum, the following tools to help convey scale in a
@@ -123,7 +123,7 @@ object, both pupils line up with the focusing point.  This is called
 _vergence_. 
 
 {% assign canvas-id = "scene-convergence" %}
-{% assign caption = "(Press image to animate) From left to right: A view from the top, of two eyes focusing on a resizing sphere. The two stereoscopic views of the left and right eyes respectively. The eyes must rotate inwards to maintain focus as an object gets closer." %}
+{% assign caption = "From left to right: A view from the top, of two eyes focusing on a resizing sphere. The two stereoscopic views of the left and right eyes respectively. The eyes must rotate inwards to maintain focus as an object gets closer." %}
 {% include canvas.html %}
 
 In effect, the amount your eyes rotate informs the brain how far away the
@@ -170,7 +170,7 @@ so we won't focus on it here. Let's assume everything in the real world,
 between you and the screen, has been calibrated correctly. We are left with
 Virtual `IPD`.
 
-### Virtual `IPD`
+### Virtual IPD
 
 This parameter is now back in the hands of the artist. In order to make a
 compelling and immersive experience, there is nothing more important to get
@@ -180,18 +180,9 @@ this cue.
 Another way to look at it, is that designers of virtual worlds can now alter
 your sense of scale, just by exploiting your brain's assumption about `IPD`. 
 
-<figure>
-    <canvas id='scene-scaling' >
-    </canvas>
-<figcaption>
-__(Press image to animate)__
-
-In the top view, we are now viewing the previous scene
-__relative to the sphere__. Our frame of reference is now fixed on the sphere.
-What appears to be happening though is the IPD fluctuates wildly. And that's
-the point -- from the player's point of view the two are equivalent
-</figcaption>
-</figure>
+{% assign canvas-id = "scene-scaling" %}
+{% assign caption = "In the top view, we are now viewing the previous scene relative to the sphere. Our frame of reference is now fixed on the sphere.  What appears to be happening though is the IPD fluctuates wildly. And that's the point -- from the player's point of view the two are equivalent" %}
+{% include canvas.html %}
 
 By merely manipulating the `IPD`, we can make the whole world shrink or grow,
 without actually scaling the world directly!
