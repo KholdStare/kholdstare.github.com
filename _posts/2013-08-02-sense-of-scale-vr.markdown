@@ -2,11 +2,11 @@
 layout: post
 title: "A Sense of Scale in VR"
 description: >
-  I recently got my hands on the awesome Oculus Rift VR goggles and am
-  extremely excited -- the future is here! To create a compelling experience, a
-  lot of factors must come together, not the least of which is a sense of
-  scale.  In this post I will try to explain how it works in VR, why it's
-  crucial, and how to go from there.
+  The future is here! I recently got my hands on a pair of the awesome Oculus Rift 
+  VR goggles, and I am extremely excited. While the demo software is impressive out 
+  of the box, a lot of factors must come together to create a compelling experience. 
+  In this post I will discuss the mechanisms behind the sense of scale in VR, highlight 
+  its importance and propose new ways to explore this effect.
 
 category: technical
 testing: true
@@ -22,7 +22,7 @@ tags:
 
 ### The Oculus Rift
 
-For those unfamiliar with the [Oculus Rift](http://www.oculusvr.com/) -- it is
+For those unfamiliar with the [Oculus Rift](http://www.oculusvr.com/), it is
 a Virtual Reality Head-Mounted Display, currently available in the form of a
 developer kit. I received mine last week, and have been having lots of fun
 experimenting with it!
@@ -40,7 +40,8 @@ intrigued and decided to focus on this aspect for my experimentation.
 > A sense of scale is the ability to tell the size and distance of an object
 > in relation to oneself, given a visual representation.
 
-As the following animation demonstrates, it's not always easy to tell:
+As the following animation demonstrates, it can be difficult to tell how big or 
+how far away an object is without visual cues:
 
 {% assign canvas-id = "scene-sphere" %}
 {% assign caption = "(Press image to animate) A single scene viewed from the top, and from a perspective camera. From the top view, a sphere changes size and position, but appears stationary in the perspective view. This is because the object always takes up the same area in the field of view (shown by the dotted lines)" %}
@@ -80,7 +81,7 @@ seem to budge from its spot, suggesting great distance and size.
 {% assign caption = "(Press image to animate) In the orthographic view from the top, the camera pans left-to-right (whose field of view is signified by the solid lines). The dotted lines show the area occupied in the field of vision by each sphere. The panning of the camera causes the spheres to come together, or move away in the perspective view, due to parallax. Parallax thus suggests distance." %}
 {% include canvas.html %}
 
-To recap we have (at least) these tools to help convey scale in a
+To recap we have, at a minimum, the following tools to help convey scale in a
 two-dimensional medium:
 
 * __Familiar objects__
@@ -88,7 +89,7 @@ two-dimensional medium:
 * __Parallax__
 
 However, as [this paper about visual scale][1] by _Andrew C. Beall et al_ points
-out, a lot of these cues rely on assumptions from the observer
+out, a lot of these cues rely on assumptions from the observer:
 
 > Aside from accommodation and convergence, all of the other cues to absolute
 > scale are subject to assumptions on the part of the observer (absolute motion
@@ -96,29 +97,30 @@ out, a lot of these cues rely on assumptions from the observer
 > eye height; familiar size: the object is its normal size; relative size: each
 > element is of the same distal size)
 
-In other words, if _creatively_ you want a chair that is the size of a house, you
-will be fighting against the viewer's assumptions of familiarity. If you are
-trying to convey the size of a large spaceship, while zooming by at hundreds of
-miles an hour, the brain's interpretation of parallax will be relative to
-every-day speeds -- that of walking or running -- resulting in
-underrepresentation of scale.
+In other words, if for some _creative_ reason you want a chair that is the size
+of a house, you will be fighting against the viewer's assumptions of
+familiarity. If you are trying to convey the size of a large spaceship, while
+zooming by at hundreds of miles an hour, the brain's interpretation of parallax
+will be relative to every-day speeds -- that of walking or running -- resulting
+in underrepresentation of scale.
 
 * __Familiar objects__ - assumes normal size
 * __Relative size__ - assumes at same distance
 * __Parallax__ - assumes objects are stationary
 
 TODO: gif with the room with mis-sized objects
+TODO: [Ames room](http://www.youtube.com/watch?v=Ttd0YjXF0no)
 
 Clearly, we need to involve as many cues as possible to give a complete idea of
-scale. We need stereoscopic vision to go the full distance, and we shall see
-why.
+scale. We need _stereoscopic_ vision to go the full distance.
 
 ### Scale in Real Life
 
 Just as we saw in the 2D case, parallax plays a large role in stereoscopic
-vision -- only this time, the two separate view-points are your eyes! When you
-focus on a particular object, both pupils line up with the focusing point.
-This is called _vergence_. 
+vision -- only this time, you can take in two separate view-points at the same
+time, thanks to the distance between your eyes! When you focus on a particular
+object, both pupils line up with the focusing point.  This is called
+_vergence_. 
 
 {% assign canvas-id = "scene-convergence" %}
 {% assign caption = "(Press image to animate) From left to right: A view from the top, of two eyes focusing on a resizing sphere. The two stereoscopic views of the left and right eyes respectively. The eyes must rotate inwards to maintain focus as an object gets closer." %}
@@ -131,7 +133,7 @@ takes up in your field of view, you can immediately tell its size!
 But wait a minute! What about the viewer's assumptions? Just as we saw with
 previous scale cues, there must be something assumed here. 
 
-* __Vergence__ - assumes distance between the eyes
+* __Vergence__ - assumes a fixed distance between the eyes
 
 For vergence to be interpreted by the brain properly (giving proper sense of
 scale), the distance between your eyes must remain constant. Thankfully, that
@@ -151,28 +153,28 @@ As we saw in the previous section, this distance is very important in
 stereoscopic vision. When dealing with Virtual Reality and the Oculus Rift,
 there are actually two sets of `IPD`s to worry about:
 
-* Real IPD - This is the actual distance between the centers of your pupils in
+* Real `IPD` - This is the actual distance between the centers of your pupils in
   the real world. The main purpose of this for VR, is to determine where to
   position the virtual camera outputs on the screen in front of you, so that it
   lines up with your eyes. This number is _crucial_ to get right in order to
   avoid eye strain.
-* Virtual IPD - This is the distance between the cameras (or virtual eyes) in
+* Virtual `IPD` - This is the distance between the cameras (or virtual eyes) in
   the _virtual_ world. We shall see that this distance completely determines
   the sense of scale of objects in relation to you.
 
-> Real IPD is used to line up the projection of virtual cameras with your eyes
+> Real `IPD` is used to line up the projection of virtual cameras with your eyes
 > **on a screen**.  This ensures correct perspective and vergence.
 
-Accounting for Real IPD and what it means would probably take another article,
+Accounting for Real `IPD` and what it means would probably take another article,
 so we won't focus on it here. Let's assume everything in the real world,
 between you and the screen, has been calibrated correctly. We are left with
 Virtual `IPD`.
 
-### Virtual IPD
+### Virtual `IPD`
 
 This parameter is now back in the hands of the artist. In order to make a
 compelling and immersive experience, there is nothing more important to get
-right in the virtual word, than the `IPD`. Viewers will immediately pick up on 
+right in the virtual world than the `IPD`. Viewers will immediately pick up on 
 this cue. 
 
 Another way to look at it, is that designers of virtual worlds can now alter
@@ -191,21 +193,20 @@ the point -- from the player's point of view the two are equivalent
 </figcaption>
 </figure>
 
-By merely manipulating the IPD, we can make the whole world shrink or grow,
+By merely manipulating the `IPD`, we can make the whole world shrink or grow,
 without actually scaling the world directly!
 
 ### Experimenting in Tuscany
 
-The next day after I got the Rift I decided to experiment with scale, so I
-hacked around the provided "Tuscany Demo" code to shrink/grow the size of the
-player. Just to confirm my intuitions about scale, I tried hacking just the
-virtual `IPD` (independent of real `IPD` which *must* be accurate).
+The day after I got the Rift I decided to experiment with scale, so I
+hacked the code from the "Tuscany Demo" to shrink/grow the size of the
+player. Just to confirm my intuitions about scale, I tried hacking just the virtual
+`IPD` (independent of real `IPD` which *must* be accurate).
 
 TODO: Another photo?
 
-Thrilled
-with the results, I also scaled all the other factors that inform player scale
-in the demo:
+Thrilled with the results, I also scaled all the other usual parameters that
+influence a player's sense of scale:
 
 * Player height
 * Neck model parameters
@@ -215,13 +216,13 @@ You can now feel as small as a mouse running around and under furniture, or a gi
 looking down at a "dollhouse".
 
 {% assign image-url = "https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/TinyTuscany.jpg" %}
-{% assign caption = "Player scale can be increased/decreased by pressing F8/F7 respectively. Here the player is scaled to 4.74 times the normal size, where the objects in the scene appear miniaturized." %}
+{% assign caption = "Player scale can be increased/decreased in the demo by pressing F8/F7 respectively. Here the player is scaled to 4.74 times the normal size, where the objects in the scene appear miniaturized." %}
 {% include image.html %}
 
-As fun as it is viewing a scene at different scales, _moving between scales
+As fun as it is to view a scene at different scales, _moving between scales
 dynamically causes significant eye strain_. The phenomenon is equivalent to the
 third diagram -- the object stays the same size in the field of view but
-grows/moves away or shrink/gets closer at same time. It proves difficult to
+grows/moves away or shrinks/gets closer at same time. It proves difficult to
 focus on objects as they go through this transformation, as the eyes struggle
 to maintain vergence -- constantly readjusting. 
 
@@ -235,6 +236,8 @@ Link to code that allows scaling of player.
 // sample with the matrix scaling
 {% endhighlight %}
 
+TODO: Can we still play tricks on ourselves because our eyes are on a plane? Triangulation using a third eye? Triclops!
+
 ### Other Articles
 
 There are also lots of great talks and blogs that explore and explain the
@@ -246,4 +249,3 @@ I'll list a few of them here:
 * Robotic Scientist Steve LaValle explores [motion prediction for head tracking](http://www.oculusvr.com/blog/the-latent-power-of-prediction/)
 
 [1]: www.recveb.ucsb.edu/pdfs/BeallLoomisPhilbeckFikes-95.pdf
-
