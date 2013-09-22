@@ -22,9 +22,10 @@ tags:
 
 ### The Oculus Rift
 
-For those unfamiliar with the [Oculus Rift](http://www.oculusvr.com/) -- it is a Virtual Reality Head-Mounted
-Display, currently available in the form of a developer kit. I received mine
-last week, and have been having lots of fun experimenting with it!
+For those unfamiliar with the [Oculus Rift](http://www.oculusvr.com/) -- it is
+a Virtual Reality Head-Mounted Display, currently available in the form of a
+developer kit. I received mine last week, and have been having lots of fun
+experimenting with it!
 
 TODO: Image(s)
 
@@ -42,7 +43,7 @@ intrigued and decided to focus on this aspect for my experimentation.
 As the following animation demonstrates, it's not always easy to tell:
 
 {% assign canvas-id = "scene-sphere" %}
-{% assign caption = "(Press to image animate) A single scene viewed from the top, and from a perspective camera. From the top view, a sphere changes size and position, but appears stationary in the perspective view. This is because the object always takes up the same area in the field of view (shown by the dotted lines)" %}
+{% assign caption = "(Press image to animate) A single scene viewed from the top, and from a perspective camera. From the top view, a sphere changes size and position, but appears stationary in the perspective view. This is because the object always takes up the same area in the field of view (shown by the dotted lines)" %}
 {% include canvas.html %}
 
 An object viewed in isolation does not tell us much in 2D -- the area it takes
@@ -76,7 +77,7 @@ First Person Shooter game. No matter how much you run, a mountain doesn't
 seem to budge from its spot, suggesting great distance and size.
 
 {% assign canvas-id = "scene-parallax" %}
-{% assign caption = "(Press to image animate) In the orthographic view from the top, the camera pans left-to-right (whose field of view is signified by the solid lines). The dotted lines show the area occupied in the field of vision by each sphere. The panning of the camera causes the spheres to come together, or move away in the perspective view, due to parallax. Parallax thus suggests distance." %}
+{% assign caption = "(Press image to animate) In the orthographic view from the top, the camera pans left-to-right (whose field of view is signified by the solid lines). The dotted lines show the area occupied in the field of vision by each sphere. The panning of the camera causes the spheres to come together, or move away in the perspective view, due to parallax. Parallax thus suggests distance." %}
 {% include canvas.html %}
 
 To recap we have (at least) these tools to help convey scale in a
@@ -109,25 +110,26 @@ underrepresentation of scale.
 TODO: gif with the room with mis-sized objects
 
 Clearly, we need to involve as many cues as possible to give a complete idea of
-scale. We need stereoscopic vision to go the full distance, and we shall why.
+scale. We need stereoscopic vision to go the full distance, and we shall see
+why.
 
 ### Scale in Real Life
 
 Just as we saw in the 2D case, parallax plays a large role in stereoscopic
 vision -- only this time, the two separate view-points are your eyes! When you
 focus on a particular object, both pupils line up with the focusing point.
-This is called _vergeance_. 
+This is called _vergence_. 
 
 {% assign canvas-id = "scene-convergence" %}
-{% assign caption = "(Press to image animate) From left to right: A view from the top, of two eyes focusing on a resizing sphere. The two stereoscopic views of the left and right eyes respectively. The eyes must rotate inwards to maintain focus as an object gets closer." %}
+{% assign caption = "(Press image to animate) From left to right: A view from the top, of two eyes focusing on a resizing sphere. The two stereoscopic views of the left and right eyes respectively. The eyes must rotate inwards to maintain focus as an object gets closer." %}
 {% include canvas.html %}
 
 In effect, the amount your eyes rotate informs the brain how far away the
 object is.  As soon as you know the distance to the object and how much area it
 takes up in your field of view, you can immediately tell its size!
 
-But wait a minute! Wait about the viewer's assumptions? Just as we saw with
-previous scale cues, there must be something assumed just as before. 
+But wait a minute! What about the viewer's assumptions? Just as we saw with
+previous scale cues, there must be something assumed here. 
 
 * __Vergence__ - assumes distance between the eyes
 
@@ -159,7 +161,7 @@ there are actually two sets of `IPD`s to worry about:
   the sense of scale of objects in relation to you.
 
 > Real IPD is used to line up the projection of virtual cameras with your eyes
-> **on a screen**.  This ensures correct perspective and vergeance.
+> **on a screen**.  This ensures correct perspective and vergence.
 
 Accounting for Real IPD and what it means would probably take another article,
 so we won't focus on it here. Let's assume everything in the real world,
@@ -173,12 +175,21 @@ compelling and immersive experience, there is nothing more important to get
 right in the virtual word, than the `IPD`. Viewers will immediately pick up on 
 this cue. 
 
-Another way to look at, is that designers of virtual worlds can now alter your
-sense of scale, just by exploiting your brain's assumption about `IPD`. 
+Another way to look at it, is that designers of virtual worlds can now alter
+your sense of scale, just by exploiting your brain's assumption about `IPD`. 
 
-{% assign canvas-id = "scene-scaling" %}
-{% assign caption = "(Press to image animate) In the top view, we are now viewing the previous scene __relative to the sphere__. Our frame of reference is now fixed on the sphere. What appears to be happening though is the IPD fluctuates wildly. And that's the point -- from the player's point of view the two are equivalent" %}
-{% include canvas.html %}
+<figure>
+    <canvas id='scene-scaling' >
+    </canvas>
+<figcaption>
+__(Press image to animate)__
+
+In the top view, we are now viewing the previous scene
+__relative to the sphere__. Our frame of reference is now fixed on the sphere.
+What appears to be happening though is the IPD fluctuates wildly. And that's
+the point -- from the player's point of view the two are equivalent
+</figcaption>
+</figure>
 
 By merely manipulating the IPD, we can make the whole world shrink or grow,
 without actually scaling the world directly!
@@ -187,9 +198,14 @@ without actually scaling the world directly!
 
 The next day after I got the Rift I decided to experiment with scale, so I
 hacked around the provided "Tuscany Demo" code to shrink/grow the size of the
-player. Just to confirm my intuitions about scale, I tried hacking just the virtual
-`IPD` (independent of real `IPD` which *must* be accurate). Thrilled with the
-results, I also scaled all the other usual suspects that inform player scale:
+player. Just to confirm my intuitions about scale, I tried hacking just the
+virtual `IPD` (independent of real `IPD` which *must* be accurate).
+
+TODO: Another photo?
+
+Thrilled
+with the results, I also scaled all the other factors that inform player scale
+in the demo:
 
 * Player height
 * Neck model parameters
