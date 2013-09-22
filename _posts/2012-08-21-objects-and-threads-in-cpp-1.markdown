@@ -7,6 +7,7 @@ description: >
   and then immediately talk about how several threads are accessing the same object.
   These two seemingly opposite ideas confused me at first. Let's untagle the mystery!
 category: technical
+published: true
 tags:
   - c++
   - qt
@@ -34,7 +35,7 @@ public:
 
     // imagine other methods here
 
-    private:
+private:
     string m_name;
     int m_socialInsuranceNumber;
     int m_age;

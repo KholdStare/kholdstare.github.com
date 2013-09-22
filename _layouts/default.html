@@ -53,9 +53,11 @@
 
             <ul class="panel">
                 {% for post in site.posts limit:5 %}
+                {% unless post.notfrontpage %}
                 <li><a href="{{post.url}}">{{post.title}}</a>
                 {% unless forloop.last %}
                 <hr/>
+                {% endunless %}
                 {% endunless %}
                 </li>
                 {% endfor %}

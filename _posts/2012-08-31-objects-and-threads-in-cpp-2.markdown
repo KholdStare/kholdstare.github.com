@@ -5,6 +5,7 @@ description: >
   Last time I explained how plain C++ objects and their methods interact with threads.
   This time around, we will look at <code>QObjects</code>, and their "thread affinity".
 category: technical
+published: true
 tags:
   - c++
   - qt
