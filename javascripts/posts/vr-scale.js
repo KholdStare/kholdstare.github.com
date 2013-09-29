@@ -136,15 +136,11 @@ var createDefaultContext = function( canvasElem, isBinocular )
     if (globalShadows)
     {
         renderer.shadowMapEnabled = true;
+        renderer.shadowMapType = THREE.PCFShadowMap;
         renderer.shadowMapSoft = false;
-        renderer.shadowCameraNear = 1;
-        renderer.shadowCameraFar = 100;
-        renderer.shadowCameraFov = 50;
 
         renderer.shadowMapBias = 0.0039;
         renderer.shadowMapDarkness = 0.5;
-        renderer.shadowMapWidth = 256;
-        renderer.shadowMapHeight = 256;
         renderer.physicallyBasedShading = true;
     }
 
@@ -177,10 +173,7 @@ var renderScene = function( context, scene )
         var viewHeight = Math.floor(context.height * view.height);
         renderer.setViewport( viewLeft, viewBottom, viewWidth, viewHeight );
         renderer.setScissor( viewLeft, viewBottom, viewWidth, viewHeight );
-        renderer.enableScissorTest ( true );
         renderer.setClearColor( view.background );
-
-        view.camera.updateProjectionMatrix();
 
         renderer.render(scene, view.camera);
     }
@@ -201,10 +194,18 @@ var initLitScene = function()
 {
     var scene = new THREE.Scene();
 
-    var light = new THREE.SpotLight( 0xffffff, 1.5, 100 );
+    var light = new THREE.SpotLight( 0xffffff, 1.0, 200 );
     // TODO: figure out why doesn't work in other positions
-    light.position.set( 30, 40, 10 );
+    light.position.set( 20, 30, 10 );
     light.castShadow = true;
+
+    light.shadowMapWidth = 256;
+    light.shadowMapHeight = 256;
+
+    light.shadowCameraNear = 10;
+    light.shadowCameraFar = 500;
+    light.shadowCameraFov = 40;
+
     scene.add( light );
 
     light = new THREE.PointLight( 0xffffff, 0.2, 100 );
@@ -483,13 +484,8 @@ var initConvergenceScene = function (context)
         );
         objects.add(followGraphic);
 
-        //var fovGraphic = createFovGraphic( eyeOrigin, vec(0, 0, -100), context.persp.fov );
-        //fovGraphic.position.y = 9;
-        //objects.add(fovGraphic);
-
         return {
             line: followGraphic,
-            //fov:  fovGraphic
         };
     };
 
@@ -510,7 +506,6 @@ var initConvergenceScene = function (context)
                 )]
             );
 
-        //rotateYTowards(graphic.fov, sphere.position);
         rotateYTowards(camera, sphere.position);
     };
 
@@ -558,6 +553,8 @@ var withCanvas = function( canvasId, initFunc, isBinocular )
 {
     var canvasQuery = $(canvasId);
     var context = createDefaultContext( canvasQuery.get(0), isBinocular );
+    var renderer = context.renderer;
+    renderer.enableScissorTest ( true );
     var scene = initFunc( context );
 
     var timer;
@@ -567,6 +564,7 @@ var withCanvas = function( canvasId, initFunc, isBinocular )
     };
 
     canvasQuery.click(starter);
+    renderScene(context, scene);
     renderScene(context, scene);
 };
 
