@@ -78,7 +78,7 @@ First Person Shooter game. No matter how much you run, a mountain doesn't
 seem to budge from its spot, suggesting great distance and size.
 
 {% assign canvas-id = "scene-parallax" %}
-{% assign caption = "In the orthographic view from the top, the camera pans left-to-right (whose field of view is signified by the solid lines). The dotted lines show the area occupied in the field of vision by each sphere. The panning of the camera causes the spheres to come together, or move away in the perspective view, due to parallax. Parallax thus suggests distance." %}
+{% assign caption = "In the orthographic view from the top, the camera pans left-to-right (whose field of view is signified by the solid lines). The dotted lines show the area occupied in the field of vision by each sphere. The panning of the camera causes the spheres to come together, or move apart in the perspective view, due to parallax. Parallax thus suggests distance." %}
 {% include canvas.html %}
 
 To recap we have, at a minimum, the following tools to help convey scale in a
