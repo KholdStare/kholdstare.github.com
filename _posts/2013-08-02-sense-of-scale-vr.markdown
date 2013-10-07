@@ -27,8 +27,6 @@ a Virtual Reality Head-Mounted Display, currently available in the form of a
 developer kit. I received mine last week, and have been having lots of fun
 experimenting with it!
 
-TODO: Image(s)
-
 At this year's GDC, Oculus co-founder Palmer Luckey gave [an overview of what
 we can expect from
 VR](http://www.youtube.com/watch?feature=player_detailpage&v=29QdErw-7c4#t=1000s),
@@ -108,8 +106,8 @@ in underrepresentation of scale.
 * __Relative size__ - assumes at same distance
 * __Parallax__ - assumes objects are stationary
 
-TODO: gif with the room with mis-sized objects
-TODO: [Ames room](http://www.youtube.com/watch?v=Ttd0YjXF0no)
+{% assign youtube = "eLU-rEKopTg" %}
+{% include youtube.html %}
 
 Clearly, we need to involve as many cues as possible to give a complete idea of
 scale. We need _stereoscopic_ vision to go the full distance.
@@ -194,8 +192,6 @@ hacked the code from the "Tuscany Demo" to shrink/grow the size of the
 player. Just to confirm my intuitions about scale, I tried hacking just the virtual
 `IPD` (independent of real `IPD` which *must* be accurate).
 
-TODO: Another photo?
-
 Thrilled with the results, I also scaled all the other usual parameters that
 influence a player's sense of scale:
 
@@ -210,6 +206,10 @@ looking down at a "dollhouse".
 {% assign caption = "Player scale can be increased/decreased in the demo by pressing F8/F7 respectively. Here the player is scaled to 4.74 times the normal size, where the objects in the scene appear miniaturized." %}
 {% include image.html %}
 
+{% assign image-url = "https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/GiantTuscany.jpg" %}
+{% assign caption = "Converesly a player can shrink so that chairs are towering over them" %}
+{% include image.html %}
+
 As fun as it is to view a scene at different scales, _moving between scales
 dynamically causes significant eye strain_. The phenomenon is equivalent to the
 third diagram -- the object stays the same size in the field of view but
@@ -221,13 +221,9 @@ I have several ideas on how to mitigate the eye strain, but this is new
 territory -- objects don't just grow and shrink in front of your eyes in the
 real world. The brain is simply not used to this phenomenon.
 
-Link to code that allows scaling of player.
-
-{% highlight cpp %}
-// sample with the matrix scaling
-{% endhighlight %}
-
-TODO: Can we still play tricks on ourselves because our eyes are on a plane? Triangulation using a third eye? Triclops!
+You can play around a [modified Tuscany
+Demo](https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/ScalingTuscany.zip)
+for the Oculus Rift that has player scaling built in.
 
 ### Other Articles
 
