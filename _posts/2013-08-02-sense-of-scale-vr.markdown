@@ -211,6 +211,12 @@ looking down at a "dollhouse".
 {% assign caption = "Converesly a player can shrink so that chairs are towering over them" %}
 {% include image.html %}
 
+You can play around a [modified Tuscany
+Demo](https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/ScalingTuscany.zip)
+for the Oculus Rift that has player scaling built in. (On Windows)
+
+### Warning and Conclusion
+
 As fun as it is to view a scene at different scales, _moving between scales
 dynamically causes significant eye strain_. The phenomenon is equivalent to the
 third diagram -- the object stays the same size in the field of view but
@@ -220,11 +226,8 @@ to maintain vergence -- constantly readjusting.
 
 I have several ideas on how to mitigate the eye strain, but this is new
 territory -- objects don't just grow and shrink in front of your eyes in the
-real world. The brain is simply not used to this phenomenon.
-
-You can play around a [modified Tuscany
-Demo](https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/ScalingTuscany.zip)
-for the Oculus Rift that has player scaling built in.
+real world. The brain is simply not used to this phenomenon. It's up to us to
+explore this new frontier!
 
 ### Other Articles
 
