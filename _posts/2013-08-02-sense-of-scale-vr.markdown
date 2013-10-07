@@ -107,6 +107,7 @@ in underrepresentation of scale.
 * __Parallax__ - assumes objects are stationary
 
 {% assign youtube = "eLU-rEKopTg" %}
+{% assign caption = "In this video a man exploits our assumptions about scale to set up a room full of optical illusions" %}
 {% include youtube.html %}
 
 Clearly, we need to involve as many cues as possible to give a complete idea of
