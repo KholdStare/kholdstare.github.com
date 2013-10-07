@@ -9,9 +9,7 @@ description: >
   its importance and propose new ways to explore this effect.
 
 category: technical
-testing: true
 published: true
-notfrontpage: true
 scripts:
   - /javascripts/three.min.js
   - /javascripts/posts/vr-scale.js
