@@ -11,6 +11,7 @@ description: >
 category: technical
 testing: true
 published: false
+notfrontpage: true
 tags:
   - c++11
 ---
@@ -35,7 +36,7 @@ The trouble is, this is as bad as returning a reference to a local function
 variable. The notion of an _rvalue_ and an _rvalue reference_ are conflated together.
 
 Just as lvalue references refer to lvalues, rvalue references can bind to
-rvalues.  By definition rvalues, cannot be used directly as there is no
+rvalues.  By definition, rvalues cannot be used directly as there is no
 identifier that is bound to them- they are "ethereal".  The only way we can
 ever use them is through _rvalue references_ <code>&amp;&amp;</code> - this
 gives us an identifier to refer to, and use _rvalues_.
