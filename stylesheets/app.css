@@ -3320,11 +3320,11 @@ article.panel {
 .main-post ul li, .main-post ol li {
   list-style-position: outside;
   position: relative;
-  left: 1.3em;
+  margin-left: 1.3em;
 }
 /* line 169, ../sass/app.scss */
 .main-post ul ul, .main-post ol ul {
-  margin-left: 2em;
+  margin-left: 1.3em;
 }
 
 /* line 174, ../sass/app.scss */
