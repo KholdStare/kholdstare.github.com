@@ -107,9 +107,13 @@ And that's exactly what you should write, because _the compiler will get rid of
 the copy for you_! This happens because of Copy Elision (specified in the C++
 standard in clause 12.8.31), and more specifically because of NRVO ([Named
 Return Value
-Optimization](http://en.wikipedia.org/wiki/Return_value_optimization)). This
-optimization was first developed in 1991, so you can rest assured your compiler
-supports it.
+Optimization](http://en.wikipedia.org/wiki/Return_value_optimization)).
+Returning a local variable by value is detected by the compiler, and the
+needless copy is elided. This optimization was first developed in 1991, so you
+can rest assured your compiler supports it.
+
+> Even in C++03, returning by value usually results in no copies because of
+> NRVO.
 
 In the next section we'll consider another problem where move semantics are needed.
 
@@ -120,6 +124,7 @@ from C++03 code. Both go beyond the scope of this article, but you can read up
 on these techniques at the links below:
 
 * Expression Templates
+
    * [Expression templates](http://en.wikipedia.org/wiki/Expression_templates)
      allow encoding a tree of expressions (e.g.  mathematical expressions) and
      performing simplifications and optimizations on them, _all at compile
@@ -127,7 +132,9 @@ on these techniques at the links below:
    * The implementations are very complex, but the user API ends up being
      extremely intuitive, while performing extremely efficiently.
    * A great library that uses this concept heavily is [Eigen](http://eigen.tuxfamily.org/).
+
 * Faking Rvalues
+
    * [Boost Move](http://www.boost.org/doc/libs/1_54_0/doc/html/move.html)
      emulates rvalues and move semantics through very clever C++ tricks,
      allowing the creation of movable objects in C++03.
@@ -152,27 +159,28 @@ ones. Once we know that, we can decide whether to copy or move. By looking at a
 typical assignment we can see where the terms _lvalue_ and _rvalue_ come from:
 
 {% highlight cpp %}
-std::vector<int> createVector(std::string param);
-// createVector is an lvalue. It can be referred to
-
-std::vector<int> myVec = createVector("hello world");
-// myVec is also an lvalue, it is on the left side of the expression
-// and can be referred to
+//     c is an lvalue
+//     |
+Vector c = a + b;
+//         ~~~~~
+// the result of the "a + b" expression is an rvalue
 {% endhighlight %}
 
-_Rvalues_, cannot be directly referred to because they are temporaries and are
-not bound to an identifier- such as values returned by a function, or the direct
-result of an inline construction:
+* _Lvalues_ are values that you can freely refer to in their scope because they
+  are bound to an identifier- such as variables. _Lvalues_ are also assignable.
+* _Rvalues_, cannot be directly referred to because they are temporaries and
+  are not bound to an identifier- such as values returned by a function, or the
+  direct result of an inline construction:
 
 {% highlight cpp %}
-std::vector<int> createVector(std::string param);
+Vector createVector(std::string param);
 
-std::vector<int> myVec = createVector("hello world");
-//                      ^             ^^^^^^^^^^^^^
-//                      |         temporary std::string
-//                      |
-//            temporary std::vector<int>
-// 
+Vector myVec = createVector("hello world");
+//            ^             ^^^^^^^^^^^^^
+//            |         temporary std::string
+//            |
+//  temporary std::vector<int>
+//
 // There are two rvalues in the expression above.
 {% endhighlight %}
 
@@ -230,6 +238,16 @@ Vector::Vector(Vector&& other)
 { }
 {% endhighlight %}
 
+> std::move is nothing more than a cast from an lvalue to an rvalue.
+
+Using `std::move` we can tell the compiler that the value is no longer needed
+in this scope.  By casting an lvalue to an rvalue, the compiler can now pick
+the correct overload that accepts the rvalue argument, such as a move
+constructor.
+
+When composing a larger agregate out of smaller movable objects, we can delegate
+the process of moving to the sub-components using `std::move`.
+
 ### Is there a difference between an _rvalue_ and an _rvalue reference_?
 
 Long story short: Yes! The two notions are very different.  I see this
@@ -268,39 +286,19 @@ returned would be referring to already-destroyed objects.
 
 ### Are moves free? Are moves faster than copies?
 
-* Moves are not free
-   * Moves are shallow copies
-   * That also nullify the source of the copy
-* Moves _are_ copies for structures without pointers.
-   * If there is no "depth" to the structure, then there are no performance benefits to moves.
-   * Pointers is general for any type of referral, an actual pointer or just some kind of unique id.
+Are moves free? No. As we have seen:
 
-### Rvalues vs Rvalue references
+* Moves are shallow copies
+* That also nullify the source of the copy
 
-A common mistake I see when people try use rvalues is returning an _rvalue
-reference_ from a function
+Both operations have to be performed to move an object. Fortunately, moves are usually faster than copies,
 
-{% highlight cpp %}
-// How NOT to do it
-std::string&& func()
-    return std::move( std::string( "Hello World!" ) );
-}
-{% endhighlight %}
+Are moves faster than copies? This depends. Moves pay off for structures with
+indirection, (like vectors), since copying all f the data is not required (just
+pointers). However, moves _are_ copies for structures without pointers, since
 
-The trouble is, this is as bad as returning a reference to a local function
-variable. The notion of an _rvalue_ and an _rvalue reference_ are conflated together.
+* If there is no "depth" to the structure, then there are no performance benefits to moves.
+* Pointers is general for any type of referral, an actual pointer or just some kind of unique id.
 
-Just as lvalue references refer to lvalues, rvalue references can bind to
-rvalues.  By definition, rvalues cannot be used directly as there is no
-identifier that is bound to them- they are "ethereal".  The only way we can
-ever use them is through _rvalue references_ <code>&amp;&amp;</code> - this
-gives us an identifier to refer to, and use _rvalues_.
-
-> Rvalues cannot be used directly, only through rvalue references
-> <code>&amp;&amp;</code>.  The two are separate notions.
-
-As a little brainteaser, _rvalue references_ are themselves _lvalues_ - we can refer to them
-through an identifier
-
-TODO code example and maybe diagram?
+> For simple structures with no indirection, moves are copies.
 
