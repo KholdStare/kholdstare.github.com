@@ -154,6 +154,7 @@ situations like:
 
 * Passing subcomponents to a constructor of an aggregate
 * Handing off a value to another task or thread.
+* Transferring ownership of a unique resource (e.g. a file handle, thread)
 
 In all of the above cases, the need to transfer without copying is necessary.
 Yet again, pointers are not the answer here. Using pointers for this transfer
@@ -257,8 +258,25 @@ soon expire, a simple move intead of a copy will suffice. A move involves:
 
 ### How to use `std::move`? Does it perform the move?
 
-This article is about moves, and yet we have yet to use `std::move`. What gives?
-We have seen _rvalues_, and _rvalue references_
+This article is about moves, but we have yet to use `std::move`. What gives?
+Quick recap:
+
+* _rvalues_ are "expiring" values
+* _rvalue references_ are a way to refer to rvalues, and specify overloads for
+  them.
+* Given the rvalue reference we can perform a move (shallow copy + nullify)
+* To trigger a move, need to pick correct overload
+
+If we have a local _lvalue_, how do we trigger an _rvalue reference_ overload
+of a function or a constructor?
+
+* `std::move` does not perform the move, it merely hints the compiler at which
+  overload to use, by casting.
+* An actual move is the process of transferring the inner components out of an
+  rvalue, such as in a move constructor.
+
+To be more concrete, and work towards a problem established earlier, let's
+define the `Ray` class that has overloaded constructors:
 
 {% highlight cpp %}
 class Ray
@@ -268,7 +286,7 @@ class Ray
 
 public:
     // Construct by copying subcomponents
-    Ray(Vector origin, Vector direction);
+    Ray(Vector const& origin, Vector const& direction);
     
     // Construct by moving subcomponents
     Ray(Vector&& origin, Vector&& direction);
@@ -277,16 +295,13 @@ public:
 };
 {% endhighlight %}
 
-> std::move is nothing more than a cast from an lvalue to an rvalue, to allow
-> an actual move to happen
-
 Using `std::move` we can tell the compiler that the value is no longer needed
 in this scope.  By casting an lvalue to an rvalue, the compiler can now pick
 the correct overload that accepts the rvalue argument, such as a move
 constructor.
 
 When composing a larger aggregate out of smaller movable objects, we can
-delegate the process of moving to the sub-components using `std::move`.
+delegate the process of moving to the sub-components using `std::move`:
 
 {% highlight cpp %}
 // Construct by moving subcomponents
@@ -296,6 +311,9 @@ Ray::Ray(Vector&& origin, Vector&& direction)
     , direction_(std::move(direction))
 { }
 {% endhighlight %}
+
+Solving the problem is within reach. Given local _lvalues_ that we need to
+move, we can cast them to _rvalues_ using `std::move`:
 
 {% highlight cpp %}
 // Example of moving
@@ -315,6 +333,12 @@ Ray computeRay()
     );
 }
 {% endhighlight %}
+
+It bears reiterating:
+
+> std::move does not perform the move. It is nothing more than a cast from an
+> lvalue to an rvalue, to allow an actual move to happen (e.g. in a move
+> constructor)
 
 ### Is there a difference between an _rvalue_ and an _rvalue reference_?
 
