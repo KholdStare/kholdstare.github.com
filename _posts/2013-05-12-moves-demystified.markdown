@@ -72,7 +72,8 @@ Our instincts say:
 * Returning by value is bad! We make a copy!
 * If we allocate on the heap and return a pointer, who deletes it?
 
-   * Doesn't compose! Can't chain several additions.
+   * Doesn't compose! Can't chain several additions since we're not working
+     with values.
 
 > Need some way to transfer a value out of scope directly, without copying
 
@@ -81,8 +82,8 @@ Let's see what we could do already in C++03 to tackle this problem.
 
 ### Can I "move" in C++03?
 
-Ideally, given the problem of implementing `operator +` for two vectors, we'd want to write
- this:
+Ideally, given the problem of implementing `operator +` for two vectors, we'd
+want to write this:
 
 {% highlight cpp %}
 Vector operator + (Vector const& a, Vector const& b)
@@ -115,6 +116,11 @@ can rest assured your compiler supports it.
 > Even in C++03, returning by value usually results in no copies because of
 > NRVO.
 
+Now, I say _usually_, because there are corner cases where this optimization
+will not trigger. See the [Wikipedia
+Article](http://en.wikipedia.org/wiki/Return_value_optimization) for more
+details.
+
 In the next section we'll consider another problem where move semantics are needed.
 
 #### Other clever solutions
@@ -141,16 +147,47 @@ on these techniques at the links below:
 
 ### Why do I _really_ need moves and C++11?
 
-We saw that our previous problem as still solvable in C++03, through clever
-compiler optimization, without any first-class support of "moving" in the
-language. However, this optimization only applied to return values -
-transferring them out of a terminating scope. What happens when you need to
-transfer an existing value _into_ a scope?
+We saw that our previous problem of _transferring values out of a terminating
+scope_ is still solvable in C++03, through clever compiler optimization. We
+need to cover the converse situation of _transferring values into a scope_, in
+situations like:
 
+* Passing subcomponents to a constructor of an aggregate
+* Handing off a value to another task or thread.
 
-TODO: transferring values into a scope.
+In all of the above cases, the need to transfer without copying is necessary.
+Yet again, pointers are not the answer here. Using pointers for this transfer
+requires managing the storage (either the heap, or some shared memory), which
+should be unnecessary.
 
-TODO: example. function taking a value, or lvalue reference, but we only need to pass a temporary
+Simply put, our two use cases for moves allow efficient passing of values.
+
+> Moves allow value semantics, without extraneous copies.
+
+To keep a concrete problem in mind, let's look at initializing an aggregate
+object from two _Vector_ objects.
+
+{% highlight cpp %}
+// Example of extraneous copies
+Ray computeRay()
+{
+    Vector origin;
+    Vector direction;
+
+    // ...
+    // compute vectors
+    // ...
+
+    // want to avoid copying
+    // the Vectors !
+    return Ray(
+        origin,   // COPY!
+        direction // COPY!
+    );
+}
+{% endhighlight %}
+
+Now that we have a problem, how do we solve it?
 
 ### What are rvalues and how do they relate to move semantics?
 
@@ -162,7 +199,7 @@ typical assignment we can see where the terms _lvalue_ and _rvalue_ come from:
 //     c is an lvalue
 //     |
 Vector c = a + b;
-//         ~~~~~
+//         ^^^^^
 // the result of the "a + b" expression is an rvalue
 {% endhighlight %}
 
@@ -173,13 +210,14 @@ Vector c = a + b;
   direct result of an inline construction:
 
 {% highlight cpp %}
+// some kind of factory function
 Vector createVector(std::string param);
 
 Vector myVec = createVector("hello world");
 //            ^             ^^^^^^^^^^^^^
 //            |         temporary std::string
 //            |
-//  temporary std::vector<int>
+//  temporary Vector
 //
 // There are two rvalues in the expression above.
 {% endhighlight %}
@@ -201,10 +239,23 @@ Vector::Vector(Vector&& other)
 }
 {% endhighlight %}
 
+Above we define a proper "Move Constructor" which is called by the compiler
+when we try to construct an object from an _rvalue_. Since the _rvalue_ will
+soon expire, a simple move intead of a copy will suffice. A move involves:
+
+* A shallow copy
+   
+   * We take pointers/resources directly from the other object
+
+* Nullify the original
+
+   * Having stolen the pointers/resources, we nullify these fields in the
+     original so the destructor doesn't release them.
+
 > Rvalues cannot be used directly, only through rvalue references
 > <code>&amp;&amp;</code>.  The two are separate notions.
 
-### How to use `std::move`?
+### How to use `std::move`? Does it perform the move?
 
 This article is about moves, and yet we have yet to use `std::move`. What gives?
 We have seen _rvalues_, and _rvalue references_
@@ -231,14 +282,15 @@ public:
 
 
 {% highlight cpp %}
-// Move constructor
+// Move constructor in the case of subobjects
 Vector::Vector(Vector&& other)
     // move construct inner std::vector
     : storage_(std::move(other.storage_))
 { }
 {% endhighlight %}
 
-> std::move is nothing more than a cast from an lvalue to an rvalue.
+> std::move is nothing more than a cast from an lvalue to an rvalue, to allow
+> an actual move to happen
 
 Using `std::move` we can tell the compiler that the value is no longer needed
 in this scope.  By casting an lvalue to an rvalue, the compiler can now pick
@@ -294,7 +346,7 @@ Are moves free? No. As we have seen:
 Both operations have to be performed to move an object. Fortunately, moves are usually faster than copies,
 
 Are moves faster than copies? This depends. Moves pay off for structures with
-indirection, (like vectors), since copying all f the data is not required (just
+indirection, (like vectors), since copying all of the data is not required (just
 pointers). However, moves _are_ copies for structures without pointers, since
 
 * If there is no "depth" to the structure, then there are no performance benefits to moves.
