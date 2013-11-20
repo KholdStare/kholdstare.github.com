@@ -233,7 +233,7 @@ Vector::Vector(Vector&& other)
     : storage_(other.storage_)
     , size_(other.size_)
 {
-    // nullify original
+    // nullify source
     other.storage_ = nullptr;
     other.size_ = 0;
 }
@@ -247,10 +247,10 @@ soon expire, a simple move intead of a copy will suffice. A move involves:
    
    * We take pointers/resources directly from the other object
 
-* Nullify the original
+* Nullify the source
 
    * Having stolen the pointers/resources, we nullify these fields in the
-     original so the destructor doesn't release them.
+     source so the destructor doesn't release them.
 
 > Rvalues cannot be used directly, only through rvalue references
 > <code>&amp;&amp;</code>.  The two are separate notions.
@@ -261,32 +261,20 @@ This article is about moves, and yet we have yet to use `std::move`. What gives?
 We have seen _rvalues_, and _rvalue references_
 
 {% highlight cpp %}
-/**
- * Runtime-sized vector, but
- * Size fixed at construction.
- */
-class Vector {
-    std::vector<double> _storage;
+class Ray
+{
+    Vector origin_;
+    Vector direction_;
 
 public:
-    Vector(size_t numElements) : _storage(numElements) { }
+    // Construct by copying subcomponents
+    Ray(Vector origin, Vector direction);
+    
+    // Construct by moving subcomponents
+    Ray(Vector&& origin, Vector&& direction);
 
-    // access
-    double& operator[] (size_t i)       { return _storage[i]; }
-    double  operator[] (size_t i) const { return _storage[i]; }
-
-    size_t size() const { return _storage.size(); }
+    // etc...
 };
-{% endhighlight %}
-
-
-
-{% highlight cpp %}
-// Move constructor in the case of subobjects
-Vector::Vector(Vector&& other)
-    // move construct inner std::vector
-    : storage_(std::move(other.storage_))
-{ }
 {% endhighlight %}
 
 > std::move is nothing more than a cast from an lvalue to an rvalue, to allow
@@ -297,8 +285,36 @@ in this scope.  By casting an lvalue to an rvalue, the compiler can now pick
 the correct overload that accepts the rvalue argument, such as a move
 constructor.
 
-When composing a larger agregate out of smaller movable objects, we can delegate
-the process of moving to the sub-components using `std::move`.
+When composing a larger aggregate out of smaller movable objects, we can
+delegate the process of moving to the sub-components using `std::move`.
+
+{% highlight cpp %}
+// Construct by moving subcomponents
+Ray::Ray(Vector&& origin, Vector&& direction)
+    // move construct inner objects
+    : origin_(std::move(origin))
+    , direction_(std::move(direction))
+{ }
+{% endhighlight %}
+
+{% highlight cpp %}
+// Example of moving
+Ray computeRay()
+{
+    Vector origin;
+    Vector direction;
+
+    // ...
+    // compute vectors
+    // ...
+
+    // Move vectors into Ray
+    return Ray(
+        std::move(origin),
+        std::move(direction)
+    );
+}
+{% endhighlight %}
 
 ### Is there a difference between an _rvalue_ and an _rvalue reference_?
 
@@ -343,14 +359,18 @@ Are moves free? No. As we have seen:
 * Moves are shallow copies
 * That also nullify the source of the copy
 
-Both operations have to be performed to move an object. Fortunately, moves are usually faster than copies,
+Both operations have to be performed to move an object. Fortunately, moves are
+usually faster than copies,
 
 Are moves faster than copies? This depends. Moves pay off for structures with
-indirection, (like vectors), since copying all of the data is not required (just
-pointers). However, moves _are_ copies for structures without pointers, since
+indirection, (like vectors), since copying all of the data is not required
+(just pointers). However, moves _are_ copies for structures without pointers,
+since
 
-* If there is no "depth" to the structure, then there are no performance benefits to moves.
-* Pointers is general for any type of referral, an actual pointer or just some kind of unique id.
+* If there is no "depth" to the structure, then there are no performance
+  benefits to moves.
+* Pointers is general for any type of referral, an actual pointer or just some
+  kind of unique id.
 
 > For simple structures with no indirection, moves are copies.
 
