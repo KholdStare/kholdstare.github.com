@@ -4,8 +4,8 @@ title: "Moves demystified"
 description: >
   In this article I will try to explain move semantics in C++11 using a more
   pragmatic approach, by answering specific questions developers may ask. We'll
-  start with why moves are needed in the first place, and eventually move onto
-  common misconceptions and pitfalls.
+  start with why moves are needed in the first place, then how to use them, and
+  eventually move onto common misconceptions and pitfalls.
 
 category: technical
 testing: true
@@ -16,10 +16,53 @@ tags:
   - intermediate
 ---
 
-The questions we'll cover:
-{:toc}
+### Index
 
-### Why are moves needed?
+The article is quite large so I include a short summary and links to each
+section below:
+
+* [Why are moves needed?](#why1)
+
+   * Need some way to return a value out of scope directly, without copying
+
+* [Can I "move" in C++03?](#cpp03)
+
+   * Even in C++03, returning by value usually results in no copies because of
+     NRVO.
+
+* [Why do I _really_ need moves and C++11?](#why2)
+
+   * Transferring values into a scope.
+   * Moves allow value semantics, without extraneous copies.
+
+* [What are rvalues and how do they relate to move semantics?](#rvalues)
+
+   * Rvalues represent expiring/temporary values.
+   * Rvalues cannot be used directly, only through rvalue references
+     <code>&amp;&amp;</code>.
+   * Rvalue references allow specifying a function overload for an expiring
+     value.
+
+* [How to use `std::move`? Does it perform the move?](#std-move)
+
+   * `std::move` does not perform the move.
+   * It is nothing more than a cast from an lvalue to an rvalue, to allow an
+     actual move to happen (e.g. in a move constructor).
+
+* [Is there a difference between an _rvalue_ and an _rvalue reference_?](#rv-vs-rvref)
+
+   * They are differenct _rvalue references_ can refer to _rvalues_.
+   * A value returned from a function is already an rvalue.
+   * Returning an rvalue reference to a local is as bad as returning an lvalue
+     reference.
+
+* [Are moves free? Are moves faster than copies?](#cost)
+
+   * They are not free: still have to perform a shallow copy.
+   * For simple structures with no indirection, moves **are** copies.
+
+
+### Why are moves needed? {#why1}
 
 Let's consider a simple fixed-size vector of numbers:
 
@@ -80,7 +123,7 @@ Our instincts say:
 Copying the value out of a function and then deleting the local seems absurd.
 Let's see what we could do already in C++03 to tackle this problem.
 
-### Can I "move" in C++03?
+### Can I "move" in C++03? {#cpp03}
 
 Ideally, given the problem of implementing `operator +` for two vectors, we'd
 want to write this:
@@ -145,7 +188,7 @@ on these techniques at the links below:
      emulates rvalues and move semantics through very clever C++ tricks,
      allowing the creation of movable objects in C++03.
 
-### Why do I _really_ need moves and C++11?
+### Why do I _really_ need moves and C++11? {#why2}
 
 We saw that our previous problem of _transferring values out of a terminating
 scope_ is still solvable in C++03, through clever compiler optimization. We
@@ -190,7 +233,7 @@ Ray computeRay()
 
 Now that we have a problem, how do we solve it?
 
-### What are rvalues and how do they relate to move semantics?
+### What are rvalues and how do they relate to move semantics? {#rvalues}
 
 The key feature that we need, is to tell apart regular values, and "temporary"
 ones. Once we know that, we can decide whether to copy or move. By looking at a
@@ -254,9 +297,10 @@ soon expire, a simple move intead of a copy will suffice. A move involves:
      source so the destructor doesn't release them.
 
 > Rvalues cannot be used directly, only through rvalue references
-> <code>&amp;&amp;</code>.  The two are separate notions.
+> <code>&amp;&amp;</code>, and are very different notions.  Rvalue references
+> allow specifying a function overload for an expiring value
 
-### How to use `std::move`? Does it perform the move?
+### How to use `std::move`? Does it perform the move? {#std-move}
 
 This article is about moves, but we have yet to use `std::move`. What gives?
 Quick recap:
@@ -327,6 +371,7 @@ Ray computeRay()
     // ...
 
     // Move vectors into Ray
+    // triggering the right constructor
     return Ray(
         std::move(origin),
         std::move(direction)
@@ -340,7 +385,7 @@ It bears reiterating:
 > lvalue to an rvalue, to allow an actual move to happen (e.g. in a move
 > constructor)
 
-### Is there a difference between an _rvalue_ and an _rvalue reference_?
+### Is there a difference between an _rvalue_ and an _rvalue reference_? {#rv-vs-rvref}
 
 Long story short: Yes! The two notions are very different.  I see this
 misconception come up time and time again, but not in the form of this direct
@@ -376,7 +421,7 @@ returned would be referring to already-destroyed objects.
 > A value returned from a function is already an rvalue. Returning an rvalue
 > reference to a local is as bad as returning an lvalue reference.
 
-### Are moves free? Are moves faster than copies?
+### Are moves free? Are moves faster than copies? {#cost}
 
 Are moves free? No. As we have seen:
 
