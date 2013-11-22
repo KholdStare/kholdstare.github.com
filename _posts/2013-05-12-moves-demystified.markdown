@@ -37,7 +37,7 @@ section below:
 
 * [What are rvalues and how do they relate to move semantics?](#rvalues)
 
-   * Rvalues represent expiring/temporary values.
+   * Rvalues are expiring/temporary values.
    * Rvalues cannot be used directly, only through rvalue references
      <code>&amp;&amp;</code>.
    * Rvalue references allow specifying a function overload for an expiring
@@ -51,7 +51,7 @@ section below:
 
 * [Is there a difference between an _rvalue_ and an _rvalue reference_?](#rv-vs-rvref)
 
-   * They are differenct _rvalue references_ can refer to _rvalues_.
+   * _rvalue references_ refer to _rvalues_.
    * A value returned from a function is already an rvalue.
    * Returning an rvalue reference to a local is as bad as returning an lvalue
      reference.
@@ -60,6 +60,11 @@ section below:
 
    * They are not free: still have to perform a shallow copy.
    * For simple structures with no indirection, moves **are** copies.
+
+* [Clever solutions in C++03](#clever)
+
+   * Expression Templates
+   * Faking Rvalues
 
 
 ### Why are moves needed? {#why1}
@@ -165,28 +170,6 @@ Article](http://en.wikipedia.org/wiki/Return_value_optimization) for more
 details.
 
 In the next section we'll consider another problem where move semantics are needed.
-
-#### Other clever solutions
-
-There are other clever ways of getting rid of unnecessary copies and operations
-from C++03 code. Both go beyond the scope of this article, but you can read up
-on these techniques at the links below:
-
-* Expression Templates
-
-   * [Expression templates](http://en.wikipedia.org/wiki/Expression_templates)
-     allow encoding a tree of expressions (e.g.  mathematical expressions) and
-     performing simplifications and optimizations on them, _all at compile
-     time_.
-   * The implementations are very complex, but the user API ends up being
-     extremely intuitive, while performing extremely efficiently.
-   * A great library that uses this concept heavily is [Eigen](http://eigen.tuxfamily.org/).
-
-* Faking Rvalues
-
-   * [Boost Move](http://www.boost.org/doc/libs/1_54_0/doc/html/move.html)
-     emulates rvalues and move semantics through very clever C++ tricks,
-     allowing the creation of movable objects in C++03.
 
 ### Why do I _really_ need moves and C++11? {#why2}
 
@@ -428,18 +411,37 @@ Are moves free? No. As we have seen:
 * Moves are shallow copies
 * That also nullify the source of the copy
 
-Both operations have to be performed to move an object. Fortunately, moves are
-usually faster than copies,
+Both operations have to be performed to move an object. It will never be as fast
+as not doing anything.
 
-Are moves faster than copies? This depends. Moves pay off for structures with
-indirection, (like vectors), since copying all of the data is not required
-(just pointers). However, moves _are_ copies for structures without pointers,
-since
-
-* If there is no "depth" to the structure, then there are no performance
-  benefits to moves.
-* Pointers is general for any type of referral, an actual pointer or just some
-  kind of unique id.
+Are moves faster than copies? This depends. Moves are much faster for
+structures with indirection, (like vectors), since copying all of the data is
+not required (just pointers). However, moves _are_ copies for structures
+without pointers or indirection, since we still need to transfer all the member
+variables. If there is no "depth" to the structure, then there are no
+performance benefits to moves.
 
 > For simple structures with no indirection, moves are copies.
+
+### Clever solutions in C++03 {#clever}
+
+There are other clever ways of getting rid of unnecessary copies and operations
+from C++03 code. Both go beyond the scope of this article, but you can read up
+on these techniques at the links below:
+
+* Expression Templates
+
+   * [Expression templates](http://en.wikipedia.org/wiki/Expression_templates)
+     allow encoding a tree of expressions (e.g.  mathematical expressions) and
+     performing simplifications and optimizations on them, _all at compile
+     time_.
+   * The implementations are very complex, but the user API ends up being
+     extremely intuitive, while performing extremely efficiently.
+   * A great library that uses this concept heavily is [Eigen](http://eigen.tuxfamily.org/).
+
+* Faking Rvalues
+
+   * [Boost Move](http://www.boost.org/doc/libs/1_54_0/doc/html/move.html)
+     emulates rvalues and move semantics through very clever C++ tricks,
+     allowing the creation of movable objects in C++03.
 
