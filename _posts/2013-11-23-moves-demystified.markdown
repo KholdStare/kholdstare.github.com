@@ -41,6 +41,13 @@ section below:
    * Rvalue references allow specifying a function overload for an expiring
      value.
 
+* [How is a move performed?](#move-constructor)
+
+   * Define a _Move Constructor_ that performs 2 steps:
+
+      * Shallow Copy
+      * Nullify Source
+
 * [How to use `std::move`? Does it perform the move?](#std-move)
 
    * `std::move` does not perform the move.
@@ -272,8 +279,20 @@ Vector myVec = createVector("hello world");
 Given that _by definition_ we cannot refer directly to _rvalues_, we need
 _rvalue references_ (`&&`) to be able to bind to them. This allows overloading
 functions/methods/constructors for rvalue arguments which we know will expire.
-This way we can define a separate _Move Constructor_ for our `Vector` that is
-cheaper than a copy:
+
+> Rvalues cannot be used directly, only through rvalue references
+> <code>&amp;&amp;</code>, and are very different notions.  Rvalue references
+> allow specifying a function overload for an expiring value, such as a move
+> constructor.
+
+---------------------------------------
+
+### How is a move performed? {#move-constructor}
+
+To do a move, we need a cheap way of transferring data from an expiring value.
+By providing an overloaded constructor that takes an _rvalue reference_ (`&&`),
+we can do that.  Here is  a _Move Constructor_ for our `Vector` that is cheaper
+than a copy:
 
 {% highlight cpp %}
 // Move constructor.
@@ -289,6 +308,10 @@ Vector::Vector(Vector&& other)
 }
 {% endhighlight %}
 
+{% assign diagram = "moving-vector" %}
+{% assign caption = "Visualizing a Move Constructor in two steps. The resources are 'stolen' from the source." %}
+{% include diagram.html %}
+
 A _Move Constructor_ involves:
 
 * A shallow copy
@@ -299,15 +322,6 @@ A _Move Constructor_ involves:
 
    * Having stolen the pointers/resources, we nullify these fields in the
      source so the destructor doesn't release them.
-
-{% assign diagram = "moving-vector" %}
-{% assign caption = "Visualizing a Move Constructor in two steps. The resources are 'stolen' from the source." %}
-{% include diagram.html %}
-
-> Rvalues cannot be used directly, only through rvalue references
-> <code>&amp;&amp;</code>, and are very different notions.  Rvalue references
-> allow specifying a function overload for an expiring value, such as a move
-> constructor.
 
 ---------------------------------------
 
