@@ -8,9 +8,7 @@ description: >
   and eventually move onto common misconceptions and pitfalls.
 
 category: technical
-testing: true
 published: true
-notfrontpage: false
 tags:
   - c++11
   - intermediate
@@ -48,8 +46,6 @@ section below:
    * `std::move` does not perform the move.
    * It is nothing more than a cast from an lvalue to an rvalue, to allow an
      actual move to happen (e.g. in a move constructor).
-   * To move an rvalue down through successive layers, `std::move` has to be
-     applied each time, even to rvalue references.
 
 * [Why do I need to use `std::move` on rvalue references?](#std-move2)
 
