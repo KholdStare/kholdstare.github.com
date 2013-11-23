@@ -401,7 +401,7 @@ breath. Let's look at that code again, now with more annotations:
 // but are themselves lvalues in this scope.
 Ray::Ray(Vector&& origin, Vector&& direction)
     // move construct inner objects,
-    // by casting them to rvalues
+    // by casting inputs to rvalues
     : origin_(std::move(origin))
     , direction_(std::move(direction))
 { }
