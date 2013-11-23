@@ -4,8 +4,8 @@ title: "Moves demystified"
 description: >
   In this article I will try to explain move semantics in C++11 using a more
   pragmatic approach, by answering specific questions developers may ask. We'll
-  start with why moves are needed in the first place, then how to use them, and
-  eventually move onto common misconceptions and pitfalls.
+  start with why moves are needed in the first place, then see how to use them,
+  and eventually move onto common misconceptions and pitfalls.
 
 category: technical
 testing: true
@@ -54,7 +54,7 @@ section below:
    * _rvalue references_ refer to _rvalues_.
    * A value returned from a function is already an rvalue.
    * Returning an rvalue reference to a local is as bad as returning an lvalue
-     reference.
+     reference to it.
 
 * [Are moves free? Are moves faster than copies?](#cost)
 
@@ -66,6 +66,7 @@ section below:
    * Expression Templates
    * Faking Rvalues
 
+---------------------------------------
 
 ### Why are moves needed? {#why1}
 
@@ -86,9 +87,9 @@ public:
         , size_(numElements)
     { }
 
-    ~Vector() { delete[] storage; }
+    ~Vector() { delete[] storage_; }
 
-    // access
+    // element access
     double& operator[] (size_t i)       { return storage_[i]; }
     double  operator[] (size_t i) const { return storage_[i]; }
 
@@ -104,10 +105,10 @@ be quite large, so copying them would be prohibilitively expensive. The whole
 underlying array must be replicated.
 
 {% assign diagram = "copying-vector" %}
-{% assign caption = "Visualizing a Copy Constructor. Both the members and anything they refer to must be copied" %}
+{% assign caption = "Visualizing a Copy Constructor. Both the members and anything they refer to must be copied." %}
 {% include diagram.html %}
 
-We'd like to do value operations without unnecessary copies:
+We'd like to perform value operations without unnecessary copies:
 
 {% highlight cpp %}
 Vector c = a + b;
@@ -134,6 +135,8 @@ Our instincts say:
 Copying the value out of a function and then deleting the local seems absurd.
 Let's see what we could do already in C++03 to tackle this problem.
 
+---------------------------------------
+
 ### Can I "move" in C++03? {#cpp03}
 
 Ideally, given the problem of implementing `operator +` for two vectors, we'd
@@ -159,9 +162,9 @@ Vector operator + (Vector const& a, Vector const& b)
 {% endhighlight %}
 
 And that's exactly what you should write, because _the compiler will get rid of
-the copy for you_! This happens because of Copy Elision (specified in the C++
-standard in clause 12.8.31), and more specifically because of NRVO ([Named
-Return Value
+the copy for you_! This happens because of Copy Elision (specified in the [C++
+standard](http://isocpp.org/) in clause 12.8.31), and more specifically because
+of NRVO ([Named Return Value
 Optimization](http://en.wikipedia.org/wiki/Return_value_optimization)).
 Returning a local variable by value is detected by the compiler, and the
 needless copy is elided. This optimization was first developed in 1991, so you
@@ -173,9 +176,11 @@ can rest assured your compiler supports it.
 Now, I say _usually_, because there are corner cases where this optimization
 will not trigger. See the [Wikipedia
 Article](http://en.wikipedia.org/wiki/Return_value_optimization) for more
-details.
+details, and consult your favourite compiler manual.
 
 In the next section we'll consider another problem where move semantics are needed.
+
+---------------------------------------
 
 ### Why do I _really_ need moves and C++11? {#why2}
 
@@ -186,19 +191,19 @@ situations like:
 
 * Passing subcomponents to a constructor of an aggregate
 * Handing off a value to another task or thread.
-* Transferring ownership of a unique resource (e.g. a file handle, thread)
+* Transferring ownership of a unique resource (e.g. a file handle, thread, `std::unique_ptr`)
 
 In all of the above cases, the need to transfer without copying is necessary.
 Yet again, pointers are not the answer here. Using pointers for this transfer
 requires managing the storage (either the heap, or some shared memory), which
-should be unnecessary.
+should be unnecessary, or defeats the purpose entirely.
 
 Simply put, our two use cases for moves allow efficient passing of values.
 
 > Moves allow value semantics, without extraneous copies.
 
 To keep a concrete problem in mind, let's look at initializing an aggregate
-object from two _Vector_ objects.
+object from two `Vector` objects. We'll define `Ray` concretely soon.
 
 {% highlight cpp %}
 // Example of extraneous copies
@@ -221,6 +226,8 @@ Ray computeRay()
 {% endhighlight %}
 
 Now that we have a problem, how do we solve it?
+
+---------------------------------------
 
 ### What are rvalues and how do they relate to move semantics? {#rvalues}
 
@@ -257,10 +264,13 @@ Vector myVec = createVector("hello world");
 
 Given that _by definition_ we cannot refer directly to _rvalues_, we need
 _rvalue references_ (`&&`) to be able to bind to them. This allows overloading
-functions/methods/constructors for rvalue arguments:
+functions/methods/constructors for rvalue arguments which we know will expire.
+This way we can define a separate _Move Constructor_ for our `Vector` that is
+cheaper than a copy:
 
 {% highlight cpp %}
-// Move constructor
+// Move constructor.
+// "other" will soon expire!
 Vector::Vector(Vector&& other)
     // shallow copy
     : storage_(other.storage_)
@@ -272,9 +282,7 @@ Vector::Vector(Vector&& other)
 }
 {% endhighlight %}
 
-Above we define a proper "Move Constructor" which is called by the compiler
-when we try to construct an object from an _rvalue_. Since the _rvalue_ will
-soon expire, a simple move intead of a copy will suffice. A move involves:
+A _Move Constructor_ involves:
 
 * A shallow copy
    
@@ -286,12 +294,15 @@ soon expire, a simple move intead of a copy will suffice. A move involves:
      source so the destructor doesn't release them.
 
 {% assign diagram = "moving-vector" %}
-{% assign caption = "Visualizing a Move Constructor in two steps. The resources are 'Stolen' from the source." %}
+{% assign caption = "Visualizing a Move Constructor in two steps. The resources are 'stolen' from the source." %}
 {% include diagram.html %}
 
 > Rvalues cannot be used directly, only through rvalue references
 > <code>&amp;&amp;</code>, and are very different notions.  Rvalue references
-> allow specifying a function overload for an expiring value
+> allow specifying a function overload for an expiring value, such as a move
+> constructor.
+
+---------------------------------------
 
 ### How to use `std::move`? Does it perform the move? {#std-move}
 
@@ -299,9 +310,9 @@ This article is about moves, but we have yet to use `std::move`. What gives?
 Quick recap:
 
 * _rvalues_ are "expiring" values
-* _rvalue references_ are a way to refer to rvalues, and specify overloads for
+* _rvalue references_ are a way to refer to _rvalues_, and specify overloads for
   them.
-* Given the rvalue reference we can perform a move (shallow copy + nullify)
+* Given the _rvalue reference_ we can perform a move (shallow copy + nullify)
 * To trigger a move, need to pick correct overload
 
 If we have a local _lvalue_, how do we trigger an _rvalue reference_ overload
@@ -378,6 +389,8 @@ It bears reiterating:
 > lvalue to an rvalue, to allow an actual move to happen (e.g. in a move
 > constructor)
 
+---------------------------------------
+
 ### Is there a difference between an _rvalue_ and an _rvalue reference_? {#rv-vs-rvref}
 
 Long story short: Yes! The two notions are very different.  I see this
@@ -412,7 +425,9 @@ out of scope- and that's exactly what happens in both cases.  Both references
 returned would be referring to already-destroyed objects.
 
 > A value returned from a function is already an rvalue. Returning an rvalue
-> reference to a local is as bad as returning an lvalue reference.
+> reference to a local is as bad as returning an lvalue reference to it.
+
+---------------------------------------
 
 ### Are moves free? Are moves faster than copies? {#cost}
 
@@ -432,6 +447,8 @@ variables. If there is no "depth" to the structure, then there are no
 performance benefits to moves.
 
 > For simple structures with no indirection, moves are copies.
+
+---------------------------------------
 
 ### Clever solutions in C++03 {#clever}
 
