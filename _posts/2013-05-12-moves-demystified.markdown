@@ -28,7 +28,7 @@ section below:
 * [Can I "move" in C++03?](#cpp03)
 
    * Even in C++03, returning by value usually results in no copies because of
-     NRVO.
+     Copy Elision.
 
 * [Why do I _really_ need moves and C++11?](#why2)
 
@@ -162,16 +162,16 @@ Vector operator + (Vector const& a, Vector const& b)
 {% endhighlight %}
 
 And that's exactly what you should write, because _the compiler will get rid of
-the copy for you_! This happens because of Copy Elision (specified in the [C++
-standard](http://isocpp.org/) in clause 12.8.31), and more specifically because
-of NRVO ([Named Return Value
-Optimization](http://en.wikipedia.org/wiki/Return_value_optimization)).
-Returning a local variable by value is detected by the compiler, and the
-needless copy is elided. This optimization was first developed in 1991, so you
-can rest assured your compiler supports it.
+the copy for you_! This happens because of [Copy
+Elision](http://en.cppreference.com/w/cpp/language/copy_elision) (specified in
+the [C++ standard](http://isocpp.org/) in clause 12.8.31), and more
+specifically because of NRVO (Named Return Value Optimization).  Returning a
+local variable by value is detected by the compiler, and the needless copy is
+elided. This optimization was first developed in 1991, so you can rest assured
+your compiler supports it.
 
 > Even in C++03, returning by value usually results in no copies because of
-> NRVO.
+> Copy Elision.
 
 Now, I say _usually_, because there are corner cases where this optimization
 will not trigger. See the [Wikipedia
@@ -307,21 +307,11 @@ A _Move Constructor_ involves:
 ### How to use `std::move`? Does it perform the move? {#std-move}
 
 This article is about moves, but we have yet to use `std::move`. What gives?
-Quick recap:
 
-* _rvalues_ are "expiring" values
-* _rvalue references_ are a way to refer to _rvalues_, and specify overloads for
-  them.
-* Given the _rvalue reference_ we can perform a move (shallow copy + nullify)
-* To trigger a move, need to pick correct overload
-
-If we have a local _lvalue_, how do we trigger an _rvalue reference_ overload
-of a function or a constructor?
-
-* `std::move` does not perform the move, it merely hints the compiler at which
-  overload to use, by casting.
-* An actual move is the process of transferring the inner components out of an
-  rvalue, such as in a move constructor.
+Unfortunately, `std::move` is in some sense a misnomer. Think of `std::move` as
+a new type of cast that casts an _lvalue_ to an _rvalue_. This cast makes the
+compiler select the _rvalue reference_ overload (for example a move
+constructor), where the _actual_ move is performed.
 
 To be more concrete, and work towards a problem established earlier, let's
 define the `Ray` class that has overloaded constructors:
@@ -360,7 +350,7 @@ Ray::Ray(Vector&& origin, Vector&& direction)
 { }
 {% endhighlight %}
 
-Solving the problem is within reach. Given local _lvalues_ that we need to
+Solving the problem is now within reach. Given local _lvalues_ that we need to
 move, we can cast them to _rvalues_ using `std::move`:
 
 {% highlight cpp %}
@@ -393,12 +383,12 @@ It bears reiterating:
 
 ### Is there a difference between an _rvalue_ and an _rvalue reference_? {#rv-vs-rvref}
 
-Long story short: Yes! The two notions are very different.  I see this
-misconception come up time and time again, but not in the form of this direct
-question. The truth is, when learning the new concept of rvalues, the ideas of
-_rvalues_ and _rvalue references_ become conflated together.  Many refer to
-one or the other interchangeably.  This is a stage I lived through, and was
-surprised that this is rarely disambiguated directly.
+Yes! The two notions are very different.  This misconception comes up time and
+time again, but not in the form of this direct question. I noticed that while
+learning the new concept of rvalues, the ideas of _rvalues_ and _rvalue
+references_ can become conflated together.  Many refer to one or the other
+interchangeably.  This is a stage I lived through, and was surprised that this
+is rarely disambiguated directly.
 
 This often manifests itself in code like this (which doesn't work):
 
