@@ -100,8 +100,14 @@ public:
 {% endhighlight %}
 
 Even though these vectors have a fixed size throughout their lifetime, they may
-be quite large, so copying them would be prohibilitively expensive. In
-particular, we'd like to do this without unnecessary copies:
+be quite large, so copying them would be prohibilitively expensive. The whole
+underlying array must be replicated.
+
+{% assign diagram = "copying-vector" %}
+{% assign caption = "Visualizing a Copy Constructor. Both the members and anything they refer to must be copied" %}
+{% include diagram.html %}
+
+We'd like to do value operations without unnecessary copies:
 
 {% highlight cpp %}
 Vector c = a + b;
@@ -278,6 +284,10 @@ soon expire, a simple move intead of a copy will suffice. A move involves:
 
    * Having stolen the pointers/resources, we nullify these fields in the
      source so the destructor doesn't release them.
+
+{% assign diagram = "moving-vector" %}
+{% assign caption = "Visualizing a Move Constructor in two steps. The resources are 'Stolen' from the source." %}
+{% include diagram.html %}
 
 > Rvalues cannot be used directly, only through rvalue references
 > <code>&amp;&amp;</code>, and are very different notions.  Rvalue references
