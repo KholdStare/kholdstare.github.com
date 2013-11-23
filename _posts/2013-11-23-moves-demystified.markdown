@@ -204,7 +204,8 @@ Yet again, pointers are not the answer here. Using pointers for this transfer
 requires managing the storage (either the heap, or some shared memory), which
 should be unnecessary, or defeats the purpose entirely.
 
-Simply put, our two use cases for moves allow efficient passing of values.
+Simply put, transferring values in and out of a scope allows efficient passing
+of values.
 
 > Moves allow value semantics, without extraneous copies.
 
