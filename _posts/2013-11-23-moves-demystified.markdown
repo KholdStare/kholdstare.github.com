@@ -541,4 +541,5 @@ resources to look at:
 
    * An indepth talk and article on perfect forwarding.
 
-
+You can also follow a discussion about this article [on
+reddit](http://www.reddit.com/r/programming/comments/1r9t40/moves_demystified_c11_article_xpost_from_rcpp/).
