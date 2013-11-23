@@ -48,6 +48,14 @@ section below:
    * `std::move` does not perform the move.
    * It is nothing more than a cast from an lvalue to an rvalue, to allow an
      actual move to happen (e.g. in a move constructor).
+   * To move an rvalue down through successive layers, `std::move` has to be
+     applied each time, even to rvalue references.
+
+* [Why do I need to use `std::move` on rvalue references?](#std-move2)
+
+   * _rvalue references_ are themselves _lvalues_.
+   * To move an rvalue down through successive layers, `std::move` has to be
+     applied each time, even to rvalue references.
 
 * [Is there a difference between an _rvalue_ and an _rvalue reference_?](#rv-vs-rvref)
 
@@ -65,6 +73,8 @@ section below:
 
    * Expression Templates
    * Faking Rvalues
+
+* [Conclusion and other resources](#conclusion)
 
 ---------------------------------------
 
@@ -309,8 +319,8 @@ A _Move Constructor_ involves:
 This article is about moves, but we have yet to use `std::move`. What gives?
 
 Unfortunately, `std::move` is in some sense a misnomer. Think of `std::move` as
-a new type of cast that casts an _lvalue_ to an _rvalue_. This cast makes the
-compiler select the _rvalue reference_ overload (for example a move
+a new type of cast that casts any expression to an _rvalue_. This cast makes
+the compiler select the _rvalue reference_ overload (for example a move
 constructor), where the _actual_ move is performed.
 
 To be more concrete, and work towards a problem established earlier, let's
@@ -334,24 +344,8 @@ public:
 {% endhighlight %}
 
 Using `std::move` we can tell the compiler that the value is no longer needed
-in this scope.  By casting an lvalue to an rvalue, the compiler can now pick
-the correct overload that accepts the rvalue argument, such as a move
-constructor.
-
-When composing a larger aggregate out of smaller movable objects, we can
-delegate the process of moving to the sub-components using `std::move`:
-
-{% highlight cpp %}
-// Construct by moving subcomponents
-Ray::Ray(Vector&& origin, Vector&& direction)
-    // move construct inner objects
-    : origin_(std::move(origin))
-    , direction_(std::move(direction))
-{ }
-{% endhighlight %}
-
-Solving the problem is now within reach. Given local _lvalues_ that we need to
-move, we can cast them to _rvalues_ using `std::move`:
+in this scope.  Solving the problem is now within reach. Given local _lvalues_
+that we need to move, we can cast them to _rvalues_ using `std::move`:
 
 {% highlight cpp %}
 // Example of moving
@@ -378,6 +372,59 @@ It bears reiterating:
 > std::move does not perform the move. It is nothing more than a cast from an
 > lvalue to an rvalue, to allow an actual move to happen (e.g. in a move
 > constructor)
+
+### Why do I need to use `std::move` on rvalue references? {#std-move2}
+
+We tackled moving lvalues down a layer, using std::move. What happens when we already
+have an _rvalue reference_ that we need to move down another layer?
+
+Let's look at a concrete example using our `Ray` class, and its constructor
+that takes two `Vectors` by _rvalue reference_.  When composing a larger
+aggregate out of smaller movable objects, we can delegate the process of moving
+to the sub-components using `std::move`:
+
+{% highlight cpp %}
+// Construct by moving subcomponents.
+Ray::Ray(Vector&& origin, Vector&& direction)
+    // move construct inner objects
+    : origin_(std::move(origin))
+    , direction_(std::move(direction))
+{ }
+{% endhighlight %}
+
+> To move down an rvalue through successive layers, `std::move` has to be
+> applied each time, even to rvalue references.
+
+Why is that?  A mindnumbing realization is that because _rvalue references_ are
+bound to an identifier, they are themselves _lvalues_.  Stop, and take a
+breath. Let's look at that code again, now with more annotations:
+
+{% highlight cpp %}
+// Construct by moving subcomponents.
+// "origin" and "direction" refer to rvalues,
+// but are themselves lvalues in this scope.
+Ray::Ray(Vector&& origin, Vector&& direction)
+    // move construct inner objects,
+    // by casting them to rvalues
+    : origin_(std::move(origin))
+    , direction_(std::move(direction))
+{ }
+{% endhighlight %}
+
+There are several important things to notice here:
+
+* The constructor overload is chosen when both inputs are _rvalues_.
+* Once the _rvalue references_ are bound, we can refer to them.
+
+   * **This means that _rvalue references_ are _lvalues_**!
+
+* We have to use `std::move` to cast these references back to _rvalues_ to pass
+  them to the move constructors of the `Vector` objects.
+
+Phew!
+
+> _rvalue references_ bound to an identifier, can be referred to in their scope
+> and are therefore lvalues.
 
 ---------------------------------------
 
@@ -461,4 +508,26 @@ on these techniques at the links below:
    * [Boost Move](http://www.boost.org/doc/libs/1_54_0/doc/html/move.html)
      emulates rvalues and move semantics through very clever C++ tricks,
      allowing the creation of movable objects in C++03.
+
+---------------------------------------
+
+### Conclusion and other resources {#conclusion}
+
+I hope this has helped some of you understand the basics of move semantics.
+Please comment below with corrections/suggestions, and if I have missed any
+other common questions about moves in C++11/14.
+
+To dive deeper into move semantics and various pitfalls, here are a few more
+resources to look at:
+
+* Dave Abrahams -- [Want Speed? Pass by Value](http://cpp-next.com/archive/2009/08/want-speed-pass-by-value/)
+
+* Scott Meyers -- [An Effective C++11/14 Sampler](http://channel9.msdn.com/Events/GoingNative/2013/An-Effective-Cpp11-14-Sampler)
+
+   * This a great and dense talk on best practices and gotchas in C++11/14, that begins with advice on move semantics.
+
+* Scott Meyers -- [Universal References in C++11](http://isocpp.org/blog/2012/11/universal-references-in-c11-scott-meyers)
+
+   * An indepth talk and article on perfect forwarding.
+
 
