@@ -10,7 +10,7 @@
     <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 30 0 C 40,0 140,0 150,0 C 160,0 160,0 160,20 C 160,40 160,10 160,30 C 160,50 160,50 150,50 C 140,50 40,50 30,50 C 20,50 20,50 20,30 C 20,10 20,40 20,20 C 20,0 20,0 30,0"/>
   </g>
   <text font-size="14.1111" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="90" y="29.875">
-    <tspan x="90" y="29.875">C Source File</tspan>
+    <tspan x="90" y="29.875" xml:space="preserve">C Source File</tspan>
   </text>
   <g>
     <rect style="fill: #cc2f2f" x="0" y="80" width="180" height="40"/>
@@ -22,7 +22,7 @@
     <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="80,50 80,70 70,70 90,90 110,70 100,70 100,50 "/>
   </g>
   <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:italic;font-weight:normal" x="90" y="105.875">
-    <tspan x="90" y="105.875">Preprocessor</tspan>
+    <tspan x="90" y="105.875" xml:space="preserve">Preprocessor</tspan>
   </text>
   <g>
     <rect style="fill: #cc2f2f" x="0" y="150" width="180" height="50"/>
@@ -34,15 +34,15 @@
     <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="80,120 80,140 70,140 90,160 110,140 100,140 100,120 "/>
   </g>
   <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:italic;font-weight:normal" x="90" y="170.292">
-    <tspan x="90" y="170.292">Compiler/</tspan>
-    <tspan x="90" y="191.458">Assembler</tspan>
+    <tspan x="90" y="170.292" xml:space="preserve">Compiler/</tspan>
+    <tspan x="90" y="191.458" xml:space="preserve">Assembler</tspan>
   </text>
   <g>
     <path style="fill: #ffa500" d="M 220 80 C 230,80 330,80 340,80 C 350,80 350,80 350,100 C 350,120 350,120 340,120 C 330,120 230,120 220,120 C 210,120 210,120 210,100 C 210,80 210,80 220,80z"/>
     <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 220 80 C 230,80 330,80 340,80 C 350,80 350,80 350,100 C 350,120 350,120 340,120 C 330,120 230,120 220,120 C 210,120 210,120 210,100 C 210,80 210,80 220,80"/>
   </g>
   <text font-size="14.1111" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="280" y="104.875">
-    <tspan x="280" y="104.875">#include files</tspan>
+    <tspan x="280" y="104.875" xml:space="preserve">#include files</tspan>
   </text>
   <g>
     <polygon style="fill: #ffffff" points="210,90 190,90 190,80 170,100 190,120 190,110 210,110 "/>
@@ -54,7 +54,7 @@
     <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 30 230 C 40,230 140,230 150,230 C 160,230 160,230 160,250 C 160,270 160,270 150,270 C 140,270 40,270 30,270 C 20,270 20,270 20,250 C 20,230 20,230 30,230"/>
   </g>
   <text font-size="14.1111" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="90" y="254.875">
-    <tspan x="90" y="254.875">Object File</tspan>
+    <tspan x="90" y="254.875" xml:space="preserve">Object File</tspan>
   </text>
   <g>
     <polygon style="fill: #ffffff" points="80,200 80,220 70,220 90,240 110,220 100,220 100,200 "/>
@@ -62,7 +62,7 @@
     <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="80,200 80,220 70,220 90,240 110,220 100,220 100,200 "/>
   </g>
   <text font-size="22.5778" style="fill: #495b5d;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="270" y="190">
-    <tspan x="270" y="190">Translation</tspan>
-    <tspan x="270" y="218.222">Unit</tspan>
+    <tspan x="270" y="190" xml:space="preserve">Translation</tspan>
+    <tspan x="270" y="218.222" xml:space="preserve">Unit</tspan>
   </text>
 </svg>
