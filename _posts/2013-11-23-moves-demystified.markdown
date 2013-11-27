@@ -79,6 +79,8 @@ section below:
 
 * [Conclusion and other resources](#conclusion)
 
+* [User Comments](#disqus_thread)
+
 ---------------------------------------
 
 ### Why are moves needed? {#why1}
@@ -250,17 +252,20 @@ ones. Once we know that, we can decide whether to copy or move. By looking at a
 typical assignment we can see where the terms _lvalue_ and _rvalue_ come from:
 
 {% highlight cpp %}
-//     c is an lvalue
-//     |
-Vector c = a + b;
-//         ^^^^^
+Vector a, b, c;
+// c is an lvalue. It is on the "left"
+// |
+   c = a + b;
+//     ^^^^^
 // the result of the "a + b" expression is an rvalue
+// It is on the "right"
 {% endhighlight %}
 
 * _Lvalues_ are values that you can freely refer to in their scope because they
-  are bound to an identifier- such as variables. _Lvalues_ are also assignable.
+  are bound to a name- such as variables. As such, _lvalues_ can be assigned
+  to, and used several times in a single scope.
 * _Rvalues_, cannot be directly referred to because they are temporaries and
-  are not bound to an identifier- such as values returned by a function, or the
+  are not bound to a name- such as values returned by a function, or the
   direct result of an inline construction:
 
 {% highlight cpp %}
@@ -384,6 +389,8 @@ It bears reiterating:
 > lvalue to an rvalue, to allow an actual move to happen (e.g. in a move
 > constructor)
 
+---------------------------------------
+
 ### Why do I need to use `std::move` on rvalue references? {#std-move2}
 
 We tackled moving lvalues down a layer, using std::move. What happens when we already
@@ -407,8 +414,10 @@ Ray::Ray(Vector&& origin, Vector&& direction)
 > applied each time, even to rvalue references.
 
 Why is that?  A mindnumbing realization is that because _rvalue references_ are
-bound to an identifier, they are themselves _lvalues_.  Stop, and take a
-breath. Let's look at that code again, now with more annotations:
+bound to a name, they are themselves _lvalues_.  We need to tell the compiler
+that this value is no longer needed in this scope.  Stop, and take a breath.
+
+Let's look at that code again, now with more annotations:
 
 {% highlight cpp %}
 // Construct by moving subcomponents.
@@ -425,17 +434,20 @@ Ray::Ray(Vector&& origin, Vector&& direction)
 There are several important things to notice here:
 
 * The constructor overload is chosen when both inputs are _rvalues_.
-* Once the _rvalue references_ are bound, we can refer to them.
+* Once the _rvalue references_ are bound, we can refer to them in the scope.
 
-   * **This means that _rvalue references_ are _lvalues_**!
+   * **This means that these _rvalue references_ are _lvalues_**!
 
 * We have to use `std::move` to cast these references back to _rvalues_ to pass
   them to the move constructors of the `Vector` objects.
 
 Phew!
 
-> _rvalue references_ bound to an identifier, can be referred to in their scope
-> and are therefore lvalues.
+> _rvalue references_ bound to a name, can be referred to in their scope and
+> are therefore lvalues.
+
+If this last quote makes your head spin, just remember that to move a value
+down through successive layers, `std::move` has to be applied each time.
 
 ---------------------------------------
 
@@ -474,6 +486,17 @@ returned would be referring to already-destroyed objects.
 
 > A value returned from a function is already an rvalue. Returning an rvalue
 > reference to a local is as bad as returning an lvalue reference to it.
+
+Just so there is no confusion, here's the simplest and correct way to do it:
+
+{% highlight cpp %}
+//  Optimal thanks to Copy Elision
+std::string func()
+    return "Hello World";
+}
+{% endhighlight %}
+
+Any temporaries and copies dissapear due to Copy Elision.
 
 ---------------------------------------
 
@@ -540,6 +563,10 @@ resources to look at:
 * Scott Meyers -- [Universal References in C++11](http://isocpp.org/blog/2012/11/universal-references-in-c11-scott-meyers)
 
    * An indepth talk and article on perfect forwarding.
+
+* Thomas Becker -- [C++ Rvalue References Explained](http://thbecker.net/articles/rvalue_references/section_01.html)
+
+   * A thorough article focusing on rvalue references, and how they relate to moves, and perfect forwarding.
 
 You can also follow a discussion about this article [on
 reddit](http://www.reddit.com/r/programming/comments/1r9t40/moves_demystified_c11_article_xpost_from_rcpp/).
