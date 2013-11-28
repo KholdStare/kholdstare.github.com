@@ -169,7 +169,7 @@ Vector operator + (Vector const& a, Vector const& b)
         a.begin(), a.end(), // input 1
         b.begin(),          // input 2
         result.begin(),     // result
-        std::plus           // binary operation
+        std::plus<double>() // binary operation
     );
 
     return result; // don't want to copy!
