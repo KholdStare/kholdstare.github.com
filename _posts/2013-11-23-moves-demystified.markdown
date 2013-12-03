@@ -2,7 +2,7 @@
 layout: post
 title: "Moves demystified"
 description: >
-  In this article I will try to explain move semantics in C++11 using a more
+  In this article, I will try to explain move semantics in C++11 using a more
   pragmatic approach, by answering specific questions developers may ask. We'll
   start with why moves are needed in the first place, then see how to use them,
   and eventually move onto common misconceptions and pitfalls.
@@ -16,17 +16,17 @@ tags:
 
 ### Index
 
-The article is quite large so I include a short summary and links to each
-section below:
+The article is quite large, so I included a short summary with links for each
+of the sections below:
 
 * [Why are moves needed?](#why1)
 
-   * Need some way to return a value out of scope directly, without copying
+   * Moves make it possible to  return a value out of scope directly, without the overhead incurred by copying
 
 * [Can I "move" in C++03?](#cpp03)
 
    * Even in C++03, returning by value usually results in no copies because of
-     Copy Elision.
+     copy elision.
 
 * [Why do I _really_ need moves and C++11?](#why2)
 
@@ -35,10 +35,10 @@ section below:
 
 * [What are rvalues and how do they relate to move semantics?](#rvalues)
 
-   * Rvalues are expiring/temporary values.
-   * Rvalues cannot be used directly, only through rvalue references
+   * Rvalues are values that are either temporary or on the verge of expiry
+   * Rvalues cannot be used directly, except through rvalue references
      <code>&amp;&amp;</code>.
-   * Rvalue references allow specifying a function overload for an expiring
+   * Rvalue references make it possible to specify a function overload for an expiring
      value.
 
 * [How is a move performed?](#move-constructor)
@@ -48,11 +48,12 @@ section below:
       * Shallow Copy
       * Nullify Source
 
-* [How to use `std::move`? Does it perform the move?](#std-move)
+* [How is `std::move` used? Does it perform the move?](#std-move)
 
    * `std::move` does not perform the move.
    * It is nothing more than a cast from an lvalue to an rvalue, to allow an
-     actual move to happen (e.g. in a move constructor).
+     actual move to happen (e.g. by causing a appropriate 
+     move constructor to be called)
 
 * [Why do I need to use `std::move` on rvalue references?](#std-move2)
 
@@ -69,7 +70,7 @@ section below:
 
 * [Are moves free? Are moves faster than copies?](#cost)
 
-   * They are not free: still have to perform a shallow copy.
+   * They are not free: they still have to perform a shallow copy.
    * For simple structures with no indirection, moves **are** copies.
 
 * [Clever solutions in C++03](#clever)
@@ -116,7 +117,7 @@ public:
 {% endhighlight %}
 
 Even though these vectors have a fixed size throughout their lifetime, they may
-be quite large, so copying them would be prohibilitively expensive. The whole
+be quite large, so copying them would be prohibitively expensive. The whole
 underlying array must be replicated.
 
 {% assign diagram = "copying-vector" %}
@@ -142,13 +143,13 @@ Our instincts say:
 * Returning by value is bad! We make a copy!
 * If we allocate on the heap and return a pointer, who deletes it?
 
-   * Doesn't compose! Can't chain several additions since we're not working
+   * It doesn't compose! Can't chain several additions since we're not working
      with values.
 
-> Need some way to transfer a value out of scope directly, without copying
+> We need some way to move a value to another scope directly, without copying
 
 Copying the value out of a function and then deleting the local seems absurd.
-Let's see what we could do already in C++03 to tackle this problem.
+Let's see what already exists in C++03 to tackle this problem.
 
 ---------------------------------------
 
@@ -172,13 +173,13 @@ Vector operator + (Vector const& a, Vector const& b)
         std::plus<double>() // binary operation
     );
 
-    return result; // don't want to copy!
+    return result; // ... but can we avoid the copy?
 }
 {% endhighlight %}
 
 And that's exactly what you should write, because _the compiler will get rid of
-the copy for you_! This happens because of [Copy
-Elision](http://en.cppreference.com/w/cpp/language/copy_elision) (specified in
+the copy for you_! This happens because of [copy
+elision](http://en.cppreference.com/w/cpp/language/copy_elision) (specified in
 the [C++ standard](http://isocpp.org/) in clause 12.8.31), and more
 specifically because of NRVO (Named Return Value Optimization).  Returning a
 local variable by value is detected by the compiler, and the needless copy is
@@ -186,12 +187,11 @@ elided. This optimization was first developed in 1991, so you can rest assured
 your compiler supports it.
 
 > Even in C++03, returning by value usually results in no copies because of
-> Copy Elision.
+> copy elision.
 
 Now, I say _usually_, because there are corner cases where this optimization
 will not trigger. See the [Wikipedia
-Article](http://en.wikipedia.org/wiki/Return_value_optimization) for more
-details, and consult your favourite compiler manual.
+Article](http://en.wikipedia.org/wiki/Return_value_optimization) for an overview, and consult your favourite compiler manual for more details.
 
 In the next section we'll consider another problem where move semantics are needed.
 
@@ -208,10 +208,10 @@ situations like:
 * Handing off a value to another task or thread.
 * Transferring ownership of a unique resource (e.g. a file handle, thread, `std::unique_ptr`)
 
-In all of the above cases, the need to transfer without copying is necessary.
+In all of the cases above, there is a need to transfer without copying.
 Yet again, pointers are not the answer here. Using pointers for this transfer
 requires managing the storage (either the heap, or some shared memory), which
-should be unnecessary, or defeats the purpose entirely.
+should be unnecessary, and might even defeat the purpose entirely.
 
 Simply put, transferring values in and out of a scope allows efficient passing
 of values.
@@ -223,6 +223,7 @@ object from two `Vector` objects. We'll define `Ray` concretely soon.
 
 {% highlight cpp %}
 // Example of extraneous copies
+// (A more concrete definition follows in a subsequent example)
 Ray computeRay()
 {
     Vector origin;
@@ -241,7 +242,7 @@ Ray computeRay()
 }
 {% endhighlight %}
 
-Now that we have a problem, how do we solve it?
+Now that we have defined the problem, how do we solve it?
 
 ---------------------------------------
 
@@ -285,10 +286,10 @@ Given that _by definition_ we cannot refer directly to _rvalues_, we need
 _rvalue references_ (`&&`) to be able to bind to them. This allows overloading
 functions/methods/constructors for rvalue arguments which we know will expire.
 
-> Rvalues cannot be used directly, only through rvalue references
-> <code>&amp;&amp;</code>, and are very different notions.  Rvalue references
-> allow specifying a function overload for an expiring value, such as a move
-> constructor.
+> Rvalues are values that are either temporary or on the verge of expiry. They cannot be used 
+> directly, except through rvalue references <code>&amp;&amp;</code>. Rvalues and rvalue references are 
+> very different notions. Rvalue references make it possible to specify a function overload for an
+> expiring value, such as a move constructor.
 
 ---------------------------------------
 
@@ -385,9 +386,9 @@ Ray computeRay()
 
 It bears reiterating:
 
-> std::move does not perform the move. It is nothing more than a cast from an
-> lvalue to an rvalue, to allow an actual move to happen (e.g. in a move
-> constructor)
+> `std::move` does not perform the move.It is nothing more than a cast from an 
+> lvalue to an rvalue, to allow an actual move to happen (e.g. by causing a appropriate 
+> move constructor to be called).
 
 ---------------------------------------
 
@@ -413,9 +414,9 @@ Ray::Ray(Vector&& origin, Vector&& direction)
 > To move down an rvalue through successive layers, `std::move` has to be
 > applied each time, even to rvalue references.
 
-Why is that?  A mindnumbing realization is that because _rvalue references_ are
+Why is that?  A mind-bending realization is that because _rvalue references_ are
 bound to a name, they are themselves _lvalues_.  We need to tell the compiler
-that this value is no longer needed in this scope.  Stop, and take a breath.
+that this value is no longer needed in this scope.  Stop here, and take a breath.
 
 Let's look at that code again, now with more annotations:
 
@@ -457,7 +458,7 @@ Yes! The two notions are very different.  This misconception comes up time and
 time again, but not in the form of this direct question. I noticed that while
 learning the new concept of rvalues, the ideas of _rvalues_ and _rvalue
 references_ can become conflated together.  Many refer to one or the other
-interchangeably.  This is a stage I lived through, and was surprised that this
+interchangeably.  This is a stage I experienced, and was surprised that this
 is rarely disambiguated directly.
 
 This often manifests itself in code like this (which doesn't work):
@@ -496,7 +497,7 @@ std::string func()
 }
 {% endhighlight %}
 
-Any temporaries and copies dissapear due to Copy Elision.
+Any temporaries and copies dissapear due to copy elision.
 
 ---------------------------------------
 
