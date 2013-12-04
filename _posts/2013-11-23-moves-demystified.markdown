@@ -21,7 +21,7 @@ of the sections below:
 
 * [Why are moves needed?](#why1)
 
-   * Moves make it possible to  return a value out of scope directly, without the overhead incurred by copying
+   * Moves make it possible to return a value out of scope directly, without copying
 
 * [Can I "move" in C++03?](#cpp03)
 
@@ -35,11 +35,11 @@ of the sections below:
 
 * [What are rvalues and how do they relate to move semantics?](#rvalues)
 
-   * Rvalues are values that are either temporary or on the verge of expiry
+   * Rvalues are expiring/temporary values.
    * Rvalues cannot be used directly, except through rvalue references
      <code>&amp;&amp;</code>.
-   * Rvalue references make it possible to specify a function overload for an expiring
-     value.
+   * Rvalue references make it possible to specify a function overload for an
+     expiring value.
 
 * [How is a move performed?](#move-constructor)
 
@@ -52,8 +52,8 @@ of the sections below:
 
    * `std::move` does not perform the move.
    * It is nothing more than a cast from an lvalue to an rvalue, to allow an
-     actual move to happen (e.g. by causing a appropriate 
-     move constructor to be called)
+     actual move to happen (e.g. by causing an appropriate move constructor to
+     be called)
 
 * [Why do I need to use `std::move` on rvalue references?](#std-move2)
 
@@ -146,7 +146,7 @@ Our instincts say:
    * It doesn't compose! Can't chain several additions since we're not working
      with values.
 
-> We need some way to move a value to another scope directly, without copying
+> We need some way to move a value out of a scope directly, without copying
 
 Copying the value out of a function and then deleting the local seems absurd.
 Let's see what already exists in C++03 to tackle this problem.
@@ -191,7 +191,8 @@ your compiler supports it.
 
 Now, I say _usually_, because there are corner cases where this optimization
 will not trigger. See the [Wikipedia
-Article](http://en.wikipedia.org/wiki/Return_value_optimization) for an overview, and consult your favourite compiler manual for more details.
+Article](http://en.wikipedia.org/wiki/Return_value_optimization) for an
+overview, and consult your favourite compiler manual for more details.
 
 In the next section we'll consider another problem where move semantics are needed.
 
@@ -286,10 +287,10 @@ Given that _by definition_ we cannot refer directly to _rvalues_, we need
 _rvalue references_ (`&&`) to be able to bind to them. This allows overloading
 functions/methods/constructors for rvalue arguments which we know will expire.
 
-> Rvalues are values that are either temporary or on the verge of expiry. They cannot be used 
-> directly, except through rvalue references <code>&amp;&amp;</code>. Rvalues and rvalue references are 
-> very different notions. Rvalue references make it possible to specify a function overload for an
-> expiring value, such as a move constructor.
+> Rvalues are values that are either temporary or on the verge of expiry. They
+> cannot be used directly, except through rvalue references
+> <code>&amp;&amp;</code>. Rvalue references make it possible to specify a
+> function overload for an expiring value, such as a move constructor.
 
 ---------------------------------------
 
@@ -331,7 +332,7 @@ A _Move Constructor_ involves:
 
 ---------------------------------------
 
-### How to use `std::move`? Does it perform the move? {#std-move}
+### How is `std::move` used? Does it perform the move? {#std-move}
 
 This article is about moves, but we have yet to use `std::move`. What gives?
 
@@ -386,9 +387,9 @@ Ray computeRay()
 
 It bears reiterating:
 
-> `std::move` does not perform the move.It is nothing more than a cast from an 
-> lvalue to an rvalue, to allow an actual move to happen (e.g. by causing a appropriate 
-> move constructor to be called).
+> `std::move` does not perform the move. It is nothing more than a cast from an
+> lvalue to an rvalue, to allow an actual move to happen (e.g. by causing an
+> appropriate move constructor to be called).
 
 ---------------------------------------
 
@@ -461,7 +462,12 @@ references_ can become conflated together.  Many refer to one or the other
 interchangeably.  This is a stage I experienced, and was surprised that this
 is rarely disambiguated directly.
 
-This often manifests itself in code like this (which doesn't work):
+> Rvalues and rvalue references are very different notions. Rvalues are the
+> actual expiring values that cannot be used directly. To access rvalues, we
+> use rvalue references.
+
+The misconception often manifests itself in code like this (which doesn't
+work):
 
 {% highlight cpp %}
 // How NOT to do it
@@ -497,7 +503,7 @@ std::string func()
 }
 {% endhighlight %}
 
-Any temporaries and copies dissapear due to copy elision.
+Any temporaries and copies disappear due to copy elision.
 
 ---------------------------------------
 
