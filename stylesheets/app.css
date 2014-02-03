@@ -3496,7 +3496,7 @@ pre {
   background-color: #ffffcc;
 }
 /* line 373, ../sass/app.scss */
-.highlight .k, .highlight .nt {
+.highlight .k, .highlight .kr, .highlight .nt, .highlight .nl {
   color: #2ba6cb;
 }
 /* line 374, ../sass/app.scss */

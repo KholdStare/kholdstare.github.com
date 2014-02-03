@@ -370,7 +370,7 @@ pre  {
     color: $txtColor;
 
     .hll { background-color: #ffffcc }
-    .k, .nt { color: $mainColor } /* Keyword, Name.Tag */
+    .k, .kr, .nt, .nl { color: $mainColor } /* Keyword, Name.Tag */
     .c, .cm, .c1, .cs { color: #99968b; font-style: italic} /* Comment */
     .cp { color: #e5786d} /* Comment.Preproc */
     .m { color: #e5786d} /* Literal.Number */
