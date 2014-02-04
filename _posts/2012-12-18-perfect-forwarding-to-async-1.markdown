@@ -117,9 +117,8 @@ public:
 Given this quick overview, it should be apparent that moves help save
 unnecessary copies- essential if you want to write an efficient library. This is
 the _"value of rvalues"_. For a more focused overview, you could also look at a
-<a
-href="http://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html">larger
-article by Alex Allain</a> about move semantics.
+<a href="http://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html">larger article by Alex Allain</a>
+about move semantics.
 
 ### Profiling copies/moves
 
