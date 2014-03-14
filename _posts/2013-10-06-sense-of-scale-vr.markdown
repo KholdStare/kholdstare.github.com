@@ -104,7 +104,7 @@ in underrepresentation of scale.
 * __Relative size__ - assumes at same distance
 * __Parallax__ - assumes objects are stationary
 
-{% assign youtube = "eLU-rEKopTg" %}
+{% assign youtube = "zNbF006Y5x4" %}
 {% assign caption = "In this video a man exploits our assumptions about scale to set up a room full of optical illusions" %}
 {% include youtube.html %}
 
