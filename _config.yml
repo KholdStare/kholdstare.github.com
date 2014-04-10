@@ -8,6 +8,7 @@ author :
   github: "KholdStare"
 
 production_url : http://kholdstare.github.com
+markdown: kramdown
 
 nav_locations:
   - url: "/index.html"
