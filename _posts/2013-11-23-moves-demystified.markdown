@@ -575,5 +575,4 @@ resources to look at:
 
    * A thorough article focusing on rvalue references, and how they relate to moves, and perfect forwarding.
 
-You can also follow a discussion about this article [on
-reddit](http://www.reddit.com/r/programming/comments/1r9t40/moves_demystified_c11_article_xpost_from_rcpp/).
+This article has been featured on [isocpp.org](http://isocpp.org/blog/2013/11/moves-demystified) and [reddit](http://www.reddit.com/r/programming/comments/1r9t40/moves_demystified_c11_article_xpost_from_rcpp/).
