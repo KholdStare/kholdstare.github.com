@@ -237,4 +237,13 @@ I'll list a few of them here:
 * Tom Forsyth from the Oculus team talks about [challenges with VR sickness](http://www.oculusvr.com/blog/vr-sickness-the-rift-and-how-game-developers-can-help/)
 * Robotic Scientist Steve LaValle explores [motion prediction for head tracking](http://www.oculusvr.com/blog/the-latent-power-of-prediction/)
 
+### Bonus!
+
+While experimenting with creating content for the Rift I have also done some photography for VR:
+
+{% assign image-url = "https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/OculusPhotograph.jpg" %}
+{% assign caption = "Photo of a landscape from a cliff, taken by two Canon 6D cameras 4 meters apart at the same time. This makes the the world look tiny in comparison to the viewer. This aesthetic would work well with the rapid passing of time in timelapse videos. " %}
+{% include image.html %}
+
 [1]: www.recveb.ucsb.edu/pdfs/BeallLoomisPhilbeckFikes-95.pdf
+
