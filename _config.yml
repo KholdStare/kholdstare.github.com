@@ -23,6 +23,12 @@ nav_locations:
 
 exclude:
   - sass
-  - icomoonFonts
+  - icomoon44505
+  - code_playground
   - diagrams_src
   - javascripts/foundation/join.bash
+  - Gemfile
+  - Gemfile.lock
+  - config.rb
+  - MIT-LICENSE.txt
+  - README.md
