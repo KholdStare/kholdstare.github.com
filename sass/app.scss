@@ -181,8 +181,8 @@ article.panel {
     // handling blockquotes from markdown
     p { margin: 0; }
 
-    // TODO: add a light-colored stripe to left of quote
-    /*@include single-box-shadow($borderColor, -3.5em, 0px, 0px, 0px);*/
+    // a light-colored stripe to left of quote
+    @include single-box-shadow($borderColor, -1.5em, 0px, 0px, 0px);
 }
 
 //}}}

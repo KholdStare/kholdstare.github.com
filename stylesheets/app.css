@@ -3224,7 +3224,9 @@ article.panel {
   margin: 1.5em;
   font-style: italic;
   padding: 1em;
-  /*@include single-box-shadow($borderColor, -3.5em, 0px, 0px, 0px);*/
+  -webkit-box-shadow: -1.5em 0px 0px 0px #4f4f4f;
+  -moz-box-shadow: -1.5em 0px 0px 0px #4f4f4f;
+  box-shadow: -1.5em 0px 0px 0px #4f4f4f;
 }
 /* line 182, ../sass/app.scss */
 .panel blockquote p {
