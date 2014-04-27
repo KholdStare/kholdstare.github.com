@@ -45,6 +45,7 @@ TODO: link to VR-Jam website (if it exists)
    * Most (including me) had a full-time job and other priorities, so we could
      only dedicate one to two hours per day.
    * Noone had any experience making games
+   * Noone was a skilled artist
 
 I was the only one with an Oculus Rift at the time, so it was quite a challenge
 to relay the restrictions and change of priorities in the design space.
@@ -57,11 +58,15 @@ ideally been done before the competition, but the team formed at the
 last-minute, in effect costing us a week of actual development time.
 
 * Discussed ideas
-   * Puzzle/Adventure game because of slower pace - less strenuous in VR.
-   * Manipulation of small environment from the normal world.
-   * Items picked up, scale with the player.
+   * Had to be a Puzzle/Adventure game for slower pace that would be less
+     strenuous in VR.
+   * Manipulation of the small environment from the normal world, that would open up
+     new paths in the small world.
+   * Items picked that are picked up by the player, also scale with him. This
+     allows items obtained from the small world to affect the normal world, and
+     vice versa.
 * Had to pick scales for player to inhabit.
-   * Would affect asset design, puzzle layouts, so it had to be decided ASAP.
+   * This would affect asset design, puzzle layouts, so it had to be decided ASAP.
    * Ratio had to be significant enough to have a visual impact, but not too
      large a difference where the details of the "small world" are invisible
      from the "normal scale".
@@ -72,17 +77,16 @@ last-minute, in effect costing us a week of actual development time.
    * Oculus integration in Unreal Engine 3 was unfinished, and editor interface
      wasn't as easy to get started with. (I think UE4 would do a much better
      job on that front now)
-* Private git repository on BitBucket for version control - free!
-   * Allowed up to 5 members to access the repo.
-   * Required Pro version of Unity to be able to version control the project
-     files.
+* Private git repository on BitBucket for version control
+   * Free for up to 5 members to access the repo.
+   * Required Pro version of Unity to be able to check in the project files into version control.
    * Unfortunately diffing projects was still a huge pain in the ass, because
      Unity would rearange the order of the nodes in the project file on every
      save, even if nothing really changed.
 
-
-TODO: week 1 screenshot
-With nothing concrete actually developed, we ended up fudging a "fake" screenshot
+{% assign image-url="https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/Week1.jpg" %}
+{% assign caption='With nothing concrete actually developed, we ended up fudging a "fake" screenshot of the player standing over some "small world" tunnels.' %}
+{% include image.html %}
 
 ### Week 2
 
@@ -94,14 +98,18 @@ gameplay.
    * Thought of a tile based approach
    * Tiles had to work for both the full-size player, and the player shrunk 10
      times
-   * 1x1m tiles - TODO: gutter example image
+
+{% assign image-url="https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/GutterTiles.jpg" %}
+{% assign caption='The very first tiles we made allowed for small gutters to act as tunnels for the small player. We never ended up refining these particular tiles.' %}
+{% include image.html %}
+
 * Chose Blender for modelling - free.
    * Controls are a lot more awkward than other modelling programs, but you get
      used to it after an hour or so. (You also promptly forget it afterwards).
    * The fastest way to get started is the [Blender 2 Minute Tutorials](https://www.youtube.com/watch?v=wcNukwr3b5w&list=TLN5p_I6OC5yp6oU1IAmp-3M3tN8Pp7j2I)
      series. It gets straight to the point, and doesn't waste your time.
 
-{% assign image-url="http://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Brihadeeswarar_Temple_02.jpg/800px-Brihadeeswarar_Temple_02.jpg" %}
+{% assign image-url="http://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Ta_Prohm_5.jpg/800px-Ta_Prohm_5.jpg" %}
 {% assign caption='We settled on an "ancient temple ruins" theme, inspired by architecture in [Cambodia](http://en.wikipedia.org/wiki/Ta_Prohm) and [India](http://en.wikipedia.org/wiki/Brihadishwara_Temple)' %}
 {% include image.html %}
 
@@ -119,10 +127,10 @@ gameplay.
    * Used for animating objects programmatically over a number of frames
    * E.g. Open a big stone slab after a key is inserted
    * Used Unity's coroutines to accomplish this. See C# `yield` keyword.
-* Created a single room puzzle for the week 2 milestone, using prototype tiles.
-   * TODO: link to video
 
-TODO: week 2 video
+{% assign youtube = "z9IpLLNKoWs" %}
+{% assign caption = "For the second milestone we produced a simple video showcasing scaling, and how items in the inventory scale with the player." %}
+{% include youtube.html %}
 
 ### Week 3
 
@@ -138,6 +146,12 @@ together.
    * Had to resort to constructing a "prototypical wall" in the level, and copy
      pasting it around. The smaller pieces retained their prefab status, so
      bulk updates could still be done.
+
+
+{% assign image-url = "https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/TemplePrefabs.jpg" %}
+{% assign caption = "A temple wall, and temple staircase groups next to each other. Each were hierarchically assembled from simpler prefabs. The modularity allowed us to construct larger designs out of "lego bricks" with very few actual assets designed." %}
+{% include image.html %}
+
 * TODO: Mention snapping resolution in Unity
 * Geometry seems became exaggerated when player was shrunk, and ground collision
   was clunky.
