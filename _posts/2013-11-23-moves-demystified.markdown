@@ -561,7 +561,7 @@ other common questions about moves in C++11/14.
 To dive deeper into move semantics and various pitfalls, here are a few more
 resources to look at:
 
-* Dave Abrahams -- [Want Speed? Pass by Value](http://cpp-next.com/archive/2009/08/want-speed-pass-by-value/)
+* Dave Abrahams -- [Want Speed? Pass by Value](https://web.archive.org/web/20140113221447/http://cpp-next.com/archive/2009/08/want-speed-pass-by-value/)
 
 * Scott Meyers -- [An Effective C++11/14 Sampler](http://channel9.msdn.com/Events/GoingNative/2013/An-Effective-Cpp11-14-Sampler)
 
