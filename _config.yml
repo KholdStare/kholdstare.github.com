@@ -27,8 +27,11 @@ exclude:
   - code_playground
   - diagrams_src
   - javascripts/foundation/join.bash
+  - presentation/Makefile
+  - presentation/reveal.template
   - Gemfile
   - Gemfile.lock
   - config.rb
   - MIT-LICENSE.txt
   - README.md
+  - Makefile
