@@ -1,4 +1,9 @@
+<figure>
 <div class="flex-video widescreen vimeo">
     <iframe width="640" height="360" src="http://www.youtube.com/embed/{{ youtube }}" frameborder="0" >
     </iframe>
 </div>
+{% if caption %}
+<figcaption>{{ caption | markdownify }}</figcaption> 
+{% endif %}
+</figure>

@@ -282,6 +282,11 @@ figure {
     @extend .hole;
     margin: 1em 0;
 
+    // get rid of any space between figure border and video
+    .flex-video {
+        margin: 0;
+    }
+
     figcaption {
         line-height: 1.6em;
         color: white;
