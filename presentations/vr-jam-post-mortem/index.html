@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>VR-Jam Postmortem</title>
+
+		<meta name="author" content="Alexander Kondratskiy">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../reveal/css/reveal.min.css">
+		<link rel="stylesheet" href="../reveal/css/theme/moon.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="../reveal/lib/css/monokai_sublime.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="../reveal/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+<section><section id="vr-jam-postmortem" class="titleslide slide level1"><h1>VR-Jam Postmortem</h1></section><section id="the-game---scalar" class="slide level2">
+<h1>The Game - &quot;Scalar&quot;</h1>
+<ul>
+<li>Scale using an artifact!</li>
+<li>Solve Puzzles!</li>
+</ul>
+</section><section id="the-vr-jam-competition" class="slide level2">
+<h1>The VR-Jam Competition</h1>
+<ul>
+<li>3 Weeks
+<ul>
+<li>Week 1 - deliver a screenshot</li>
+<li>Week 2 - deliver a video</li>
+<li>Week 3 - deliver the game</li>
+</ul></li>
+<li>Panel of judges pick the winners</li>
+</ul>
+</section><section id="the-team" class="slide level2">
+<h1>The Team</h1>
+<ul>
+<li>4 members
+<ul>
+<li>People came and went</li>
+<li>Full-time jobs - little time</li>
+<li>No experience making games</li>
+<li>No skilled artists</li>
+</ul></li>
+</ul>
+</section></section>
+<section><section id="week-1" class="titleslide slide level1"><h1>Week 1</h1></section><section id="week-1-1" class="slide level2">
+<h1>Week 1</h1>
+<ul>
+<li>Brainstorming</li>
+<li>Picking tools</li>
+<li>Cost us a week of dev time</li>
+</ul>
+</section><section id="ideas" class="slide level2">
+<h1>Ideas</h1>
+<ul>
+<li>Puzzle/Adventure game for the slower pace</li>
+<li>Manipulation of the small environment</li>
+<li>Inventory items scale with the player</li>
+</ul>
+</section><section id="scale" class="slide level2">
+<h1>Scale</h1>
+<ul>
+<li>Had to pick scales for player to inhabit</li>
+<li>Affects asset design, puzzle layouts</li>
+<li>Ratio had to be just right</li>
+<li>Settled on <code>1.0x</code> and <code>0.1x</code></li>
+</ul>
+</section><section id="unity" class="slide level2">
+<h1>Unity</h1>
+<ul>
+<li>Picked Unity for the game engine</li>
+<li>Free 30 day Pro trial</li>
+<li>UE3 integration felt unfinished</li>
+</ul>
+</section><section id="bitbucket" class="slide level2">
+<h1>Bitbucket</h1>
+<ul>
+<li>Private git repository on BitBucket</li>
+<li>Free for 5 members</li>
+<li>Pro version of Unity required for version control</li>
+<li>Diffing Unity projects still a huge PITA</li>
+</ul>
+</section><section id="section" class="slide level2" data-background="https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/Week1.jpg">
+<h1></h1>
+</section></section>
+<section><section id="week-2" class="titleslide slide level1"><h1>Week 2</h1></section><section id="week-2-1" class="slide level2">
+<h1>Week 2</h1>
+<ul>
+<li>Asset Workflow</li>
+<li>Basic Gameplay</li>
+</ul>
+</section><section id="tiles-for-rapid-prototyping" class="slide level2">
+<h1>Tiles for rapid prototyping</h1>
+<ul>
+<li>Only need few composable assets</li>
+<li>Had to work for normal and small player</li>
+<li><code>Edit -&gt; Snap Settings</code> in Unity for grid resolution</li>
+</ul>
+</section><section id="section-1" class="slide level2" data-background="https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/GutterTiles.jpg">
+<h1></h1>
+</section><section id="blender" class="slide level2">
+<h1>Blender</h1>
+<ul>
+<li>Free</li>
+<li>Awkward at first</li>
+<li><a href="https://www.youtube.com/watch?v=wcNukwr3b5w&amp;list=TLN5p_I6OC5yp6oU1IAmp-3M3tN8Pp7j2I">Blender 2 Minute Tutorials</a> to get started</li>
+</ul>
+</section><section id="section-2" class="slide level2" data-background="http://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Ta_Prohm_5.jpg/800px-Ta_Prohm_5.jpg">
+<h1></h1>
+</section><section id="section-3" class="slide level2" data-background="http://upload.wikimedia.org/wikipedia/commons/5/5d/Brihadeeswarar_Temple_02.jpg">
+<h1></h1>
+</section><section id="cgtextures" class="slide level2">
+<h1><a href="http://www.cgtextures.com/textures.php?t=browse&amp;q=71718">CGTextures</a></h1>
+<ul>
+<li>Royalty free images</li>
+<li>Great for textures</li>
+<li>Has images from Cambodia!</li>
+</ul>
+</section><section id="asset-workflow" class="slide level2">
+<h1>Asset Workflow</h1>
+<ul>
+<li>Rough cuboid shape for collision mesh</li>
+<li>Create prefab in Unity for prototyping</li>
+<li>Refine model, create UV maps, and texture</li>
+<li>Update prefab in Unity</li>
+</ul>
+</section><section id="programmable-animation" class="slide level2">
+<h1>Programmable Animation</h1>
+<ul>
+<li>Animating programmatically over a number of frames</li>
+<li>Unity coroutines. See C# <code>yield</code> keyword</li>
+<li>E.g. Open a big stone slab after a key is inserted</li>
+</ul>
+</section><section id="first-puzzle" class="slide level2">
+<h1>First Puzzle</h1>
+<iframe width="640" height="360" src="http://www.youtube.com/embed/z9IpLLNKoWs" frameborder="0"></iframe>
+
+</section></section>
+<section><section id="week-3" class="titleslide slide level1"><h1>Week 3</h1></section><section id="week-3-1" class="slide level2">
+<h1>Week 3</h1>
+<ul>
+<li>More assets</li>
+<li>Puzzles</li>
+<li>Final level layout</li>
+</ul>
+</section><section id="problem-hierarchical-prefabs" class="slide level2">
+<h1>Problem: Hierarchical prefabs</h1>
+<ul>
+<li>Unity does not have hierarchical prefabs</li>
+<li>Prefab status lost of the smaller pieces of large prefab</li>
+<li>Resorted to constructing a &quot;prototypical wall&quot; and copy pasting it</li>
+</ul>
+</section><section id="section-4" class="slide level2" data-background="https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/TemplePrefabs.jpg">
+<h1></h1>
+</section><section id="problem-performance" class="slide level2">
+<h1>Problem: Performance</h1>
+<ul>
+<li>Tiles updateable and composable, but small</li>
+<li>A LOT of them on-screen</li>
+<li>Performance left much to be desired.</li>
+</ul>
+</section><section id="problem-performance-1" class="slide level2">
+<h1>Problem: Performance</h1>
+<ul>
+<li>Tiles great for prototyping</li>
+<li>Should eventually be &quot;baked&quot;</li>
+<li>A tool or plugin would be ideal</li>
+</ul>
+</section><section id="problem-merging-unity-scenes" class="slide level2">
+<h1>Problem: Merging Unity Scenes</h1>
+<ul>
+<li>Duplicate the current scene</li>
+<li>Create new room in an unoccupied area</li>
+<li>Commit this new scene as a separate file</li>
+<li>Another person finally merges all the rooms into final level</li>
+</ul>
+</section><section id="crunch-time" class="slide level2">
+<h1>Crunch time</h1>
+<ul>
+<li>Severe crunch-time during the last weekend</li>
+<li>Sunday was a 14 hour long marathon</li>
+<li>Didn't want to look at it any more! :P</li>
+</ul>
+<p>TODO: playthrough video TODO: game download</p>
+</section></section>
+<section><section id="general-advice" class="titleslide slide level1"><h1>General Advice</h1></section><section id="set-the-smallest-next-goal" class="slide level2">
+<h1>Set the smallest next goal</h1>
+<p>Do the simplest thing to make a step forward. <em>It doesn't mean it has to be done sloppily - just don't be overly ambitious</em>.</p>
+</section><section id="know-when-to-limit-scope" class="slide level2">
+<h1>Know when to limit scope</h1>
+<p>If implementing something is taking too long and is not critical to getting your idea across, just drop it.</p>
+</section><section id="delicate-balance" class="slide level2">
+<h1>Delicate Balance</h1>
+<p>Managing a team has to be a delicate balance between democracy and dictatorship.</p>
+</section></section>
+<section><section id="oculusvr-advice" class="titleslide slide level1"><h1>Oculus/VR advice</h1></section><section id="educate" class="slide level2">
+<h1>Educate</h1>
+<p>Make sure everyone on your team is on the same page about the design space for VR content.</p>
+</section><section id="anchor" class="slide level2">
+<h1>Anchor</h1>
+<p>When exploiting new VR phenomena, give the player some anchor so they are not discomforted/hurt.</p>
+</section><section id="adapt" class="slide level2">
+<h1>Adapt</h1>
+<p>Many existing graphics techniques don't work in VR. Adjust your asset creation accordingly.</p>
+</section><section id="simplify" class="slide level2">
+<h1>Simplify</h1>
+<p>Keep assets simple for fast/consistent framerates.</p>
+</section></section>
+
+			</div>
+
+		</div>
+
+		<script src="../reveal/lib/js/head.min.js"></script>
+		<script src="../reveal/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					// { src: '../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					// { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					// { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					// { src: '../reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					// { src: '../reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
