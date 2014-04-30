@@ -16,6 +16,11 @@ tags:
   - oculus-rift
 ---
 
+Disclaimer: This is a very dense "brain-dump" sort of article, so it is mostly
+in the form of bullet points to keep it brief.
+
+---------------------------------------
+
 ### The Game - "Scalar"
 
 The game revolves around the player being able to scale him/herself up or down
@@ -36,8 +41,6 @@ avoid eye strain.
    * Week 3 - deliver the game
 * Panel of judges pick the winners
 
-TODO: link to VR-Jam website (if it exists)
-
 ### The Team
 
 * 4 members
@@ -50,15 +53,17 @@ TODO: link to VR-Jam website (if it exists)
 I was the only one with an Oculus Rift at the time, so it was quite a challenge
 to relay the restrictions and change of priorities in the design space.
 
+---------------------------------------
+
 ### Week 1
 
 Week 1 was mostly spent on coming up with an idea for a game, brainstorming
 gameplay elements, and picking tools that we would use. This should have
 ideally been done before the competition, but the team formed at the
-last-minute, in effect costing us a week of actual development time.
+last minute, in effect costing us a week of actual development time.
 
 * Discussed ideas
-   * Had to be a Puzzle/Adventure game for slower pace that would be less
+   * Had to be a Puzzle/Adventure game for the slower pace that would be less
      strenuous in VR.
    * Manipulation of the small environment from the normal world, that would open up
      new paths in the small world.
@@ -88,6 +93,8 @@ last-minute, in effect costing us a week of actual development time.
 {% assign caption='With nothing concrete actually developed, we ended up fudging a "fake" screenshot of the player standing over some "small world" tunnels.' %}
 {% include image.html %}
 
+---------------------------------------
+
 ### Week 2
 
 Week 2 was spent honing our asset workflow, and implementing basic elements of
@@ -98,6 +105,7 @@ gameplay.
    * Thought of a tile based approach
    * Tiles had to work for both the full-size player, and the player shrunk 10
      times
+   * `Edit -> Snap Settings` in Unity helped set appropriate grid resolution.
 
 {% assign image-url="https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/GutterTiles.jpg" %}
 {% assign caption='The very first tiles we made allowed for small gutters to act as tunnels for the small player. We never ended up refining these particular tiles.' %}
@@ -132,6 +140,8 @@ gameplay.
 {% assign caption = "For the second milestone we produced a simple video showcasing scaling, and how items in the inventory scale with the player." %}
 {% include youtube.html %}
 
+---------------------------------------
+
 ### Week 3
 
 Week 3 saw things ramp up quite a bit, with more assets and puzzle ideas coming
@@ -147,14 +157,10 @@ together.
      pasting it around. The smaller pieces retained their prefab status, so
      bulk updates could still be done.
 
-
 {% assign image-url = "https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/TemplePrefabs.jpg" %}
 {% assign caption = "A temple wall, and temple staircase groups next to each other. Each were hierarchically assembled from simpler prefabs. The modularity allowed us to construct larger designs out of "lego bricks" with very few actual assets designed." %}
 {% include image.html %}
 
-* TODO: Mention snapping resolution in Unity
-* Geometry seems became exaggerated when player was shrunk, and ground collision
-  was clunky.
 * Tiles were easily updateable and composable, but since they were so small,
   there were A LOT of them on-screen at any time, even for the simple level we
   had. As a result, when the whole level was put together near the end,
@@ -163,7 +169,7 @@ together.
      and "design-patterns" arise, they should be baked into larger prefabs,
      with a lot of redundant internal geometry removed.
    * A tool or plugin that could allow easily switching between baked and tiled
-     versions of prefabs would be ideal. (TODO: Houdini ?)
+     versions of prefabs would be ideal.
 * As said before, merging Unity project files was simply out of the question.
    * To be able to develop pieces of the level concurrently we would:
       * Duplicate the current scene
@@ -176,6 +182,11 @@ together.
      level design to get everything finished.
    * Got severely burnt out and didn't want to look at the game any more for
      many months :P
+
+TODO: playthrough video
+TODO: game download
+
+---------------------------------------
 
 ### General Advice
 
@@ -216,13 +227,16 @@ together.
      your enthusiasm, and soon they will start pushing your idea in directions
      you didn't even think of, often leading to cool "eureka" moments.
 
+---------------------------------------
+
 ### Oculus/VR advice
 
 Most of the advice is about respecting the VR medium.
 
 * Make sure everyone is on the same page about the design space for VR content.
    * A lot of first suggestions for VR games are very surreal/extreme
-     experiences. New players are not prepared for it.
+     experiences. New players may not be prepared for it, it may be very
+     discomforting or even unhealthy.
 * When exploiting new VR phenomena, give the player some anchor so they are not
   discomforted/hurt.
    * Dynamically changing the scale of surroundings **really** hurts in VR,
@@ -231,6 +245,6 @@ Most of the advice is about respecting the VR medium.
   accordingly.
    * Sprites - flat images oriented towards the viewpoint. (usually used for
      leaves or particle effects)
-   * Bump mapping, normal mapping all exploit the single
-     viewpoint. The effect is ruined in 3D.
+   * Bump mapping, normal mapping all exploit the single viewpoint. The effect
+     is ruined in 3D.
 * Keep assets simple for fast/consistent framerates.
