@@ -29,6 +29,7 @@ exclude: [
   javascripts/foundation/join.bash,
   presentations/Makefile,
   presentations/reveal.template,
+  presentations/vr-scale/index.markdown,
   presentations/vr-jam-post-mortem/index.markdown,
   Gemfile,
   Gemfile.lock,
