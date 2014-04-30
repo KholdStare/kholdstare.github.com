@@ -1,4 +1,6 @@
-% VR-Jam Postmortem
+---
+title: 'VR-Jam Postmortem'
+---
 
 # VR-Jam Postmortem
 

@@ -73,5 +73,9 @@ $body$
 
 		</script>
 
+        $for(scripts)$
+        <script src="$scripts$"></script>
+        $endfor$
+
 	</body>
 </html>

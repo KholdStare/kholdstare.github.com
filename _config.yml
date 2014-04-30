@@ -21,17 +21,18 @@ nav_locations:
     name: Subscribe
     icon: feed
 
-exclude:
-  - sass
-  - icomoon44505
-  - code_playground
-  - diagrams_src
-  - javascripts/foundation/join.bash
-  - presentations/Makefile
-  - presentations/reveal.template
-  - Gemfile
-  - Gemfile.lock
-  - config.rb
-  - MIT-LICENSE.txt
-  - README.md
-  - Makefile
+exclude: [
+  sass,
+  icomoon44505,
+  code_playground,
+  diagrams_src,
+  javascripts/foundation/join.bash,
+  presentations/Makefile,
+  presentations/reveal.template,
+  presentations/vr-jam-post-mortem/index.markdown,
+  Gemfile,
+  Gemfile.lock,
+  config.rb,
+  MIT-LICENSE.txt,
+  README.md,
+  Makefile ]
