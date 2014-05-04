@@ -13,6 +13,10 @@ scripts:
 > A sense of scale is the ability to tell the size and distance of an object
 > in relation to oneself, given a visual representation.
 
+## Sense of Scale?
+
+<iframe width="640" height="360" src="http://www.youtube.com/embed/zNbF006Y5x4" frameborder="0"></iframe>
+
 ## Size? Distance?
 
 <canvas id="scene-sphere"></canvas>
@@ -39,10 +43,6 @@ scripts:
 * __Familiar objects__ - assumes normal size
 * __Relative size__ - assumes at same distance
 * __Parallax__ - assumes objects are stationary
-
-## Assumptions
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/zNbF006Y5x4" frameborder="0"></iframe>
 
 # Scale in Real Life
 
