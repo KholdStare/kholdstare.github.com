@@ -78,7 +78,7 @@ This parameter is now back in the hands of the artist
 
 ## Experimenting in Tuscany
 
-* Scaled IPD
+* Scaled Virtual `IPD`
 * Player height
 * Neck model parameters
 * Player speed
@@ -91,3 +91,9 @@ This parameter is now back in the hands of the artist
 
 * Dynamic scaling causes eye strain!
 * New phenomenon
+
+## Questions?
+
+Author : Alexander Kondratskiy
+
+Website : [kholdcode.github.io](kholdcode.github.io)
