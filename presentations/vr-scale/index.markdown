@@ -96,4 +96,4 @@ This parameter is now back in the hands of the artist
 
 Author : Alexander Kondratskiy
 
-Website : [kholdcode.github.io](kholdcode.github.io)
+Website : ["KholdCode" - kholdstare.github.io](http://kholdstare.github.io)
