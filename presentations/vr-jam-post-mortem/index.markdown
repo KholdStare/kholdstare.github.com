@@ -192,3 +192,11 @@ accordingly.
 ## Simplify
 
 Keep assets simple for fast/consistent framerates.
+
+## Questions?
+
+Author : Alexander Kondratskiy
+
+Email : akondratskiy﹫siggraph·org
+
+Website : ["KholdCode" - kholdstare.github.io](http://kholdstare.github.io)
