@@ -150,6 +150,12 @@ title: 'VR-Jam Postmortem'
 * Sunday was a 14 hour long marathon
 * Didn't want to look at it any more! :P
 
+## {data-background="https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/PlayerStartingArea.jpg"}
+
+## {data-background="https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/SecondPuzzle.jpg"}
+
+## {data-background="https://dl.dropboxusercontent.com/u/4337781/Blog/VrJamPostMortem/ThirdPuzzle.jpg"}
+
 # General Advice
 
 ## Set the smallest next goal
