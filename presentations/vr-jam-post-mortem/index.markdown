@@ -150,9 +150,6 @@ title: 'VR-Jam Postmortem'
 * Sunday was a 14 hour long marathon
 * Didn't want to look at it any more! :P
 
-TODO: playthrough video
-TODO: game download
-
 # General Advice
 
 ## Set the smallest next goal
