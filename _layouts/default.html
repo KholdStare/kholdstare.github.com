@@ -44,12 +44,12 @@
     </header>
 
     <div class="row">
-		<div class="nine columns">
+      <div class="nine columns">
             {{ content }}
         </div>
 
-		<aside class="three columns unstyled">
-			<h4>Recent Posts</h4>
+        <aside class="three columns unstyled">
+          <h4>Recent Posts</h4>
 
             <ul class="panel">
                 {% for post in site.posts limit:5 %}
@@ -63,14 +63,8 @@
                 {% endfor %}
             </ul>
 
-			<h4>Social</h4>
+            <h4>Social</h4>
             <ul class="social panel">
-                {% comment %}
-                <li><a href="http://plus.google.com/115499051033408963660/posts">
-                    <span aria-hidden="true" class="icon-google-plus"></span>
-                    <span class="screen-reader-text" >Google+</span></a>
-                </li>
-                {% endcomment %}
                 <li><a href="http://github.com/{{site.author.github}}">
                     <span aria-hidden="true" class="icon-github"></span>
                     <span class="screen-reader-text" >Github</span></a>
@@ -84,12 +78,12 @@
                     <span class="screen-reader-text" >Flickr</span></a>
                 </li>
             </ul>
-		</aside>
-	</div>
+        </aside>
+    </div>
 
-	<!-- Included JS Files (Uncompressed) -->
+    <!-- Included JS Files (Uncompressed) -->
     <!--TODO: minify?-->
-	<script src="/javascripts/foundation/jquery.joined.js"></script>
+    <script src="/javascripts/foundation/jquery.joined.js"></script>
 
     <!--Load additional scripts if requested-->
     {% for script in page.scripts %}

@@ -341,7 +341,7 @@ nav ul {
         a {
             color: lighten($txtColor, 15%);
         }
-        &.active {
+        &:active {
             @extend .hole;
         }
     }
@@ -361,23 +361,20 @@ code {
 
 
 pre  {
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
-    padding: 1em;
+    margin: 1em;
+    padding: 0em;
     line-height: 1.25em;
 
     // Automatically create scrollbar, if code overflows
     overflow-y: hidden;
     overflow-x: auto;
-
-    // styling the border
-    @extend .hole;
 }
 
 // Based on Vim wombat theme in pygments. Modified from:
 // https://github.com/uraimo/pygments-vimstyles/
 .highlight  {
     color: $txtColor;
+    background: $backgroundColor;
 
     .hll { background-color: #ffffcc }
     .k, .kr, .nt, .nl { color: $mainColor } /* Keyword, Name.Tag */
