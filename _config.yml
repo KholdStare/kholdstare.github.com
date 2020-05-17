@@ -7,7 +7,7 @@ author :
   email: kholdstare0.0@gmail.com
   github: "KholdStare"
 
-production_url : https://kholdstare.github.com
+production_url : https://kholdstare.github.io
 markdown: kramdown
 future: true
 
