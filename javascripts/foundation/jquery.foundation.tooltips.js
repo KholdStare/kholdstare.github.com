@@ -1,9 +1,9 @@
 /*
  * jQuery Foundation Tooltip Plugin 2.0.1
- * http://foundation.zurb.com
+ * https://foundation.zurb.com
  * Copyright 2012, ZURB
  * Free to use under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
+ * https://www.opensource.org/licenses/mit-license.php
 */
 
 /*jslint unparam: true, browser: true, indent: 2 */

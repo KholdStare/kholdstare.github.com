@@ -18,10 +18,10 @@ we'll consider the situation from the point of view of Qt.
 ### What are QObjects?
 
 Qt is a great framework, and at its heart are
-<a href="http://qt-project.org/doc/qt-4.8/object.html"><code>QObjects</code></a>.
-Through Qt's <a href="http://qt-project.org/doc/qt-4.8/moc.html#moc">moc compiler</a>
+<a href="https://qt-project.org/doc/qt-4.8/object.html"><code>QObjects</code></a>.
+Through Qt's <a href="https://qt-project.org/doc/qt-4.8/moc.html#moc">moc compiler</a>
 extra functionality is seemlessly added to C++ objects.
-The two most notable additions are <a href="http://qt-project.org/doc/qt-5.0/signalsandslots.html">signals and slots</a> for inter-object communication, and <a href="http://qt-project.org/doc/qt-5.0/eventsandfilters.html">events</a>.
+The two most notable additions are <a href="https://qt-project.org/doc/qt-5.0/signalsandslots.html">signals and slots</a> for inter-object communication, and <a href="https://qt-project.org/doc/qt-5.0/eventsandfilters.html">events</a>.
 These allow great flexibility and modularity, but how do they work in the context of threads?
 
 For example, if an event or slot is triggered in a <code>QObject</code> (which
@@ -33,7 +33,7 @@ answer lies in _thread affinity_. But let's back up a bit.
 Having the ability to asynchronously trigger functions, and raise/handle events
 means that Qt must have some kind of an event loop. An event loop will continually
 monitor a queue of events to be handled, and dispatch them accordingly.
-Indeed, every <code>QThread</code> has a built-in <a href="http://qt-project.org/doc/qt-5.0/qthread.html#exec">event loop</a> that can be entered.
+Indeed, every <code>QThread</code> has a built-in <a href="https://qt-project.org/doc/qt-5.0/qthread.html#exec">event loop</a> that can be entered.
 
 One way to see this directly is by inheriting from <code>QThread</code>:
 
@@ -56,7 +56,7 @@ protected:
 The above is a good example for demonstration, but is rarely done in production. We will see a better way to run custom code on QThreads in the next section.
 
 In particular the GUI thread (the main thread), also has an event loop which is
-launched by calling <a href="http://qt-project.org/doc/qt-4.8/qcoreapplication.html#exec"><code>QApplication::exec()</code></a>, which only returns after the user has quit the program.
+launched by calling <a href="https://qt-project.org/doc/qt-4.8/qcoreapplication.html#exec"><code>QApplication::exec()</code></a>, which only returns after the user has quit the program.
 
 {% highlight cpp %}
 int main(int argc, char **argv)
@@ -120,7 +120,7 @@ newThread->start();
 {% endhighlight %}
 
 This is much simpler and easier to follow than subclassing a QThread each time you want to create a worker thread.
-Thanks to <a href="https://github.com/Jurily">Jurily</a> for suggesting this in a <a href="http://www.reddit.com/r/programming/comments/z9daf/objects_and_threads_in_c_and_qt/c62n6sn">reddit comment</a>.
+Thanks to <a href="https://github.com/Jurily">Jurily</a> for suggesting this in a <a href="https://www.reddit.com/r/programming/comments/z9daf/objects_and_threads_in_c_and_qt/c62n6sn">reddit comment</a>.
 
-I hope you enjoyed this simplified rundown of <code>QObjects</code> and threads! More in-depth documentation can be found on the <a href="http://qt-project.org/doc/qt-4.8/threads-qobject.html">Qt-project website</a>.
+I hope you enjoyed this simplified rundown of <code>QObjects</code> and threads! More in-depth documentation can be found on the <a href="https://qt-project.org/doc/qt-4.8/threads-qobject.html">Qt-project website</a>.
 

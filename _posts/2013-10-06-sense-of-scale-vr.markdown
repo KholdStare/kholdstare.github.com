@@ -20,14 +20,14 @@ tags:
 
 ### The Oculus Rift
 
-For those unfamiliar with the [Oculus Rift](http://www.oculusvr.com/), it is
+For those unfamiliar with the [Oculus Rift](https://www.oculusvr.com/), it is
 a Virtual Reality Head-Mounted Display, currently available in the form of a
 developer kit. I received mine last week, and have been having lots of fun
 experimenting with it!
 
 At this year's GDC, Oculus co-founder Palmer Luckey gave [an overview of what
 we can expect from
-VR](http://www.youtube.com/watch?feature=player_detailpage&v=29QdErw-7c4#t=1000s),
+VR](https://www.youtube.com/watch?feature=player_detailpage&v=29QdErw-7c4#t=1000s),
 and he specifically mentioned the unique sense of scale afforded by VR. I was
 intrigued and decided to focus on this aspect for my experimentation.
 
@@ -229,9 +229,9 @@ There are also lots of great talks and blogs that explore and explain the
 challenges of VR in great depth, created by some forerunners in the industry.
 I'll list a few of them here:
 
-* Valve's Michael Abrash talks about latency, judder and other [problems VR faces with current graphics/display technology](http://blogs.valvesoftware.com/abrash/)
-* Tom Forsyth from the Oculus team talks about [challenges with VR sickness](http://www.oculusvr.com/blog/vr-sickness-the-rift-and-how-game-developers-can-help/)
-* Robotic Scientist Steve LaValle explores [motion prediction for head tracking](http://www.oculusvr.com/blog/the-latent-power-of-prediction/)
+* Valve's Michael Abrash talks about latency, judder and other [problems VR faces with current graphics/display technology](https://blogs.valvesoftware.com/abrash/)
+* Tom Forsyth from the Oculus team talks about [challenges with VR sickness](https://www.oculusvr.com/blog/vr-sickness-the-rift-and-how-game-developers-can-help/)
+* Robotic Scientist Steve LaValle explores [motion prediction for head tracking](https://www.oculusvr.com/blog/the-latent-power-of-prediction/)
 
 ### Bonus!
 

@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Fredoka+One|Open+Sans:300);
+@import url(https://fonts.googleapis.com/css?family=Fredoka+One|Open+Sans:300);
 /* Requires: normalize.css */
 /* Global Reset & Standards ---------------------- */
 /* line 5, ../../../../../../usr/local/lib/ruby/gems/2.6.0/gems/zurb-foundation-3.2.5/scss/foundation/common/_globals.scss */
@@ -1287,7 +1287,7 @@ ul.side-nav li.divider {
   padding: 0;
 }
 
-/* Sub Navs http://www.zurb.com/article/292/how-to-create-simple-and-effective-sub-na ---------------------- */
+/* Sub Navs https://www.zurb.com/article/292/how-to-create-simple-and-effective-sub-na ---------------------- */
 /* line 139, ../../../../../../usr/local/lib/ruby/gems/2.6.0/gems/zurb-foundation-3.2.5/scss/foundation/components/modules/_ui.scss */
 dl.sub-nav {
   display: block;
@@ -1520,7 +1520,7 @@ ul.inline-list > li > *, ul.link-list > li > * {
   box-shadow: 0 0 6px 1px rgba(43, 166, 203, 0.5);
 }
 
-/* Video - Mad props to http://www.alistapart.com/articles/creating-intrinsic-ratios-for-video/ ---------------------- */
+/* Video - Mad props to https://www.alistapart.com/articles/creating-intrinsic-ratios-for-video/ ---------------------- */
 /* line 215, ../../../../../../usr/local/lib/ruby/gems/2.6.0/gems/zurb-foundation-3.2.5/scss/foundation/components/modules/_ui.scss */
 .flex-video {
   position: relative;

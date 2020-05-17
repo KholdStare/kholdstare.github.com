@@ -7,7 +7,7 @@ author :
   email: kholdstare0.0@gmail.com
   github: "KholdStare"
 
-production_url : http://kholdstare.github.com
+production_url : https://kholdstare.github.com
 markdown: kramdown
 future: true
 
@@ -18,7 +18,7 @@ nav_locations:
   - url: "/about.html"
     name: About
     icon: info
-  - url: "http://feeds.feedburner.com/Kholdcode"
+  - url: "https://feeds.feedburner.com/Kholdcode"
     name: Subscribe
     icon: feed
 

@@ -3,7 +3,7 @@
  * www.ZURB.com/playground
  * Copyright 2010, ZURB
  * Free to use under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
+ * https://www.opensource.org/licenses/mit-license.php
 */
 
 
@@ -179,7 +179,7 @@
 
       if (this.options.fluid) {
         if (typeof this.options.fluid === "string") {
-          $fluidPlaceholder = $('<img src="http://placehold.it/' + this.options.fluid + '" />')
+          $fluidPlaceholder = $('<img src="https://placehold.it/' + this.options.fluid + '" />')
         }
 
         self.$element.prepend($fluidPlaceholder);
@@ -584,7 +584,7 @@
 
 /*!
  * jQuery imageready Plugin
- * http://www.zurb.com/playground/
+ * https://www.zurb.com/playground/
  *
  * Copyright 2011, ZURB
  * Released under the MIT License

@@ -60,7 +60,7 @@ if (operator== ( QString("subNode"), xml.name() ))
 
 <p>
 We are creating a temporary <code>QString</code> at each one of those if
-statements! Looking at the Qt <a href="http://qt-project.org/doc/qt-4.8/qstring.html#QString-8">documentation for the <code>QString</code>
+statements! Looking at the Qt <a href="https://qt-project.org/doc/qt-4.8/qstring.html#QString-8">documentation for the <code>QString</code>
 constructor</a>, it converts the <code>const char*</code> to unicode.
 This <code>QString</code> is then immediately destroyed after the comparison.
 What a waste of resources!
@@ -68,7 +68,7 @@ What a waste of resources!
 
 <p>
     At this point you may think to abandon QStrings, and use something like<a
-        href="http://www.grinninglizard.com/tinyxml/">TinyXml</a>, but how can we
+        href="https://www.grinninglizard.com/tinyxml/">TinyXml</a>, but how can we
     deal with our problem in Qt? After all, this isn't just an XML parsing problem, this relates to QString usage in general.
 </p>
 

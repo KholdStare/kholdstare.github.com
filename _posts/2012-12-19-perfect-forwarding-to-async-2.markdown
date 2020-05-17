@@ -33,12 +33,12 @@ wrapper(T&& arg) {
 
 This is useful if you want to forward arguments exactly as they were passed in
 to another function, which is accomplished using <a
-href="http://en.cppreference.com/w/cpp/utility/forward"><code>std::forward</code></a>.
+href="https://en.cppreference.com/w/cpp/utility/forward"><code>std::forward</code></a>.
 
 You may be asking, "Wait a minute... Isn't that an rvalue reference? Why does
 this recipe work?". Well, without opening a whole can of worms, here is the
 summary of an <a
-href="http://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Scott-Meyers-Universal-References-in-Cpp11">enlighting
+href="https://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Scott-Meyers-Universal-References-in-Cpp11">enlighting
 talk on universal references by Scott Meyers</a>:
 
 > When automatic type deduction is involved (followed by
@@ -201,7 +201,7 @@ std::future<void> connect(InputIterable&& input, Func func)
 {% endhighlight %}
 
 The extra copy made by <code>std::async</code> rears its head. This is <a
-href="http://stackoverflow.com/questions/13813838/perfect-forwarding-to-async-lambda">the
+href="https://stackoverflow.com/questions/13813838/perfect-forwarding-to-async-lambda">the
 problem</a> that got me started on this journey. Here is a breakdown of what
 happens to an lvalue that gets passed in:
 

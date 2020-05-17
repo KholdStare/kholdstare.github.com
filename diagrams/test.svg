@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="19cm" height="15cm" viewBox="-12 -12 370 293" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "https://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="19cm" height="15cm" viewBox="-12 -12 370 293" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
   <g>
     <rect style="fill: #6fbbc0" x="-10" y="-10" width="367.5" height="290"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-10" y="-10" width="367.5" height="290"/>

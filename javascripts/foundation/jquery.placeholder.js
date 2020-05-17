@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v2.0.7 by @mathias */
+/*! https://mths.be/placeholder v2.0.7 by @mathias */
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
@@ -57,7 +57,7 @@
 				} else {
 					element.value = value;
 				}
-				// `set` can not return `undefined`; see http://jsapi.info/jquery/1.7.1/val#L2363
+				// `set` can not return `undefined`; see https://jsapi.info/jquery/1.7.1/val#L2363
 				return $element;
 			}
 		};

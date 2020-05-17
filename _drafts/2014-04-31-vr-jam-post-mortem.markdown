@@ -117,11 +117,11 @@ gameplay.
    * The fastest way to get started is the [Blender 2 Minute Tutorials](https://www.youtube.com/watch?v=wcNukwr3b5w&list=TLN5p_I6OC5yp6oU1IAmp-3M3tN8Pp7j2I)
      series. It gets straight to the point, and doesn't waste your time.
 
-{% assign image-url="http://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Ta_Prohm_5.jpg/800px-Ta_Prohm_5.jpg" %}
-{% assign caption='We settled on an "ancient temple ruins" theme, inspired by architecture in [Cambodia](http://en.wikipedia.org/wiki/Ta_Prohm) and [India](http://en.wikipedia.org/wiki/Brihadishwara_Temple)' %}
+{% assign image-url="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Ta_Prohm_5.jpg/800px-Ta_Prohm_5.jpg" %}
+{% assign caption='We settled on an "ancient temple ruins" theme, inspired by architecture in [Cambodia](https://en.wikipedia.org/wiki/Ta_Prohm) and [India](https://en.wikipedia.org/wiki/Brihadishwara_Temple)' %}
 {% include image.html %}
 
-* [CGTextures](http://www.cgtextures.com/textures.php?t=browse&q=71718) was a
+* [CGTextures](https://www.cgtextures.com/textures.php?t=browse&q=71718) was a
   source of great royalty free images that we used to create textures. It even
   has images from Cambodia!
 * Established a workflow for assets:

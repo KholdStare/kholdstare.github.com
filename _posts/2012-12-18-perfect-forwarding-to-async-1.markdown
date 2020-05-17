@@ -80,7 +80,7 @@ The new notation allows a function to distinguish between lvalues
 </blockquote>
 
 To facilitate this transfer of ownership, the function <a
-href="http://en.cppreference.com/w/cpp/utility/move"><code>std::move</code></a>
+href="https://en.cppreference.com/w/cpp/utility/move"><code>std::move</code></a>
 is available. Here is a quick example of its usage in the context of
 object construction:
 
@@ -117,7 +117,7 @@ public:
 Given this quick overview, it should be apparent that moves help save
 unnecessary copies- essential if you want to write an efficient library. This is
 the _"value of rvalues"_. For a more focused overview, you could also look at a
-<a href="http://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html">larger article by Alex Allain</a>
+<a href="https://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html">larger article by Alex Allain</a>
 about move semantics.
 
 ### Profiling copies/moves
@@ -207,7 +207,7 @@ The next piece of the puzzle is launching functions on other threads. Thankfully
 C++11 comes with its own standard implementation of threads, allowing for easy
 execution of functions, and passing of arguments to other threads. Here I run a
 function that prints the contents of an iterable on another thread using <a
-href="http://en.cppreference.com/w/cpp/thread/async"><code>std::async</code></a>:
+href="https://en.cppreference.com/w/cpp/thread/async"><code>std::async</code></a>:
 
 {% highlight cpp %}
 // prints the contents of an iterable
@@ -279,7 +279,7 @@ assert( checker.moves() == 1 );
 Woops! Where did that copy come from? This manifested as a cryptic compilation
 error when I was doing perfect forwarding (we'll get to that shortly). As a
 result I posted a <a
-href="http://stackoverflow.com/questions/13813838/perfect-forwarding-to-async-lambda">question
+href="https://stackoverflow.com/questions/13813838/perfect-forwarding-to-async-lambda">question
 on stack overflow</a>, and the answer is relevant here.
 
 > ... async will always make a copy of \[ non-const lvalue references \]
@@ -299,7 +299,7 @@ This is the safe route and minimizes unintended errors for the average user of
 the async api. However, if you're library writer, you may want to _choose_ not
 to make an expensive copy, and in that case you can either pass a pointer, or
 wrap the reference with <a
-href="http://en.cppreference.com/w/cpp/utility/functional/ref"><code>std::ref</code></a>
+href="https://en.cppreference.com/w/cpp/utility/functional/ref"><code>std::ref</code></a>
 (as suggested in a <a href="#comment-743609769">comment by tshino below</a>).
 
 {% highlight cpp %}

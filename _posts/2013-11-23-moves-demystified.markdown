@@ -179,8 +179,8 @@ Vector operator + (Vector const& a, Vector const& b)
 
 And that's exactly what you should write, because _the compiler will get rid of
 the copy for you_! This happens because of [copy
-elision](http://en.cppreference.com/w/cpp/language/copy_elision) (specified in
-the [C++ standard](http://isocpp.org/) in clause 12.8.31), and more
+elision](https://en.cppreference.com/w/cpp/language/copy_elision) (specified in
+the [C++ standard](https://isocpp.org/) in clause 12.8.31), and more
 specifically because of NRVO (Named Return Value Optimization).  Returning a
 local variable by value is detected by the compiler, and the needless copy is
 elided. This optimization was first developed in 1991, so you can rest assured
@@ -191,7 +191,7 @@ your compiler supports it.
 
 Now, I say _usually_, because there are corner cases where this optimization
 will not trigger. See the [Wikipedia
-Article](http://en.wikipedia.org/wiki/Return_value_optimization) for an
+Article](https://en.wikipedia.org/wiki/Return_value_optimization) for an
 overview, and consult your favourite compiler manual for more details.
 
 In the next section we'll consider another problem where move semantics are needed.
@@ -536,17 +536,17 @@ on these techniques at the links below:
 
 * Expression Templates
 
-   * [Expression templates](http://en.wikipedia.org/wiki/Expression_templates)
+   * [Expression templates](https://en.wikipedia.org/wiki/Expression_templates)
      allow encoding a tree of expressions (e.g.  mathematical expressions) and
      performing simplifications and optimizations on them, _all at compile
      time_.
    * The implementations are very complex, but the user API ends up being
      extremely intuitive, while performing extremely efficiently.
-   * A great library that uses this concept heavily is [Eigen](http://eigen.tuxfamily.org/).
+   * A great library that uses this concept heavily is [Eigen](https://eigen.tuxfamily.org/).
 
 * Faking Rvalues
 
-   * [Boost Move](http://www.boost.org/doc/libs/1_54_0/doc/html/move.html)
+   * [Boost Move](https://www.boost.org/doc/libs/1_54_0/doc/html/move.html)
      emulates rvalues and move semantics through very clever C++ tricks,
      allowing the creation of movable objects in C++03.
 
@@ -561,18 +561,18 @@ other common questions about moves in C++11/14.
 To dive deeper into move semantics and various pitfalls, here are a few more
 resources to look at:
 
-* Dave Abrahams -- [Want Speed? Pass by Value](https://web.archive.org/web/20140113221447/http://cpp-next.com/archive/2009/08/want-speed-pass-by-value/)
+* Dave Abrahams -- [Want Speed? Pass by Value](https://web.archive.org/web/20140113221447/https://cpp-next.com/archive/2009/08/want-speed-pass-by-value/)
 
-* Scott Meyers -- [An Effective C++11/14 Sampler](http://channel9.msdn.com/Events/GoingNative/2013/An-Effective-Cpp11-14-Sampler)
+* Scott Meyers -- [An Effective C++11/14 Sampler](https://channel9.msdn.com/Events/GoingNative/2013/An-Effective-Cpp11-14-Sampler)
 
    * This a great and dense talk on best practices and gotchas in C++11/14, that begins with advice on move semantics.
 
-* Scott Meyers -- [Universal References in C++11](http://isocpp.org/blog/2012/11/universal-references-in-c11-scott-meyers)
+* Scott Meyers -- [Universal References in C++11](https://isocpp.org/blog/2012/11/universal-references-in-c11-scott-meyers)
 
    * An indepth talk and article on perfect forwarding.
 
-* Thomas Becker -- [C++ Rvalue References Explained](http://thbecker.net/articles/rvalue_references/section_01.html)
+* Thomas Becker -- [C++ Rvalue References Explained](https://thbecker.net/articles/rvalue_references/section_01.html)
 
    * A thorough article focusing on rvalue references, and how they relate to moves, and perfect forwarding.
 
-This article has been featured on [isocpp.org](http://isocpp.org/blog/2013/11/moves-demystified) and [reddit](http://www.reddit.com/r/programming/comments/1r9t40/moves_demystified_c11_article_xpost_from_rcpp/).
+This article has been featured on [isocpp.org](https://isocpp.org/blog/2013/11/moves-demystified) and [reddit](https://www.reddit.com/r/programming/comments/1r9t40/moves_demystified_c11_article_xpost_from_rcpp/).
