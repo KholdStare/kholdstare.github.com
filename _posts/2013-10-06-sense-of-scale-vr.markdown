@@ -11,8 +11,8 @@ description: >
 category: technical
 published: true
 scripts:
-  - /javascripts/three.min.js
-  - /javascripts/posts/vr-scale.js
+  - /presentations/vr-scale/js/three.min.js
+  - /presentations/vr-scale/js/vr-scale.js
 tags:
   - virtual-reality
   - oculus-rift
@@ -201,17 +201,13 @@ influence a player's sense of scale:
 You can now feel as small as a mouse running around and under furniture, or a giant
 looking down at a "dollhouse".
 
-{% assign image-url = "https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/TinyTuscany.jpg" %}
+{% assign image-url = "/images/vr-scale/TinyTuscany.jpg" %}
 {% assign caption = "Player scale can be increased/decreased in the demo by pressing F8/F7 respectively. Here the player is scaled to 4.74 times the normal size, where the objects in the scene appear miniaturized." %}
 {% include image.html %}
 
-{% assign image-url = "https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/GiantTuscany.jpg" %}
+{% assign image-url = "/images/vr-scale/GiantTuscany.jpg" %}
 {% assign caption = "Converesly a player can shrink so that chairs are towering over them" %}
 {% include image.html %}
-
-You can play around a [modified Tuscany
-Demo](https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/ScalingTuscany.zip)
-for the Oculus Rift that has player scaling built in. (On Windows)
 
 ### Warning and Conclusion
 
@@ -241,7 +237,7 @@ I'll list a few of them here:
 
 While experimenting with creating content for the Rift I have also done some photography for VR:
 
-{% assign image-url = "https://dl.dropboxusercontent.com/u/4337781/Blog/VrScale/OculusPhotograph.jpg" %}
+{% assign image-url = "/images/vr-scale/OculusPhotograph.jpg" %}
 {% assign caption = "Photo of a landscape from a cliff, taken by two Canon 6D cameras 4 meters apart at the same time. This makes the the world look tiny in comparison to the viewer. This aesthetic would work well with the rapid passing of time in timelapse videos. " %}
 {% include image.html %}
 
