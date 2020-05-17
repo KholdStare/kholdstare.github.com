@@ -13,11 +13,11 @@ next time I need to tweak something.
 - Update ruby jems
   - Run `bundle install`
 - Jekyll for static site generation
-  - To preview locally run `bundle exec jekyll serve`
+  - To preview locally run `bundle exec jekyll serve --drafts --incremental`
   - The generation step is run by github pages automatically
 - Design/styling
   - Customized Zurb Foundation v3 (ancient I know) sass sylesheets
-  - To regenerate css from sass run `bundle exec compass compile`
+  - To regenerate css from sass live run `bundle exec compass watch`
 - Presentations
   - Imported as a submodule from my `presentations` repository
   - Uses pandoc and reveal.js

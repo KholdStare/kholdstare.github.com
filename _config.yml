@@ -9,6 +9,7 @@ author :
 
 production_url : http://kholdstare.github.com
 markdown: kramdown
+future: true
 
 nav_locations:
   - url: "/index.html"
