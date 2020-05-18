@@ -17,7 +17,7 @@ all : png
 	sed -i -r -e 's/(<tspan [^>]*)>/\1 xml:space="preserve">/' $@
 
 ../diagrams/%.svg : %.svg.drawio
-	cp $< $@
+	sed -r -e 's/Viewer does not support full SVG 1.1//g' $< > $@
 
 # generate pngs from svgs
 ../diagrams/%.png : ../diagrams/%.svg

@@ -1,6 +1,7 @@
 <figure>
     <img width="100%" height="100%" src="/diagrams/{{diagram}}.png" />
 {% if caption %}
-<figcaption>{{ caption }}</figcaption>
+<figcaption>{{ caption | markdownify }}</figcaption>
 {% endif %}
 </figure>
+{% assign caption = undefined %}
