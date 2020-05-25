@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "https://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="22cm" height="18cm" viewBox="548 -202 423 346" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="22cm" height="18cm" viewBox="548 -202 423 346" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <g>
     <ellipse style="fill: #cca3ab" cx="650" cy="90" rx="50" ry="50"/>
     <ellipse style="fill: none; fill-opacity:0; stroke-width: 2.35099e-37; stroke: #000000" cx="650" cy="90" rx="50" ry="50"/>
@@ -26,15 +26,15 @@
     <rect style="fill: #ffc966" x="770" y="-180" width="200" height="140"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="770" y="-180" width="200" height="140"/>
   </g>
-  <text font-size="22.5778" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="650" y="-172.175">
-    <tspan x="650" y="-172.175" xml:space="preserve">QThread A</tspan>
+  <text font-size="22.5778" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="650" y="-172.184">
+    <tspan x="650" y="-172.184" xml:space="preserve">QThread A</tspan>
   </text>
   <g>
     <rect style="fill: #cc7676" x="550" y="-20" width="200" height="40"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="550" y="-20" width="200" height="40"/>
   </g>
-  <text font-size="22.5778" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="650" y="7.825">
-    <tspan x="650" y="7.825" xml:space="preserve">QThread B</tspan>
+  <text font-size="22.5778" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="650" y="7.81624">
+    <tspan x="650" y="7.81624" xml:space="preserve">QThread B</tspan>
   </text>
   <g>
     <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" x1="650" y1="-160" x2="650" y2="-150.98"/>
@@ -66,15 +66,15 @@
     <polygon style="fill: #cc2f2f" points="646.52,40 636.52,43 639.02,40 636.52,37 "/>
     <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #cc2f2f" points="646.52,40 636.52,43 639.02,40 636.52,37 "/>
   </g>
-  <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="870" y="-154.125">
-    <tspan x="870" y="-154.125" xml:space="preserve">QObject A</tspan>
+  <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="870" y="-154.138">
+    <tspan x="870" y="-154.138" xml:space="preserve">QObject A</tspan>
   </text>
   <g>
     <rect style="fill: #ffe4b3" x="770" y="-140" width="120" height="20"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="770" y="-140" width="120" height="20"/>
   </g>
-  <text font-size="11.2889" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="830" y="-126.1">
-    <tspan x="830" y="-126.1" xml:space="preserve">slot: onClick()</tspan>
+  <text font-size="11.2889" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="830" y="-126.092">
+    <tspan x="830" y="-126.092" xml:space="preserve">slot: onClick()</tspan>
   </text>
   <g>
     <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" x1="680" y1="-130" x2="759.02" y2="-130"/>
@@ -89,30 +89,30 @@
     <rect style="fill: #ffe4b3" x="810" y="-60" width="120" height="20"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="810" y="-60" width="120" height="20"/>
   </g>
-  <text font-size="11.2889" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="830" y="-86.1">
-    <tspan x="830" y="-86.1" xml:space="preserve">customEvent()</tspan>
+  <text font-size="11.2889" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="830" y="-86.0919">
+    <tspan x="830" y="-86.0919" xml:space="preserve">customEvent()</tspan>
   </text>
   <g>
     <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" x1="700" y1="-90" x2="759.02" y2="-90"/>
     <polygon style="fill: #ffa500" points="766.52,-90 756.52,-87 759.02,-90 756.52,-93 "/>
     <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="766.52,-90 756.52,-87 759.02,-90 756.52,-93 "/>
   </g>
-  <text font-size="11.2889" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="870" y="-46.1">
-    <tspan x="870" y="-46.1" xml:space="preserve">userFunction()</tspan>
+  <text font-size="11.2889" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="870" y="-46.0919">
+    <tspan x="870" y="-46.0919" xml:space="preserve">userFunction()</tspan>
   </text>
   <g>
     <rect style="fill: #cc7676" x="770" y="40" width="200" height="100"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="770" y="40" width="200" height="100"/>
   </g>
-  <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="870" y="125.875">
-    <tspan x="870" y="125.875" xml:space="preserve">QObject B</tspan>
+  <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="870" y="125.862">
+    <tspan x="870" y="125.862" xml:space="preserve">QObject B</tspan>
   </text>
   <g>
     <rect style="fill: #cca3ab" x="770" y="80" width="120" height="20"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="770" y="80" width="120" height="20"/>
   </g>
-  <text font-size="11.2889" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="830" y="93.9">
-    <tspan x="830" y="93.9" xml:space="preserve">slot: onHover()</tspan>
+  <text font-size="11.2889" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="830" y="93.9081">
+    <tspan x="830" y="93.9081" xml:space="preserve">slot: onHover()</tspan>
   </text>
   <g>
     <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #cc2f2f" x1="700" y1="90" x2="759.02" y2="90"/>
@@ -124,14 +124,14 @@
     <polygon style="fill: #cc2f2f" points="870,-36.5199 873,-26.5199 870,-29.0199 867,-26.5199 "/>
     <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #cc2f2f" points="870,-36.5199 873,-26.5199 870,-29.0199 867,-26.5199 "/>
   </g>
-  <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="650" y="-105.292">
-    <tspan x="650" y="-105.292" xml:space="preserve">Event</tspan>
-    <tspan x="650" y="-84.125" xml:space="preserve">Loop</tspan>
-    <tspan x="650" y="-62.9583" xml:space="preserve">A</tspan>
+  <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="650" y="-105.305">
+    <tspan x="650" y="-105.305" xml:space="preserve">Event</tspan>
+    <tspan x="650" y="-84.1378" xml:space="preserve">Loop</tspan>
+    <tspan x="650" y="-62.9712" xml:space="preserve">A</tspan>
   </text>
-  <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="650" y="74.7083">
-    <tspan x="650" y="74.7083" xml:space="preserve">Event</tspan>
-    <tspan x="650" y="95.875" xml:space="preserve">Loop</tspan>
-    <tspan x="650" y="117.042" xml:space="preserve">B</tspan>
+  <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="650" y="74.6955">
+    <tspan x="650" y="74.6955" xml:space="preserve">Event</tspan>
+    <tspan x="650" y="95.8622" xml:space="preserve">Loop</tspan>
+    <tspan x="650" y="117.029" xml:space="preserve">B</tspan>
   </text>
 </svg>

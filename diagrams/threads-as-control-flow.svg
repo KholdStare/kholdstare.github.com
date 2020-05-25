@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "https://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="30cm" height="17cm" viewBox="388 -92 593 335" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="30cm" height="17cm" viewBox="388 -92 593 335" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <g>
     <rect style="fill: #ffc966" x="390" y="-90" width="190" height="40"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="390" y="-90" width="190" height="40"/>
@@ -18,37 +18,37 @@
     <rect style="fill: #97d8c3" x="390" y="-20" width="190" height="230"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="390" y="-20" width="190" height="230"/>
   </g>
-  <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="400" y="0.5">
-    <tspan x="400" y="0.5" xml:space="preserve">void threadA (void*) {</tspan>
-    <tspan x="400" y="14.6111" xml:space="preserve"></tspan>
-    <tspan x="400" y="28.7222" xml:space="preserve">    func1();</tspan>
-    <tspan x="400" y="42.8333" xml:space="preserve"></tspan>
-    <tspan x="400" y="56.9444" xml:space="preserve"></tspan>
-    <tspan x="400" y="71.0556" xml:space="preserve"></tspan>
-    <tspan x="400" y="85.1667" xml:space="preserve"></tspan>
-    <tspan x="400" y="99.2778" xml:space="preserve">    ...</tspan>
-    <tspan x="400" y="113.389" xml:space="preserve"></tspan>
-    <tspan x="400" y="127.5" xml:space="preserve"></tspan>
-    <tspan x="400" y="141.611" xml:space="preserve"></tspan>
-    <tspan x="400" y="155.722" xml:space="preserve"></tspan>
-    <tspan x="400" y="169.833" xml:space="preserve">    func3();</tspan>
-    <tspan x="400" y="183.944" xml:space="preserve"></tspan>
-    <tspan x="400" y="198.056" xml:space="preserve">}</tspan>
+  <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="400" y="0.478564">
+    <tspan x="400" y="0.478564" xml:space="preserve">void threadA (void*) {</tspan>
+    <tspan x="400" y="14.5897" xml:space="preserve"></tspan>
+    <tspan x="400" y="28.7008" xml:space="preserve">    func1();</tspan>
+    <tspan x="400" y="42.8119" xml:space="preserve"></tspan>
+    <tspan x="400" y="56.923" xml:space="preserve"></tspan>
+    <tspan x="400" y="71.0341" xml:space="preserve"></tspan>
+    <tspan x="400" y="85.1452" xml:space="preserve"></tspan>
+    <tspan x="400" y="99.2563" xml:space="preserve">    ...</tspan>
+    <tspan x="400" y="113.367" xml:space="preserve"></tspan>
+    <tspan x="400" y="127.479" xml:space="preserve"></tspan>
+    <tspan x="400" y="141.59" xml:space="preserve"></tspan>
+    <tspan x="400" y="155.701" xml:space="preserve"></tspan>
+    <tspan x="400" y="169.812" xml:space="preserve">    func3();</tspan>
+    <tspan x="400" y="183.923" xml:space="preserve"></tspan>
+    <tspan x="400" y="198.034" xml:space="preserve">}</tspan>
   </text>
-  <text font-size="14.1111" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="850" y="154.875">
-    <tspan x="850" y="154.875" xml:space="preserve">Heap</tspan>
+  <text font-size="14.1111" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="850" y="154.885">
+    <tspan x="850" y="154.885" xml:space="preserve">Heap</tspan>
   </text>
-  <text font-size="22.5778" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="485" y="-62.175">
-    <tspan x="485" y="-62.175" xml:space="preserve">Thread A</tspan>
+  <text font-size="22.5778" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="485" y="-62.1838">
+    <tspan x="485" y="-62.1838" xml:space="preserve">Thread A</tspan>
   </text>
   <g>
     <rect style="fill: #97d8c3" x="590" y="10" width="190" height="60"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="590" y="10" width="190" height="60"/>
   </g>
-  <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="600" y="30.5">
-    <tspan x="600" y="30.5" xml:space="preserve">void func1 () {</tspan>
-    <tspan x="600" y="44.6111" xml:space="preserve">    cout &lt;&lt; "func1!";</tspan>
-    <tspan x="600" y="58.7222" xml:space="preserve">}</tspan>
+  <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="600" y="30.4786">
+    <tspan x="600" y="30.4786" xml:space="preserve">void func1 () {</tspan>
+    <tspan x="600" y="44.5897" xml:space="preserve">    cout &lt;&lt; "func1!";</tspan>
+    <tspan x="600" y="58.7008" xml:space="preserve">}</tspan>
   </text>
   <g>
     <rect style="fill: #97d8c3" x="790" y="50" width="190" height="160"/>
@@ -58,38 +58,38 @@
     <rect style="fill: #97d8c3" x="590" y="80" width="190" height="60"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="590" y="80" width="190" height="60"/>
   </g>
-  <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="600" y="100.5">
-    <tspan x="600" y="100.5" xml:space="preserve">void func2 () {</tspan>
-    <tspan x="600" y="114.611" xml:space="preserve">    cout &lt;&lt; "func2!";</tspan>
-    <tspan x="600" y="128.722" xml:space="preserve">}</tspan>
+  <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="600" y="100.479">
+    <tspan x="600" y="100.479" xml:space="preserve">void func2 () {</tspan>
+    <tspan x="600" y="114.59" xml:space="preserve">    cout &lt;&lt; "func2!";</tspan>
+    <tspan x="600" y="128.701" xml:space="preserve">}</tspan>
   </text>
   <g>
     <rect style="fill: #97d8c3" x="590" y="150" width="190" height="60"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="590" y="150" width="190" height="60"/>
   </g>
-  <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="600" y="170.5">
-    <tspan x="600" y="170.5" xml:space="preserve">void func3 () {</tspan>
-    <tspan x="600" y="184.611" xml:space="preserve">    cout &lt;&lt; "func3!";</tspan>
-    <tspan x="600" y="198.722" xml:space="preserve">}</tspan>
+  <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="600" y="170.479">
+    <tspan x="600" y="170.479" xml:space="preserve">void func3 () {</tspan>
+    <tspan x="600" y="184.59" xml:space="preserve">    cout &lt;&lt; "func3!";</tspan>
+    <tspan x="600" y="198.701" xml:space="preserve">}</tspan>
   </text>
-  <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="800" y="70.5">
-    <tspan x="800" y="70.5" xml:space="preserve">void threadB (void*) {</tspan>
-    <tspan x="800" y="84.6111" xml:space="preserve"></tspan>
-    <tspan x="800" y="98.7222" xml:space="preserve">    func2();</tspan>
-    <tspan x="800" y="112.833" xml:space="preserve"></tspan>
-    <tspan x="800" y="126.944" xml:space="preserve"></tspan>
-    <tspan x="800" y="141.056" xml:space="preserve">    ...</tspan>
-    <tspan x="800" y="155.167" xml:space="preserve"></tspan>
-    <tspan x="800" y="169.278" xml:space="preserve">    func3();</tspan>
-    <tspan x="800" y="183.389" xml:space="preserve"></tspan>
-    <tspan x="800" y="197.5" xml:space="preserve">}</tspan>
+  <text font-size="11.2889" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="800" y="70.4786">
+    <tspan x="800" y="70.4786" xml:space="preserve">void threadB (void*) {</tspan>
+    <tspan x="800" y="84.5897" xml:space="preserve"></tspan>
+    <tspan x="800" y="98.7008" xml:space="preserve">    func2();</tspan>
+    <tspan x="800" y="112.812" xml:space="preserve"></tspan>
+    <tspan x="800" y="126.923" xml:space="preserve"></tspan>
+    <tspan x="800" y="141.034" xml:space="preserve">    ...</tspan>
+    <tspan x="800" y="155.145" xml:space="preserve"></tspan>
+    <tspan x="800" y="169.256" xml:space="preserve">    func3();</tspan>
+    <tspan x="800" y="183.367" xml:space="preserve"></tspan>
+    <tspan x="800" y="197.479" xml:space="preserve">}</tspan>
   </text>
   <g>
     <rect style="fill: #cc7676" x="790" y="-90" width="190" height="40"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="790" y="-90" width="190" height="40"/>
   </g>
-  <text font-size="22.5778" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="885" y="-62.175">
-    <tspan x="885" y="-62.175" xml:space="preserve">Thread B</tspan>
+  <text font-size="22.5778" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="885" y="-62.1838">
+    <tspan x="885" y="-62.1838" xml:space="preserve">Thread B</tspan>
   </text>
   <g>
     <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" x1="490" y1="-50" x2="489.569" y2="19.0201"/>
