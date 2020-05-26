@@ -9,10 +9,8 @@ description: >
 
 category: technical
 published: true
-testing: true
 scripts:
   - https://unpkg.com/chart.js@2.9.3/dist/Chart.bundle.min.js
-  # - https://unpkg.com/chartjs-chart-box-and-violin-plot@2.3.0/build/Chart.BoxPlot.min.js
   - https://unpkg.com/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.js
   - /javascripts/posts/faster-integer-parsing-bar-charts.js
   - /javascripts/render-charts.js
