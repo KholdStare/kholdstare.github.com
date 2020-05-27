@@ -334,8 +334,7 @@ for. SSE and AVX instructions are supported on both Intel and AMD CPUs, and
 
 I used a [great reference
 page](https://software.intel.com/sites/landingpage/IntrinsicsGuide/) to find
-the right compiler intrinsics for the right SIMD CPU instructions. (The linked
-site does not seem to working correctly on 2020-02-25)
+the right compiler intrinsics for the right SIMD CPU instructions.
 
 To do the byteswap on all 16 bytes we can use `_mm_shuffle_epi8`. The wide
 128-bit integer type is another compiler intrinsic, `__m128i`. To do the
@@ -472,7 +471,7 @@ little time optimizing your parsing?
 
 ### Post Scriptum
 
-* All benchmarks ran on a 3.8Ghz AMD Ryzen 3900X
+* All benchmarks ran on a 3.8Ghz AMD Ryzen 3900X, on Linux, compiled with GCC 9.2
 * Running on a Mac from 2014 wth an Intel processor and compiling with Clang,
   the non-SIMD trick actually ran slower than the naive loop. The SIMD trick was
   still fastest.
@@ -483,3 +482,15 @@ little time optimizing your parsing?
 * You can find the [code and the benchmarks here](https://github.com/KholdStare/qnd-integer-parsing-experiments).
 * If something is unclear please let me know in the comments - I will try to
   clarify.
+* Reddit discussions can be found on
+  [r/programming](https://www.reddit.com/r/programming/comments/gr180d/faster_integer_parsing_c/)
+  and
+  [r/cpp](https://www.reddit.com/r/cpp/comments/gr18ig/faster_integer_parsing/)
+* Turns out the byteswap is totally unnecessary! It helped me gain the next
+  insight when thinking through the problem, but the swapping can happen
+  naturally as part of the horizontal additions. I will update the benchmark
+  numbers and update this post in the next few days.
+* Also turns out a smart fellow [Wojciech Muła already thought of
+  this!](http://0x80.pl/articles/simd-parsing-int-sequences.html) . I'm quite
+  happy that we converged on the same methods - down to the same SSE
+  instructions.
