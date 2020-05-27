@@ -3,7 +3,7 @@ layout: post
 title: "Faster Integer Parsing"
 description: >
   Back with a post after 6 years of silence. If you had to parse a
-  nanosecond-resolution epoch timestamp as quickly as possible, how would you
+  microsecond-resolution epoch timestamp as quickly as possible, how would you
   do it?  We'll take a look at using compiler intrinsics to do it in log(n)
   time.
 
@@ -23,7 +23,7 @@ tags:
 ### The problem
 
 Let's say, theoretically, you have some text-based protocol, or file that
-contains nanosecond timestamps. You need to parse these timestamps as quickly
+contains microsecond timestamps. You need to parse these timestamps as quickly
 as possible. Maybe it's json, maybe it's a csv file, maybe something else
 bespoke. It's 16 characters long, and this could also apply to credit card
 numbers.
@@ -52,11 +52,13 @@ Let's start with what's available, and compare. We have
 [`std::atoll`](https://en.cppreference.com/w/cpp/string/byte/atoi) , a function
 inherited from C,
 [`std::stringstream`](https://en.cppreference.com/w/cpp/io/basic_stringstream)
-, and the newer C++17
-[`<charconv>`](https://en.cppreference.com/w/cpp/header/charconv) header. I'll
-be using [Google Benchmark](https://github.com/google/benchmark) to measure the
-performance, and to have a baseline let's compare against loading the final
-result into a register - i.e. no actual parsing involved.
+, the newer C++17
+[`<charconv>`](https://en.cppreference.com/w/cpp/header/charconv) header, and
+by request
+[`boost::spirit::qi`](https://www.boost.org/doc/libs/1_73_0/libs/spirit/doc/html/spirit/qi/reference/basics.html).
+I'll be using [Google Benchmark](https://github.com/google/benchmark) to
+measure the performance, and to have a baseline let's compare against loading
+the final result into a register - i.e. no actual parsing involved.
 
 Let's run the benchmarks! The code is not important here, it just shows what is being benchmarked.
 
@@ -90,6 +92,15 @@ static void BM_charconv(benchmark::State& state) {
     benchmark::DoNotOptimize(result);
   }
 }
+
+static void BM_boost_spirit(benchmark::State& state) {
+  using boost::spirit::qi::parse;
+  for (auto _ : state) {
+    std::uint64_t result = 0;
+    parse(s.data(), s.data() + s.size(), result);
+    benchmark::DoNotOptimize(result);
+  }
+}
 {% endhighlight %}
 
 {% assign canvas-id = "benchmark-canvas-native" %}
@@ -97,7 +108,8 @@ static void BM_charconv(benchmark::State& state) {
 
 Wow, `stringstream` is pretty bad. Not that it's a fair comparison but parsing
 a single integer using `stringstream` is 391 times slower than just loading our
-integer into a register.  `<charconv>` does a lot better by comparison.
+integer into a register.  `<charconv>` and `boost::spirit` do a lot better by
+comparison.
 
 Since we know our string contains the number we're trying to parse, and we
 don't need to do any whitespace skipping, can we be faster?  Just how much time
@@ -248,40 +260,46 @@ __O(log(n))__! We need to combine every adjacent digit into a pair in one step,
 and then each pair of digits into a group of four, and so on, until we have the
 entire integer.
 
+After I posted the first version of this article, [Sopel97 on
+reddit](https://www.reddit.com/r/cpp/comments/gr18ig/faster_integer_parsing/frx9agb)
+pointed out that the byteswap is not necessary. Combining adjacent digits works
+either way - their order doesn't matter.  I realized that it helped me with the
+next insight, but could be omitted for the final code.
+
 > The key is working on adjacent digits simultaneously. This allows a tree of
 > operations, running in O(log(n)) time.
 
-This involves multiplying the odd-index digits by a power of 10 and leaving the
-even-index digits alone. This can be done with bitmasks to selectively apply
+This involves multiplying the even-index digits by a power of 10 and leaving the
+odd-index digits alone. This can be done with bitmasks to selectively apply
 operations
 
 {% assign diagram = "parse-mask-insight" %}
 {% assign caption = "By using bitmasking, we can apply operations to more than one digit at a time, to combine them into a larger group" %}
 {% include diagram.html %}
 
-In order to finish the `parse_8_chars` function we started earlier, let's
-employ this masking trick:
+Let's finish the `parse_8_chars` function we started earlier by employing this
+masking trick. As a neat side-effect of the masking, we don't need to subtract
+`'0'`, since it will be masked away.
 
 {% highlight cpp %}
 inline std::uint64_t parse_8_chars(const char* string) noexcept
 {
   std::uint64_t chunk = 0;
   std::memcpy(&chunk, string, sizeof(chunk));
-  chunk = __builtin_bswap64(chunk - get_zeros_string<std::uint64_t>());
 
   // 1-byte mask trick (works on 4 pairs of single digits)
-  std::uint64_t lower_digits = chunk & 0x000f000f000f000f;
-  std::uint64_t upper_digits = ((chunk & 0x0f000f000f000f00) >> 8) * 10;
+  std::uint64_t lower_digits = (chunk & 0x0f000f000f000f00) >> 8;
+  std::uint64_t upper_digits = (chunk & 0x000f000f000f000f) * 10;
   chunk = lower_digits + upper_digits;
 
   // 2-byte mask trick (works on 2 pairs of two digits)
-  lower_digits = chunk & 0x000000ff000000ff;
-  upper_digits = ((chunk & 0x00ff000000ff0000) >> 16) * 100;
+  lower_digits = (chunk & 0x00ff000000ff0000) >> 16;
+  upper_digits = (chunk & 0x000000ff000000ff) * 100;
   chunk = lower_digits + upper_digits;
 
   // 4-byte mask trick (works on pair of four digits)
-  lower_digits = chunk & 0x000000000000ffff;
-  upper_digits = ((chunk & 0x0000ffff00000000) >> 32) * 10000;
+  lower_digits = (chunk & 0x0000ffff00000000) >> 32;
+  upper_digits = (chunk & 0x000000000000ffff) * 10000;
   chunk = lower_digits + upper_digits;
 
   return chunk;
@@ -313,7 +331,7 @@ static void BM_trick(benchmark::State& state) {
 {% assign canvas-id = "benchmark-canvas-trick" %}
 {% include canvas.html %}
 
-Not too shabby, we shaved almost 45% off of the unrolled loop benchmark! Still,
+Not too shabby, we shaved almost 56% off of the unrolled loop benchmark! Still,
 it feels like we are manually doing a bunch of masking and elementwise
 operations. Maybe we can just let the CPU do all the hard work?
 
@@ -321,9 +339,8 @@ operations. Maybe we can just let the CPU do all the hard work?
 
 ### The SIMD trick
 
-We have two insights:
+We have the main insight:
 
-* Reverse order of bytes to get digits in the right order
 * Combine groups of digits simultaneously to achieve O(log(n)) time
 
 We also have a 16-character, or 128-bit string to parse - can we use SIMD? Of
@@ -336,26 +353,7 @@ I used a [great reference
 page](https://software.intel.com/sites/landingpage/IntrinsicsGuide/) to find
 the right compiler intrinsics for the right SIMD CPU instructions.
 
-To do the byteswap on all 16 bytes we can use `_mm_shuffle_epi8`. The wide
-128-bit integer type is another compiler intrinsic, `__m128i`. To do the
-byteswap, we'll need to create a mask that reverses the byte order. For this we
-can use `_mm_set_epi8`, which will get optimized out and compiled into the
-binary as a constant.
-
-{% highlight cpp %}
-#include <immintrin.h>
-
-template <>
-inline __m128i byteswap(__m128i a) noexcept
-{
-  const auto mask = _mm_set_epi8(
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
-  );
-  return _mm_shuffle_epi8(a, mask);
-}
-{% endhighlight %}
-
-Then we repeat the first part of the trick for all 16 bytes.
+Let's set up the digits in each of the 16 bytes first:
 
 {% highlight cpp %}
 template <>
@@ -391,7 +389,7 @@ adjacent pairs together, we can use
 {% highlight cpp %}
 // The 1-byte "trick" in one instruction
 const auto mult = _mm_set_epi8(
-  10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1
+  1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10
 );
 chunk = _mm_maddubs_epi16(chunk, mult);
 {% endhighlight %}
@@ -406,37 +404,39 @@ inline std::uint64_t parse_16_chars(const char* string) noexcept
   using T = __m128i;
   T chunk = {0, 0};
   std::memcpy(&chunk, string, sizeof(chunk));
-  chunk = byteswap(chunk - get_zeros_string<T>());
+  chunk = chunk - get_zeros_string<T>();
 
   {
     const auto mult = _mm_set_epi8(
-      10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1
+      1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10
     );
     chunk = _mm_maddubs_epi16(chunk, mult);
   }
   {
-    const auto mult = _mm_set_epi16(100, 1, 100, 1, 100, 1, 100, 1);
+    const auto mult = _mm_set_epi16(1, 100, 1, 100, 1, 100, 1, 100);
     chunk = _mm_madd_epi16(chunk, mult);
   }
   {
-    const auto mult = _mm_set_epi32(10000, 1, 10000, 1);
-    auto multiplied = _mm_mullo_epi32(chunk, mult);
-    const __m128i zero = {0, 0};
-    chunk = _mm_hadd_epi32(multiplied, zero);
+    chunk = _mm_packus_epi32(chunk, chunk);
+    const auto mult = _mm_set_epi16(0, 0, 0, 0, 1, 10000, 1, 10000);
+    chunk = _mm_madd_epi16(chunk, mult);
   }
 
-  return ((chunk[0] >> 32) * 100000000) + (chunk[0] & 0xffffffff);
+  return ((chunk[0] & 0xffffffff) * 100000000) + (chunk[0] >> 32);
 }
 {% endhighlight %}
 
 {% assign canvas-id = "benchmark-canvas-trick-simd" %}
 {% include canvas.html %}
 
-__1.14 nanoseconds__! Beautiful. And I'm sure there's ways to improve this further -
-perhaps I have missed another SIMD instruction I could use. Even though this
-may look like a toy problem - with no input validation - I bet a few more
-clever SIMD instructions later and you can have something running under 2
-nanoseconds complete with validation and length checking.
+__0.75 nanoseconds__! Beautiful.
+
+Some commenters have complained that this is a toy problem, that there is no
+input validation or length checking, and that this would only work with a fixed
+length integer. For one thing, this can be used as a "fast path" when you know
+your integers are long, and fallback on a simple loop in other cases. Secondly,
+I bet with a few more clever SIMD instructions you can have something running
+under 2 nanoseconds complete with validation and length checking.
 
 ---------
 

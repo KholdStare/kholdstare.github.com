@@ -6,7 +6,8 @@ window.all_charts = [{
     "BM_mov",
     "BM_atoll",
     "BM_sstream",
-    "BM_charconv"
+    "BM_charconv",
+    "BM_boost_spirit"
   ],
   datasets: [{
     label: "Benchmark",
@@ -14,7 +15,8 @@ window.all_charts = [{
       0.22,
       19.73,
       86.23,
-      16.65
+      16.65,
+      11.80
     ],
   }]
 },
@@ -22,12 +24,13 @@ window.all_charts = [{
   canvasId: "benchmark-canvas-naive",
   type: "bar",
   title: 'Integer Parsing Benchmark time in ns (lower is better)',
-  highlightIndices: [4],
+  highlightIndices: [5],
   labels: [
     "BM_mov",
     "BM_atoll",
     "BM_sstream",
     "BM_charconv",
+    "BM_boost_spirit",
     "BM_naive"
   ],
   datasets: [{
@@ -37,6 +40,7 @@ window.all_charts = [{
       19.73,
       86.23,
       16.65,
+      11.80,
       9.74
     ],
   }]
@@ -77,7 +81,7 @@ window.all_charts = [{
       0.22,
       9.74,
       5.66,
-      3.22,
+      2.52,
     ],
   }]
 },
@@ -99,8 +103,8 @@ window.all_charts = [{
       0.22,
       9.74,
       5.66,
-      3.22,
-      1.14,
+      2.52,
+      0.75,
     ],
   }]
 },
@@ -113,12 +117,13 @@ window.all_charts = [{
     "BM_atoll",
     "BM_sstream",
     "BM_charconv",
+    "BM_boost_spirit",
     "BM_naive",
     "BM_unrolled",
     "BM_trick",
     "BM_trick_simd"
   ],
-  highlightIndices: [7],
+  highlightIndices: [8],
   datasets: [{
     label: "Benchmark",
     data: [
@@ -126,10 +131,11 @@ window.all_charts = [{
       19.73,
       86.23,
       16.65,
+      11.80,
       9.74,
       5.66,
-      3.22,
-      1.14,
+      2.52,
+      0.75,
     ],
   }]
 }]
