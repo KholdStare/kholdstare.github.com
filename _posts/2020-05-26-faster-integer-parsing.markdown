@@ -349,28 +349,20 @@ Data](https://en.wikipedia.org/wiki/SIMD), and is exactly what we are looking
 for. SSE and AVX instructions are supported on both Intel and AMD CPUs, and
  they typically work with wider registers.
 
-I used a [great reference
-page](https://software.intel.com/sites/landingpage/IntrinsicsGuide/) to find
+I used the [Intel Intrinsics
+Guide](https://software.intel.com/sites/landingpage/IntrinsicsGuide/) to find
 the right compiler intrinsics for the right SIMD CPU instructions.
 
 Let's set up the digits in each of the 16 bytes first:
 
 {% highlight cpp %}
-template <>
-inline __m128i get_zeros_string<__m128i>() noexcept
-{
-  __m128i result = {0, 0};
-  constexpr char zeros[] = "0000000000000000";
-  std::memcpy(&result, zeros, sizeof(result));
-  return result;
-}
-
 inline std::uint64_t parse_16_chars(const char* string) noexcept
 {
-  using T = __m128i;
-  T chunk = {0, 0};
-  std::memcpy(&chunk, string, sizeof(chunk));
-  chunk = byteswap(chunk - get_zeros_string<T>());
+  auto chunk = _mm_lddqu_si128(
+    reinterpret_cast<const __m128i*>(string)
+  );
+  auto zeros =  _mm_set1_epi8('0');
+  chunk = chunk - zeros;
   
   // ...
 }
@@ -401,10 +393,11 @@ completed `parse_16_chars`:
 {% highlight cpp %}
 inline std::uint64_t parse_16_chars(const char* string) noexcept
 {
-  using T = __m128i;
-  T chunk = {0, 0};
-  std::memcpy(&chunk, string, sizeof(chunk));
-  chunk = chunk - get_zeros_string<T>();
+  auto chunk = _mm_lddqu_si128(
+    reinterpret_cast<const __m128i*>(string)
+  );
+  auto zeros =  _mm_set1_epi8('0');
+  chunk = chunk - zeros;
 
   {
     const auto mult = _mm_set_epi8(
